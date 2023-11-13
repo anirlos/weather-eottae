@@ -29,7 +29,7 @@ const Signup = () => {
         <div className="signup-form">
           <h1>회원가입</h1>
           <form onSubmit={handleSubmit}>
-            <div className="name-container">
+          <div className="second-container">
               <label htmlFor="userName">이름</label>
               <input
                 type="text"
@@ -38,7 +38,9 @@ const Signup = () => {
                 id=""
                 onChange={(e) => setUserName(e.target.value)}
               />
-              <label htmlFor="userId">아이디</label>
+            
+            
+              <label htmlFor="userName">아이디</label>
               <input
                 type="text"
                 value={userId}
@@ -46,8 +48,9 @@ const Signup = () => {
                 id=""
                 onChange={(e) => setUserId(e.target.value)}
               />
-            </div>
-            <div className="second-container">
+           
+
+            
               <label htmlFor="email">email</label>
               <input
                 type="text"
@@ -84,7 +87,7 @@ const Signup = () => {
                 회원들에게 보일 인삿말과 프로필사진을 등록해보세요
               </label>
               <input
-                type="text"
+                type="textarea"
                 value={message}
                 name="message"
                 id=""
@@ -101,14 +104,16 @@ const Signup = () => {
 
             <button>회원가입</button>
           </form>
-          <div className="line">
-            <hr className="line" />
-            <p>Or</p>
-            <hr className="line" />
-          </div>
-          <div className="social-login">
-            <img src={devicon_google} alt="google" />
-            <img src={kakao} alt="kakao" />
+          <div className="line-container">
+            <div className="line">
+              <hr className="line" />
+              <p>Or</p>
+              <hr className="line" />
+            </div>
+            <div className="social-login">
+              <img src={devicon_google} alt="google" />
+              <img src={kakao} alt="kakao" />
+            </div>
           </div>
         </div>
       </div>
@@ -128,18 +133,19 @@ const Container = styled.div`
   .signup-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    background-color: #505ea3;
-    color: white;
+    color: black;
     width: 720px;
-    row-gap: 100px;
   }
   .signup-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-item:center;
+    align-items: flex-start;
     width: 70%;
+    margin: 0 auto;
+    row-gap: 20px;
   }
 
   h1 {
@@ -149,5 +155,94 @@ const Container = styled.div`
   .second-container {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    margin: 0 auto;
+    height: 35px;
+    width: 400px;
+    color: black;
+    border: 0.2px solid black;
+    border-radius: 10px;
+    outline: none;
+  }
+
+  input[type="textarea"] {
+    margin: 0 auto;
+    height: 80px;
+    width: 400px;
+    color: black;
+    border: 0.2px solid black;
+    border-radius: 10px;
+    outline: none;
+  }
+
+  input[type="textarea"] {
+    margin: 0 auto;
+    height: 80px;
+    width: 400px;
+    color: black;
+    border: 0.2px solid black;
+    border-radius: 10px;
+    outline: none;
+  }
+
+  input[type="file"]::file-selector-button {
+    width: 150px;
+    height: 30px;
+    background: #fff;
+    border: 1px solid rgb(77, 77, 77);
+    border-radius: 10px;
+    cursor: pointer;
+    &:hover {
+      background: rgb(77, 77, 77);
+      color: #fff;
+    }
+  }
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 400px;
+    background-color: #7376ff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 0 auto;
+  }
+
+  .line-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+  }
+
+  .line {
+    display: flex;
+    width: 100%;
+  }
+
+  .social-login {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 20px;
+
+    & img {
+      cursor: pointer;
+    }
+  }
+
+  @media (max-width: 770px) {
+    .cover-img {
+      display: none;
+    }
   }
 `;

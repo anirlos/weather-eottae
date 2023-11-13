@@ -130,7 +130,7 @@ const Container = styled.div`
 
   input[type="text"],
   input[type="password"] {
-    margin-left: 50px;
+    margin: 0 auto;
     height: 35px;
     width: 400px;
     background-color: #505ea3;
@@ -146,7 +146,7 @@ const Container = styled.div`
   }
 
   .button-container {
-    margin: 20px;
+    margin:0 auto;
   }
 
   button {
