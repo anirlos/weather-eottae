@@ -97,11 +97,11 @@ const Container = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-around;
+
 	h1 {
 		height: 100px;
 		display: flex;
 		align-items: flex-start;
-		margin-top: -20px;
 	}
 	button {
 		border: none;

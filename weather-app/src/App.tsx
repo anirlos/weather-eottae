@@ -25,6 +25,14 @@ const App: React.FC = () => {
 							</Layout>
 						}
 					/>
+					<Route
+						path="/editpost"
+						element={
+							<Layout>
+								<NewPost />
+							</Layout>
+						}
+					/>
 				</Routes>
 			</Router>
 		</div>

@@ -14,8 +14,11 @@ export default Main;
 
 const StyledMain = styled.div`
 	width: 95%;
-	height: 95%;
+	height: 100%;
+	/* padding 추가 */
+
 	background-color: #fff;
+	/* margin 수정 */
 	margin: 0 auto;
 
 	@media (max-width: 430px) {
