@@ -36,4 +36,16 @@ const RightWrap = styled.div`
   flex-direction: column;
   margin: 0 auto;
   background-color: #ededed;
+  /* @media (max-width: 1280px) {
+    margin-left: 20%;
+  }
+  @media (max-width: 1024px) {
+    margin-left: 25%;
+  }
+  @media (max-width: 1024px) {
+    margin-left: 30%;
+  }
+  @media (max-width: 1024px) {
+    margin-left: 0;
+  } */
 `;

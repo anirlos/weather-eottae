@@ -4,6 +4,7 @@ import MainLayout from "./components/main/MainLayout";
 import Layout from "./components/layout/Layout";
 import NewPost from "./pages/newpost/NewPost";
 import NotFound from "./pages/not-found/NotFound";
+import Feed from "./pages/feed/Feed";
 
 const App: React.FC = () => {
   return (
@@ -31,6 +32,14 @@ const App: React.FC = () => {
             element={
               <Layout>
                 <NewPost />
+              </Layout>
+            }
+          />
+          <Route
+            path="/feed"
+            element={
+              <Layout>
+                <Feed />
               </Layout>
             }
           />
