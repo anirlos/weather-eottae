@@ -29,47 +29,45 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
   };
 
   return (
-    <div>
-      <FeedContainer>
-        <FeedContent>
-          <FeedHeader className="FeedHeader">
-            <img src={post.userImg} alt={`${post.userId} 프로필 이미지`} />
+    <FeedContainer>
+      <FeedContent>
+        <FeedHeader className="FeedHeader">
+          <img src={post.userImg} alt={`${post.userId} 프로필 이미지`} />
+          <div>
             <div>
-              <div>
-                <span className="user">{post.userId}</span>
-                <span className="date">{formatDate(post.date)}</span>
-              </div>
-              <div>
-                <span>{post.location}</span>
-                <span>{post.temperature}℃</span>
-              </div>
+              <span className="user">{post.userId}</span>
+              <span className="date">{formatDate(post.date)}</span>
             </div>
-          </FeedHeader>
-
-          <FeedSlide imgs={post.imgs} />
-
-          <FeedHearts heartCount={post.heartCount} postId={post.postId} />
-
-          <FeedBottom className="FeedBottom">
-            <div className="feed-text">
-              <p>{displayText}</p>
-              {isExpanded && (
-                <div className="feed-tags">
-                  {post.tags.map((tag, index) => (
-                    <Tag key={index}>{tag}</Tag>
-                  ))}
-                </div>
-              )}
+            <div>
+              <span>{post.location}</span>
+              <span>{post.temperature}℃</span>
             </div>
-            {showMoreButton && (
-              <MoreButton onClick={toggleExpand}>
-                {isExpanded ? "접기" : "더보기"}
-              </MoreButton>
+          </div>
+        </FeedHeader>
+
+        <FeedSlide imgs={post.imgs} />
+
+        <FeedHearts heartCount={post.heartCount} postId={post.postId} />
+
+        <FeedBottom className="FeedBottom">
+          <div className="feed-text">
+            <p>{displayText}</p>
+            {isExpanded && (
+              <div className="feed-tags">
+                {post.tags.map((tag, index) => (
+                  <Tag key={index}>{tag}</Tag>
+                ))}
+              </div>
             )}
-          </FeedBottom>
-        </FeedContent>
-      </FeedContainer>
-    </div>
+          </div>
+          {showMoreButton && (
+            <MoreButton onClick={toggleExpand}>
+              {isExpanded ? "접기" : "더보기"}
+            </MoreButton>
+          )}
+        </FeedBottom>
+      </FeedContent>
+    </FeedContainer>
   );
 };
 

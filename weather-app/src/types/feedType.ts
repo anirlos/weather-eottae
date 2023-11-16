@@ -10,3 +10,8 @@ export interface Post {
   text: string;
   tags: string[];
 }
+
+export interface User {
+  userImg: string;
+  userId: string;
+}
