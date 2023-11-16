@@ -40,7 +40,7 @@ const Nav = () => {
             </Link>
           </li>
           <li>
-            <Link href="#">
+            <Link to={"/feed"}>
               <span>
                 <img src={clothing} />
                 오늘 뭐 입지

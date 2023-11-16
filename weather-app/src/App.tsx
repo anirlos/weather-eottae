@@ -35,8 +35,28 @@ const App: React.FC = () => {
               </Layout>
             }
           />
+
+          {/* 피드 페이지: 전체 피드 조회 */}
           <Route
             path="/feed"
+            element={
+              <Layout>
+                <Feed />
+              </Layout>
+            }
+          />
+          {/* 특정 유저 피드 조회 */}
+          <Route
+            path="/feed/:userId"
+            element={
+              <Layout>
+                <Feed />
+              </Layout>
+            }
+          />
+          {/* 특정 태그 피드 조회 */}
+          <Route
+            path="/feed/hashtags/:tag"
             element={
               <Layout>
                 <Feed />

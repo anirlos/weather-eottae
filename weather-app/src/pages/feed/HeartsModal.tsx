@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ModalPortal from "../../components/modal/ModalPortal";
 import { User } from "../../types/feedType";
@@ -10,6 +11,12 @@ interface HeartsModalProps {
 }
 
 const HeartsModal: FC<HeartsModalProps> = ({ heartUsers, onClose }) => {
+  const navigate = useNavigate();
+
+  const handleUserClick = (userId: string) => {
+    navigate(`/feed/${userId}`);
+  };
+
   return (
     <ModalPortal onClose={onClose}>
       <ModalContent>
@@ -20,7 +27,7 @@ const HeartsModal: FC<HeartsModalProps> = ({ heartUsers, onClose }) => {
         <UserList>
           {heartUsers.map((user, index) => (
             <UserItem key={index}>
-              <div>
+              <div onClick={() => handleUserClick(user.userId)}>
                 <UserInfo>
                   <img
                     src={user.userImg}

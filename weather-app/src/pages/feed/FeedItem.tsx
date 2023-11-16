@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Post } from "../../types/feedType";
 import { formatDate } from "../../utils/dateUtil";
@@ -10,6 +11,8 @@ interface FeedItemProps {
 }
 
 const FeedItem: FC<FeedItemProps> = ({ post }) => {
+  const navigate = useNavigate();
+
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!post) {
@@ -28,14 +31,32 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
     setIsExpanded(!isExpanded);
   };
 
+  const handleUserClick = (userId: string) => {
+    navigate(`/feed/${userId}`);
+  };
+
+  const handleTagClick = (tag: string) => {
+    const formattedTag = tag.replace("#", "");
+    navigate(`/feed/hashtags/${encodeURIComponent(formattedTag)}`);
+  };
+
   return (
     <FeedContainer>
       <FeedContent>
-        <FeedHeader className="FeedHeader">
-          <img src={post.userImg} alt={`${post.userId} 프로필 이미지`} />
+        <FeedHeader>
+          <img
+            src={post.userImg}
+            alt={`${post.userId} 프로필 이미지`}
+            onClick={() => handleUserClick(post.userId)}
+          />
           <div>
             <div>
-              <span className="user">{post.userId}</span>
+              <span
+                className="user"
+                onClick={() => handleUserClick(post.userId)}
+              >
+                {post.userId}
+              </span>
               <span className="date">{formatDate(post.date)}</span>
             </div>
             <div>
@@ -49,13 +70,15 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
 
         <FeedHearts heartCount={post.heartCount} postId={post.postId} />
 
-        <FeedBottom className="FeedBottom">
+        <FeedBottom>
           <div className="feed-text">
             <p>{displayText}</p>
             {isExpanded && (
               <div className="feed-tags">
                 {post.tags.map((tag, index) => (
-                  <Tag key={index}>{tag}</Tag>
+                  <Tag key={index} onClick={() => handleTagClick(tag)}>
+                    {tag}
+                  </Tag>
                 ))}
               </div>
             )}

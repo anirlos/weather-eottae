@@ -128,6 +128,7 @@ const StyledHeartFill = styled(BsHeartFill)`
 const HeartsModalButton = styled.button`
   border: none;
   background-color: transparent;
+  font-family: "Jua", sans-serif;
   font-size: 14px;
   line-height: 20px;
   color: #4d4343;
