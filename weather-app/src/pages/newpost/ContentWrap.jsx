@@ -17,7 +17,7 @@ const ContentWrap = ({ onContentChange }) => {
 				value={content}
 				onChange={handleContentChange}
 				maxLength={'500'}
-				placeholder="내용을 입력하세요."
+				placeholder=" 내용을 입력하세요."
 			/>
 		</Container>
 	);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://example-api.com';
+const BASE_URL = 'https://5999418e-c835-43c7-9c6d-60fdb423183f.mock.pstmn.io';
 
 export const createPost = async (content) => {
 	try {
@@ -10,8 +10,7 @@ export const createPost = async (content) => {
 
 		return response.data;
 	} catch (error) {
-		// error.response 를 통해 서버 응답에 접근할 수 있습니다.
-		// error.message 를 사용하여 오류 메시지에 접근할 수 있습니다.
+		console.error('Error object:', error); // 오류 객체 출력
 		throw new Error(
 			error.response ? error.response.data : 'Failed to create post'
 		);
