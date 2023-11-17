@@ -14,13 +14,21 @@ const App: React.FC = () => {
             path="/"
             element={
               <Layout>
-                <MainLayout />
+                {/* <MainLayout /> */}
                 <Main />
               </Layout>
             }
           />
           <Route
             path="/archive"
+            element={
+              <Layout>
+                <NewPost />
+              </Layout>
+            }
+          />
+          <Route
+            path="/editpost"
             element={
               <Layout>
                 <NewPost />

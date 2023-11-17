@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import 비 from "../../assets/main/비.png";
-import 평균기온 from "../../assets/main/온도.png";
-import 자외선 from "../../assets/main/자외선.png";
-import 강수확률 from "../../assets/main/강수.png";
+import 비 from "../../assets/img/main/비.png";
+import 평균기온 from "../../assets/img/main/온도.png";
+import 자외선 from "../../assets/img/main/자외선.png";
+import 강수확률 from "../../assets/img/main/강수.png";
 
 const DayWaether = () => {
   return (

@@ -12,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <Container>
       <Nav />
       <RightWrap>
-        <Header />
+        {/* <Header />     */}
         {children}
       </RightWrap>
     </Container>
@@ -26,6 +26,7 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   max-width: 1440px;
+  height: 100vh;
   margin: 0 auto;
 `;
 

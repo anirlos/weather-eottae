@@ -5,10 +5,12 @@ import DayWaether from "../../components/main/DayWeather";
 import DayClothes from "../../components/main/DayClothes";
 import WeatherDays from "../../components/main/WeatherDays";
 import Footer from "../../components/footer/Footer";
+import Header from "../../components/header/Header";
 
 const Main = () => {
   return (
     <>
+      <Header />
       <StMain>
         <div className="daywaether">
           <DayWaether />

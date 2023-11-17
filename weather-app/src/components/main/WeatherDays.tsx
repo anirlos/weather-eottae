@@ -1,85 +1,8 @@
 import React from "react";
-import 구름 from "../../assets/main/흐림.png";
+import 구름 from "../../assets/img/main/흐림.png";
 import styled from "styled-components";
 
 const WeatherDays = () => {
-  const now = new Date();
-  const todayWeak = now.getDay();
-  const today = now.getDate();
-  const lastday = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-
-  const [daylist, setDaylist] = useState([]);
-  const [weaklist, setWeaklist] = useState([]);
-
-  const getAlldate = (today, lastday) => {
-    let dates = [];
-
-    dates[0] = today;
-    for (let i = 1; i <= 6; i++) {
-      today++;
-      //마지막 날보다 날짜가 클경우 today를 1로 초기화.
-      if (today > lastday) {
-        today = 1;
-        dates[i] = today;
-      }
-      //일반 경우 그냥 날짜 추가
-      else {
-        dates[i] = today;
-      }
-    }
-
-    //요일 정상적으로 뜨는지 확인해보자
-    //console.log(dates[1].getDay());
-
-    return dates;
-  };
-
-  const getAllweak = (todayWeak) => {
-    let strWeak = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    let weaklist = [];
-
-    //첫번째 오늘 날짜 적용
-
-    weaklist[0] = strWeak[todayWeak];
-
-    for (let i = 1; i <= 6; i++) {
-      todayWeak++;
-      if (todayWeak > 6) {
-        todayWeak = 0;
-        weaklist[i] = strWeak[todayWeak];
-      } else {
-        weaklist[i] = strWeak[todayWeak];
-      }
-    }
-
-    return weaklist;
-  };
-
-  const CalendarDay = getAlldate(today, lastday);
-  const CalendarWeak = getAllweak(todayWeak);
-
-  /*⭐⭐날짜와 요일을 같이 표시하기위해서 만들어 놓은 객체
-  날짜를 하나씩 출력해서 객체로 만들기위해서 함수를 실행시킨뒤
-  분해로 하나씩 넣는 방법을 사용했음 ⭐⭐*/
-  const CalendarObject = [
-    { weak: CalendarWeak[0], day: CalendarDay[0] },
-    { weak: CalendarWeak[1], day: CalendarDay[1] },
-
-    { weak: CalendarWeak[2], day: CalendarDay[2] },
-    { weak: CalendarWeak[3], day: CalendarDay[3] },
-    { weak: CalendarWeak[4], day: CalendarDay[4] },
-    { weak: CalendarWeak[5], day: CalendarDay[5] },
-    { weak: CalendarWeak[6], day: CalendarDay[6] },
-  ];
-
-  //velog.io/@lifeisbeautiful/React-%EC%9D%BC%EC%A3%BC%EC%9D%BC-%EB%8B%AC%EB%A0%A5-%EB%A7%8C%EB%93%A4%EA%B8%B0
-
-  https: useEffect(() => {
-    return () => console.log("Clean up");
-  });
-
-  const Weak = useRef(null);
-
   return (
     <WeatherDaysWrap>
       <div>

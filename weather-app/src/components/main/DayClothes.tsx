@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import 기온표 from "../../assets/main/기온표.png";
+import 기온표 from "../../assets/img/main/기온표.png";
 import 패딩 from "../../assets/img/main/패딩.jpg";
 import 코트 from "../../assets/img/main/코트.jpg";
 

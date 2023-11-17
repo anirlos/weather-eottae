@@ -14,9 +14,12 @@ export default Main;
 
 const StyledMain = styled.div`
   width: 95%;
-  overflow: auto;
+  height: 100%;
+  /* padding 추가 */
 
-  margin: auto;
+  background-color: #fff;
+  /* margin 수정 */
+  margin: 0 auto;
 
   @media (max-width: 430px) {
     position: fixed;
