@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MainLayout from "./components/main/MainLayout";
 import Layout from "./components/layout/Layout";
 import NewPost from "./pages/newpost/NewPost";
-import Main from "./pages/Main/Main";
+import NotFound from "./pages/not-found/NotFound";
+import Feed from "./pages/feed/Feed";
 
 const App: React.FC = () => {
   return (
@@ -14,8 +15,7 @@ const App: React.FC = () => {
             path="/"
             element={
               <Layout>
-                {/* <MainLayout /> */}
-                <Main />
+                <MainLayout />
               </Layout>
             }
           />
@@ -35,6 +35,36 @@ const App: React.FC = () => {
               </Layout>
             }
           />
+
+          {/* 피드 페이지: 전체 피드 조회 */}
+          <Route
+            path="/feed"
+            element={
+              <Layout>
+                <Feed />
+              </Layout>
+            }
+          />
+          {/* 특정 유저 피드 조회 */}
+          <Route
+            path="/feed/:userId"
+            element={
+              <Layout>
+                <Feed />
+              </Layout>
+            }
+          />
+          {/* 특정 태그 피드 조회 */}
+          <Route
+            path="/feed/hashtags/:tag"
+            element={
+              <Layout>
+                <Feed />
+              </Layout>
+            }
+          />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </div>

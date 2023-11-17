@@ -24,7 +24,7 @@ const Nav = () => {
         </Link>
         <NavWrap>
           <li>
-            <Link to={"/"}>
+            <Link href="#">
               <span>
                 <img src={weather} />
                 오늘의 날씨
@@ -40,7 +40,7 @@ const Nav = () => {
             </Link>
           </li>
           <li>
-            <Link href="#">
+            <Link to={"/feed"}>
               <span>
                 <img src={clothing} />
                 오늘 뭐 입지
@@ -97,6 +97,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  /* position: fixed; */
 
   h1 {
     height: 100px;
@@ -153,11 +154,6 @@ const NavWrap = styled.ul`
         color: #5d6dbe;
         font-weight: bold;
       }
-    }
-
-    &:active {
-      border-radius: 10px;
-      background-color: #edebeb;
     }
 
     a {
