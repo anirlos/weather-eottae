@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { HiArrowLeft } from 'react-icons/hi';
 import { MdPlace } from 'react-icons/md';
+import LocationComponent from '../../components/location/Location';
 
 const TopWrap = () => {
-	const navigate = useNavigate(); // useNavigate 훅 사용
+	const navigate = useNavigate();
 
 	const handleBack = () => {
 		navigate(-1); // 이전 페이지로 이동
@@ -29,9 +30,9 @@ const TopWrap = () => {
 			<Bottom>
 				<Place>
 					<MdPlace color="#5d6dbe" />
-					부산
+					<LocationComponent />
 				</Place>
-				<Temperature>19°C</Temperature>
+				{/* <Temperature>19°C</Temperature> */}
 				<DateInfo>
 					<span>{currentDateAndTime}</span>
 				</DateInfo>
@@ -82,13 +83,14 @@ const Bottom = styled.div`
 	border-bottom: 2px solid #000;
 `;
 
-const Temperature = styled.div`
-	display: flex;
-	justify-content: left;
-	margin-right: 60%;
-`;
 const Place = styled.div`
 	display: flex;
+
 	align-items: center;
+	width: 50%;
 `;
-const DateInfo = styled.div``;
+const DateInfo = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	width: 30%;
+`;

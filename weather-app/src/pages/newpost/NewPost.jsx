@@ -19,6 +19,7 @@ const NewPost = () => {
 
 	const handleContentChange = (newContent) => {
 		setContent(newContent);
+		setIsEditing(false);
 	};
 
 	const handleSave = () => {
