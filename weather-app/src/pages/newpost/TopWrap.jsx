@@ -44,8 +44,9 @@ const TopWrap = () => {
 export default TopWrap;
 
 const Wrap = styled.div`
-	width: 1000px;
-	margin: 3% auto 0;
+	max-width: 600px;
+	width: 100%;
+	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

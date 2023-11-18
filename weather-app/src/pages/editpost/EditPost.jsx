@@ -117,8 +117,8 @@ const EditPost = () => {
 export default EditPost;
 
 const Container = styled.div`
-	width: 1000px;
-	max-width: 100%;
-	margin: 15px auto 0;
-	position: relative;
+	max-width: 600px;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
 `;

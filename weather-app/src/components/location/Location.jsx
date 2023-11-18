@@ -55,7 +55,7 @@ const LocationComponent = () => {
 			return temperature;
 		} catch (error) {
 			console.error('Error fetching weather info:', error);
-			return '날씨 정보를 불러오는데 실패했습니다';
+			return 'error';
 		}
 	};
 
