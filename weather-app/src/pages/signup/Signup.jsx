@@ -20,6 +20,8 @@ const Signup = () => {
     console.log(`id : ${userId}, password: ${password}`);
   };
 
+  console.log('test');
+
   return (
     <Container>
       <div className="cover-img">
