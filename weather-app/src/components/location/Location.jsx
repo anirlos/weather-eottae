@@ -45,12 +45,16 @@ const LocationComponent = () => {
 			const day = today.getDate().toString().padStart(2, '0');
 			const hour = today.getHours().toString().padStart(2, '0');
 
-			const response = await axios.get(
-				`http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=${weatherApiKey}&numOfRows=10&pageNo=1&dataType=JSON&base_date=${year}${month}${day}&base_time=${hour}00&nx=55&ny=127`
-			);
+			// API 요청을 보내기 위한 URL 생성
+			const apiUrl = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${weatherApiKey}&numOfRows=10&pageNo=1&dataType=JSON&base_date=${year}${month}${day}&base_time=${hour}00&nx=55&ny=127`;
 
-			const item = response.data.response.body.items.item[3]; // 온도 정보
-			const temperature = item.fcstValue; // 온도 값
+			// API 요청 보내기
+			const response = await axios.get(apiUrl);
+
+			// API 응답에서 온도 정보 추출
+			const items = response.data.response.body.items.item;
+			const temperatureItem = items.find((item) => item.category === 'T1H'); // 온도 정보 카테고리
+			const temperature = temperatureItem.obsrValue; // 온도 값
 
 			return temperature;
 		} catch (error) {
