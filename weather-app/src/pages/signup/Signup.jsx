@@ -20,7 +20,7 @@ const Signup = () => {
     console.log(`id : ${userId}, password: ${password}`);
   };
 
-  console.log('test');
+  console.log ('test21')
 
   return (
     <Container>
