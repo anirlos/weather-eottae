@@ -1,26 +1,83 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Main from "./pages/Main/Main";
+import Layout from "./components/layout/Layout";
+import NewPost from "./pages/newpost/NewPost";
+import NotFound from "./pages/not-found/NotFound";
+import Feed from "./pages/feed/Feed";
+import { position } from "stylis";
+import MyPage from "./users/MyPage";
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Main />
+              </Layout>
+            }
+          />
+          <Route
+            path="/archive"
+            element={
+              <Layout>
+                <NewPost />
+              </Layout>
+            }
+          />
+          <Route
+            path="/editpost"
+            element={
+              <Layout>
+                <NewPost />
+              </Layout>
+            }
+          />
+
+          {/* 피드 페이지: 전체 피드 조회 */}
+          <Route
+            path="/feed"
+            element={
+              <Layout>
+                <Feed />
+              </Layout>
+            }
+          />
+          {/* 특정 유저 피드 조회 */}
+          <Route
+            path="/feed/:userId"
+            element={
+              <Layout>
+                <Feed />
+              </Layout>
+            }
+          />
+          {/* 특정 태그 피드 조회 */}
+          <Route
+            path="/feed/hashtags/:tag"
+            element={
+              <Layout>
+                <Feed />
+              </Layout>
+            }
+          />
+          <Route
+            path="/user"
+            element={
+              <Layout>
+                <MyPage />
+              </Layout>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
     </div>
   );
-}
+};
 
 export default App;
