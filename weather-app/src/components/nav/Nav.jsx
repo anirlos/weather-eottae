@@ -40,7 +40,7 @@ const Nav = () => {
 						</Link>
 					</li>
 					<li>
-						<Link href="#">
+						<Link to={'/feed'}>
 							<span>
 								<img src={clothing} />
 								오늘 뭐 입지
@@ -90,18 +90,23 @@ const media = {
 };
 
 const Container = styled.div`
-	width: 15%;
-	height: 100vh;
+	width: 100%;
+	max-width: 15%;
+	height: 100%;
+	max-height: 100vh;
+	position: fixed;
+	top: 0;
 	background-color: #5d6dbe;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-around;
+	padding-bottom: 20px;
+
 	h1 {
-		height: 100px;
+		height: 20%;
 		display: flex;
 		align-items: flex-start;
-		margin-top: -20px;
 	}
 	button {
 		border: none;
@@ -129,7 +134,7 @@ const Container = styled.div`
 `;
 
 const NavWrap = styled.ul`
-	width: 80%;
+	/* width: 80%; */
 	height: 30%;
 	display: flex;
 	flex-direction: column;

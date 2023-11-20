@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import profile from '../../assets/img/header/profile.png';
 import dateicon from '../../assets/img/header/date.png';
 import region from '../../assets/img/header/region.png';
+import LocationComponent from '../location/Location';
 
 const Header = () => {
 	const date = new Date();
@@ -16,7 +17,7 @@ const Header = () => {
 				<RegionInfo>
 					<span>
 						<img src={region} />
-						지역
+						<LocationComponent />
 					</span>
 				</RegionInfo>
 				<DateInfo>
@@ -37,9 +38,9 @@ const Header = () => {
 export default Header;
 
 const Container = styled.div`
-	width: 90%;
+	width: 86%;
 	margin: 0 auto;
-	height: 95px;
+	height: 80px;
 	align-items: center;
 	display: flex;
 	justify-content: space-between;
