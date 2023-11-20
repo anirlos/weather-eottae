@@ -14,7 +14,7 @@ const Login = () => {
     console.log(`id : ${userId}, password: ${password}`);
     //서버에 요청. 여기에도 토큰을 담아서 요청? 서버에서 언제 토큰을 받고 또 로컬스토리지.셋아이템() 언제 어디에? 쓰는지?
   };
-  console.log('test');
+ 
   return (
     <Container>
       <div className="cover-img">
