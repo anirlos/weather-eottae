@@ -203,9 +203,9 @@ const ImageNavigationButton = styled.div`
 `;
 
 const PrevButton = styled(ImageNavigationButton)`
-	left: 10%;
+	left: 5%;
 `;
 
 const NextButton = styled(ImageNavigationButton)`
-	right: 10%;
+	right: 5%;
 `;
