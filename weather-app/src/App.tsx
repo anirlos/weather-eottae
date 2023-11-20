@@ -6,6 +6,8 @@ import NewPost from './pages/newpost/NewPost';
 import NotFound from './pages/not-found/NotFound';
 import Feed from './pages/feed/Feed';
 import { position } from 'stylis';
+import Login from './pages/login/Login'; 
+import Signup from './pages/signup/Signup';
 
 const App: React.FC = () => {
 	return (
@@ -18,6 +20,22 @@ const App: React.FC = () => {
 							<Layout>
 								<Main />
 							</Layout>
+						}
+					/>
+					<Route
+						path="/login"
+						element={
+							
+								<Login />
+							
+						}
+					/>
+					<Route
+						path="/signup"
+						element={
+							
+								<Signup />
+							
 						}
 					/>
 					<Route
