@@ -146,7 +146,7 @@ const Container = styled.div`
   }
 
   .button-container {
-    margin:0 auto;
+    margin: 0 auto;
   }
 
   button {
@@ -159,6 +159,10 @@ const Container = styled.div`
     cursor: pointer;
     font-size: 18px;
     margin-top: 10px;
+
+    &:hover {
+      background-color: #a6a6a6;
+    }
   }
 
   .line {
@@ -179,6 +183,10 @@ const Container = styled.div`
   }
   h6 {
     font-size: 14px;
+    & a:hover,
+    & a.active {
+      text-decoration: underline;
+    }
   }
 
   @media (max-width: 770px) {
