@@ -79,7 +79,13 @@ const MobileNav = () => {
           </Link>
         </li>
         <li>
-          <Link href="#" onClick={toggleNav}>
+          <Link
+            to={"/user"}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigation("/user");
+            }}
+          >
             <span>
               <img src={user} />
               마이 페이지
