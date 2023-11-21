@@ -32,7 +32,7 @@ const Nav = () => {
             </Link>
           </li>
           <li>
-            <Link to="/chat">
+            <Link href="#">
               <span>
                 <img src={chat} />
                 지역 톡
@@ -40,7 +40,7 @@ const Nav = () => {
             </Link>
           </li>
           <li>
-            <Link href="#">
+            <Link to={"/feed"}>
               <span>
                 <img src={clothing} />
                 오늘 뭐 입지
@@ -135,8 +135,58 @@ const NavWrap = styled.ul`
   flex-direction: column;
   align-items: left;
   justify-content: space-around;
+=======
+	width: 100%;
+	max-width: 15%;
+	height: 100%;
+	max-height: 100vh;
+	position: fixed;
+	top: 0;
+	background-color: #5d6dbe;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	padding-bottom: 20px;
 
-  li {
+	h1 {
+		height: 20%;
+		display: flex;
+		align-items: flex-start;
+	}
+	button {
+		border: none;
+		margin-top: 200px;
+		background: none;
+	}
+	@media ${media.large} {
+		width: 20%;
+	}
+	@media ${media.desktop} {
+		width: 25%;
+		h1 {
+			margin-top: -20px;
+		}
+	}
+	@media ${media.tablet} {
+		width: 30%;
+		h1 {
+			margin-top: -20px;
+		}
+	}
+	@media ${media.phone} {
+		display: none;
+	}
+`;
+
+const NavWrap = styled.ul`
+  /* width: 80%; */
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: space-around;
+  >>>>>>>origin/feature-아름님 li {
     width: 100%;
     display: flex;
     color: #fff;
