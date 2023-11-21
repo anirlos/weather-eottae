@@ -6,8 +6,10 @@ import Layout from "./components/layout/Layout";
 import NewPost from "./pages/newpost/NewPost";
 import NotFound from "./pages/not-found/NotFound";
 import Feed from "./pages/feed/Feed";
+import { position } from "stylis";
 import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
+import MyPage from "./pages/users/MyPage";
 
 const App: React.FC = () => {
   return (
@@ -40,6 +42,8 @@ const App: React.FC = () => {
               </Layout>
             }
           />
+
+          {/* 피드 페이지: 전체 피드 조회 */}
           <Route
             path="/feed"
             element={
@@ -48,6 +52,7 @@ const App: React.FC = () => {
               </Layout>
             }
           />
+          {/* 특정 유저 피드 조회 */}
           <Route
             path="/feed/:userId"
             element={
@@ -56,6 +61,7 @@ const App: React.FC = () => {
               </Layout>
             }
           />
+          {/* 특정 태그 피드 조회 */}
           <Route
             path="/feed/hashtags/:tag"
             element={
@@ -72,6 +78,15 @@ const App: React.FC = () => {
               </Layout>
             }
           />
+          <Route
+            path="/user"
+            element={
+              <Layout>
+                <MyPage />
+              </Layout>
+            }
+          />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
