@@ -32,7 +32,7 @@ const Nav = () => {
             </Link>
           </li>
           <li>
-            <Link href="#">
+            <Link href="/chat">
               <span>
                 <img src={chat} />
                 지역 톡
@@ -129,64 +129,33 @@ const Container = styled.div`
 `;
 
 const NavWrap = styled.ul`
-  width: 80%;
-  height: 30%;
+  width: 100%; // 충돌하는 스타일 - 결정된 값 사용
+  max-width: 15%;
+  height: 100%; // 충돌하는 스타일 - 결정된 값 사용
+  max-height: 100vh;
+  position: fixed;
+  top: 0;
+  background-color: #5d6dbe;
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: center; // 충돌하는 스타일 - 결정된 값 사용
   justify-content: space-around;
-=======
-	width: 100%;
-	max-width: 15%;
-	height: 100%;
-	max-height: 100vh;
-	position: fixed;
-	top: 0;
-	background-color: #5d6dbe;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-around;
-	padding-bottom: 20px;
+  padding-bottom: 20px;
 
-	h1 {
-		height: 20%;
-		display: flex;
-		align-items: flex-start;
-	}
-	button {
-		border: none;
-		margin-top: 200px;
-		background: none;
-	}
-	@media ${media.large} {
-		width: 20%;
-	}
-	@media ${media.desktop} {
-		width: 25%;
-		h1 {
-			margin-top: -20px;
-		}
-	}
-	@media ${media.tablet} {
-		width: 30%;
-		h1 {
-			margin-top: -20px;
-		}
-	}
-	@media ${media.phone} {
-		display: none;
-	}
-`;
+  h1 {
+    height: 20%;
+    display: flex;
+    align-items: flex-start;
+  }
 
-const NavWrap = styled.ul`
-  /* width: 80%; */
-  height: 30%;
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: space-around;
-  >>>>>>>origin/feature-아름님 li {
+  button {
+    border: none;
+    margin-top: 200px;
+    background: none;
+  }
+
+  // 여기서부터는 두 번째 선언에 추가된 스타일
+  li {
     width: 100%;
     display: flex;
     color: #fff;
@@ -230,25 +199,46 @@ const NavWrap = styled.ul`
         transition: background-color 0.3s;
       }
     }
-    @media ${media.large} {
-      span {
-        font-size: 1rem;
-      }
-      @media ${media.desktop} {
-        span {
-          font-size: 0.925rem;
-        }
-      }
-      @media ${media.tablet} {
-        span {
-          font-size: 0.825rem;
-        }
-      }
-      @media ${media.phone} {
-        span {
-          font-size: 0.725rem;
-        }
-      }
+  }
+
+  // 미디어 쿼리들은 모두 유지
+  @media ${media.large} {
+    width: 20%;
+  }
+  @media ${media.desktop} {
+    width: 25%;
+    h1 {
+      margin-top: -20px;
+    }
+  }
+  @media ${media.tablet} {
+    width: 30%;
+    h1 {
+      margin-top: -20px;
+    }
+  }
+  @media ${media.phone} {
+    display: none;
+  }
+  // 두 번째 선언에서 추가된 미디어 쿼리
+  @media ${media.large} {
+    span {
+      font-size: 1rem;
+    }
+  }
+  @media ${media.desktop} {
+    span {
+      font-size: 0.925rem;
+    }
+  }
+  @media ${media.tablet} {
+    span {
+      font-size: 0.825rem;
+    }
+  }
+  @media ${media.phone} {
+    span {
+      font-size: 0.725rem;
     }
   }
 `;
