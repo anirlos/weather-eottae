@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ChatRoom } from "../../components/Chat/ChatRoom";
 import { MessageInput } from "../../components/Chat/MessageInput";
 import { ChatViewContainer } from "./ChaView.styled";
+import ChatNotice from "../../components/Chat/ChatNotice";
 import socket from "../../api/socket";
 
 const ChatView = () => {
@@ -36,6 +37,7 @@ const ChatView = () => {
 
   return (
     <ChatViewContainer>
+      <ChatNotice />
       <input type="text" value={userNick} onChange={handleNickChange} />
       <MessageInput nick={userNick} roomCode={roomCode} roomName={roomName} />
       <ChatRoom currentUserNick={userNick} />
