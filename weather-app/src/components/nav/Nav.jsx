@@ -24,7 +24,7 @@ const Nav = () => {
         </Link>
         <NavWrap>
           <li>
-            <Link href="#">
+            <Link to={"/"}>
               <span>
                 <img src={weather} />
                 오늘의 날씨
@@ -32,7 +32,7 @@ const Nav = () => {
             </Link>
           </li>
           <li>
-            <Link href="/chat">
+            <Link to={"/chat"}>
               <span>
                 <img src={chat} />
                 지역 톡
