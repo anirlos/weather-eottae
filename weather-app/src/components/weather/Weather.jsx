@@ -10,6 +10,7 @@ const LocationComponent = () => {
 	});
 
 	const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY; // Google Maps API 키
+	const weatherApiKey = process.env.REACT_APP_WEATHER_API_KEY; // 한국 기상청 API 키
 
 	const getState = async (latitude, longitude) => {
 		try {
@@ -35,9 +36,37 @@ const LocationComponent = () => {
 		}
 	};
 
+	const getWeatherInfo = async (latitude, longitude) => {
+		try {
+			// 현재 날짜와 시간 구하기
+			const today = new Date();
+			const year = today.getFullYear();
+			const month = (today.getMonth() + 1).toString().padStart(2, '0');
+			const day = today.getDate().toString().padStart(2, '0');
+			const hour = today.getHours().toString().padStart(2, '0');
+
+			// API 요청을 보내기 위한 URL 생성
+			const apiUrl = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${weatherApiKey}&numOfRows=10&pageNo=1&dataType=JSON&base_date=${year}${month}${day}&base_time=${hour}00&nx=55&ny=127`;
+
+			// API 요청 보내기
+			const response = await axios.get(apiUrl);
+
+			// API 응답에서 온도 정보 추출
+			const items = response.data.response.body.items.item;
+			const temperatureItem = items.find((item) => item.category === 'T1H'); // 온도 정보 카테고리
+			const temperature = temperatureItem.obsrValue; // 온도 값
+
+			return temperature;
+		} catch (error) {
+			console.error('Error fetching weather info:', error);
+			return 'error';
+		}
+	};
+
 	const onSuccess = async (position) => {
 		const { latitude, longitude } = position.coords;
 		const state = await getState(latitude, longitude);
+		const temperature = await getWeatherInfo(latitude, longitude);
 
 		setLocation({
 			loaded: true,
@@ -46,6 +75,7 @@ const LocationComponent = () => {
 				lng: longitude,
 			},
 			state,
+			temperature,
 		});
 	};
 
@@ -71,7 +101,7 @@ const LocationComponent = () => {
 		<div>
 			{location.loaded ? (
 				<div>
-					<p>{location.state}</p>
+					<p>{location.temperature}°C</p>
 				</div>
 			) : (
 				<div>Loading...</div>

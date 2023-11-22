@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { HiArrowLeft } from 'react-icons/hi';
 import { MdPlace } from 'react-icons/md';
 import LocationComponent from '../../components/location/Location';
+import WeatherComponent from '../../components/weather/Weather';
 
 const TopWrap = () => {
 	const navigate = useNavigate();
@@ -31,6 +32,8 @@ const TopWrap = () => {
 				<Place>
 					<MdPlace color="#5d6dbe" />
 					<LocationComponent />
+					&nbsp;
+					<WeatherComponent />
 				</Place>
 				{/* <Temperature>19°C</Temperature> */}
 				<DateInfo>
