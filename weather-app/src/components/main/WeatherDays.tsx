@@ -1,62 +1,43 @@
 import React from "react";
 import 구름 from "../../assets/img/main/흐림.png";
+import 눈 from "../../assets/img/main/눈.png";
+import 해 from "../../assets/img/main/해.png";
 import styled from "styled-components";
 
 const WeatherDays = () => {
   return (
     <WeatherDaysWrap>
-      <div>
-        <p>일</p>
-        <img src={구름} />
+      <DayWrap>
+        <div>
+          <p>12/03</p>
+          <img src={구름} />
+        </div>
         <DaysTemperatures>
-          <div className="high">20°</div>
-          <div className="low">12°</div>
+          <div className="high"> 최고: 20°</div>
+          <div className="low">최저: 12°</div>
         </DaysTemperatures>
-      </div>
-      <div>
-        <p>수</p>
-        <img src={구름} />
+      </DayWrap>
+      <DayWrap>
+        <div>
+          <p>12/04</p>
+          <img src={구름} />
+        </div>
         <DaysTemperatures>
-          <div className="high">20°</div>
-          <div className="low">12°</div>
+          <div className="high"> 최고: 20°</div>
+          <div className="low">최저: 12°</div>
         </DaysTemperatures>
-      </div>
+      </DayWrap>
 
-      <div>
-        <p>목</p>
-        <img src={구름} />
+      <DayWrap>
+        <div>
+          <p>12/05</p>
+          <img src={구름} />
+        </div>
         <DaysTemperatures>
-          <div className="high">20°</div>
-          <div className="low">12°</div>
+          <div className="high"> 최고: 20°</div>
+          <div className="low">최저: 12°</div>
         </DaysTemperatures>
-      </div>
-
-      <div>
-        <p>금</p>
-        <img src={구름} />
-        <DaysTemperatures>
-          <div className="high">20°</div>
-          <div className="low">12°</div>
-        </DaysTemperatures>
-      </div>
-
-      <div>
-        <p>토</p>
-        <img src={구름} />
-        <DaysTemperatures>
-          <div className="high">20°</div>
-          <div className="low">12°</div>
-        </DaysTemperatures>
-      </div>
-
-      <div>
-        <p>일</p>
-        <img src={구름} />
-        <DaysTemperatures>
-          <div className="high">20°</div>
-          <div className="low">12°</div>
-        </DaysTemperatures>
-      </div>
+      </DayWrap>
     </WeatherDaysWrap>
   );
 };
@@ -78,23 +59,28 @@ const WeatherDaysWrap = styled.div`
   font-size: 20px;
 
   p {
-    margin: 10px;
+    margin: 15px;
   }
 
   img {
     width: 150px;
+    height: 100px;
   }
 `;
 
 const DaysTemperatures = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  font-weight: 600;
+  padding-top: 25%;
+
   .high {
-    color: #000000;
+    color: #d67373;
+    margin-bottom: 10px;
   }
   .low {
-    color: #6d6d6d;
+    color: #2d8fcc;
   }
+`;
+
+const DayWrap = styled.div`
+  display: flex;
+  justify-content: center;
 `;
