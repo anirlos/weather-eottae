@@ -6,7 +6,7 @@ import NewPost from './pages/newpost/NewPost';
 import NotFound from './pages/not-found/NotFound';
 import Feed from './pages/feed/Feed';
 import { position } from 'stylis';
-import Login from './pages/login/Login'; 
+import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 
 const App: React.FC = () => {
@@ -22,22 +22,8 @@ const App: React.FC = () => {
 							</Layout>
 						}
 					/>
-					<Route
-						path="/login"
-						element={
-							
-								<Login />
-							
-						}
-					/>
-					<Route
-						path="/signup"
-						element={
-							
-								<Signup />
-							
-						}
-					/>
+					<Route path="/login" element={<Login />} />
+					<Route path="/signup" element={<Signup />} />
 					<Route
 						path="/archive"
 						element={
