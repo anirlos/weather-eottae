@@ -1,36 +1,11 @@
 import axios from 'axios';
 
-const BASE_URL =
-	'http://ec2-43-200-188-52.ap-northeast-2.compute.amazonaws.com:8080';
+const BASE_URL = 'https://5999418e-c835-43c7-9c6d-60fdb423183f.mock.pstmn.io';
 
-export const createPost = async ({
-	content,
-	accountNonExpired,
-	accountNonLocked,
-	authorities,
-	credentialsNonExpired,
-	enabled,
-	hashtags,
-	location,
-	mediaFiles,
-	password,
-	temperature,
-	username,
-}) => {
+export const createPost = async (content) => {
 	try {
-		const response = await axios.post(`${BASE_URL}/api/post`, {
+		const response = await axios.post(`${BASE_URL}/posts`, {
 			content,
-			accountNonExpired,
-			accountNonLocked,
-			authorities,
-			credentialsNonExpired,
-			enabled,
-			hashtags,
-			location,
-			mediaFiles,
-			password,
-			temperature,
-			username,
 		});
 
 		return response.data;

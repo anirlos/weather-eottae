@@ -19,9 +19,20 @@ const EditPost = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 
+	const postId = 1; // 가져올 더미 데이터의 ID를 지정
+	fetchPost(postId)
+		.then((data) => {
+			console.log('Fetched data:', data);
+			// 여기에서 데이터를 사용하거나 처리합니다.
+		})
+		.catch((error) => {
+			console.error('Error fetching post:', error);
+			// 오류 처리
+		});
+
 	useEffect(() => {
 		if (id) {
-			fetchPost(id) // 수정된 부분
+			fetchPost(id)
 				.then((data) => {
 					setContent(data.content);
 				})

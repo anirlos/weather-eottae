@@ -1,5 +1,4 @@
-const BASE_URL =
-	'http://ec2-43-200-188-52.ap-northeast-2.compute.amazonaws.com:8080';
+const BASE_URL = 'https://example.com';
 
 export const updatePost = async (id, content) => {
 	try {

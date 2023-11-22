@@ -19,7 +19,7 @@ const NewPost = () => {
 
 	const handleContentChange = (newContent) => {
 		setContent(newContent);
-		setIsEditing(true); // 내용이 변경될 때 편집 모드로 설정
+		setIsEditing(false);
 	};
 
 	const handleSave = () => {
@@ -28,22 +28,8 @@ const NewPost = () => {
 
 	const handleConfirmSave = async () => {
 		try {
-			// 게시물 생성 API 호출
-			await createPost({
-				content,
-				accountNonExpired: true, // 예시 데이터 (필요한 경우 수정)
-				accountNonLocked: true,
-				authorities: ['ROLE_USER'],
-				credentialsNonExpired: true,
-				enabled: true,
-				hashtags: [], // 해시태그 목록 추가
-				location: 'Sample Location', // 위치 정보 추가
-				mediaFiles: [], // 미디어 파일 목록 추가
-				password: 'password123',
-				temperature: 25.5, // 온도 정보 추가
-				username: 'example_user',
-			});
-			navigate('/feed'); // 생성 성공 시 /feed 페이지로 이동
+			await createPost(content);
+			navigate('/feed');
 		} catch (error) {
 			console.error('Failed to save post:', error);
 		}
