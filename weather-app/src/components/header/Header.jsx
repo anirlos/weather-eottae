@@ -4,6 +4,7 @@ import profile from '../../assets/img/header/profile.png';
 import dateicon from '../../assets/img/header/date.png';
 import region from '../../assets/img/header/region.png';
 import LocationComponent from '../location/Location';
+import WeatherComponent from '../weather/Weather';
 
 const Header = () => {
 	const date = new Date();
@@ -18,6 +19,7 @@ const Header = () => {
 					<span>
 						<img src={region} />
 						<LocationComponent />
+						<WeatherComponent />
 					</span>
 				</RegionInfo>
 				<DateInfo>

@@ -6,7 +6,6 @@ const LocationComponent = () => {
 		loaded: false,
 		coordinates: { lat: '', lng: '' },
 		state: '',
-		temperature: '',
 	});
 
 	const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY; // Google Maps API 키

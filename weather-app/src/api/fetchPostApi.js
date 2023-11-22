@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://5999418e-c835-43c7-9c6d-60fdb423183f.mock.pstmn.io';
+const BASE_URL = 'http://43.200.188.52';
 
 export const fetchPost = async (id) => {
 	try {

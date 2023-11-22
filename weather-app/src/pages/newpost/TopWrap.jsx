@@ -5,6 +5,7 @@ import { HiArrowLeft } from 'react-icons/hi';
 import { MdPlace } from 'react-icons/md';
 import LocationComponent from '../../components/location/Location';
 import WeatherComponent from '../../components/weather/Weather';
+import CoordinatesComponent from '../../components/location/Coordinates';
 
 const TopWrap = () => {
 	const navigate = useNavigate();

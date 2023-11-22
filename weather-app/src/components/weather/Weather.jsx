@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const LocationComponent = () => {
+const WeatherComponent = () => {
 	const [location, setLocation] = useState({
 		loaded: false,
 		coordinates: { lat: '', lng: '' },
@@ -43,10 +43,19 @@ const LocationComponent = () => {
 			const year = today.getFullYear();
 			const month = (today.getMonth() + 1).toString().padStart(2, '0');
 			const day = today.getDate().toString().padStart(2, '0');
-			const hour = today.getHours().toString().padStart(2, '0');
+
+			// API 요청을 위한 시간 설정 (현재 시간보다 이전 시간을 기준으로 설정)
+			let hour = today.getHours();
+			if (hour < 2) {
+				// 00시 기준으로 데이터 요청
+				hour = '00';
+			} else {
+				// 이전 시간으로 조정 (예: 11시일 경우 10시 데이터 요청)
+				hour = (Math.floor(hour / 3) * 3 - 3).toString().padStart(2, '0');
+			}
 
 			// API 요청을 보내기 위한 URL 생성
-			const apiUrl = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${weatherApiKey}&numOfRows=10&pageNo=1&dataType=JSON&base_date=${year}${month}${day}&base_time=${hour}00&nx=55&ny=127`;
+			const apiUrl = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${weatherApiKey}&numOfRows=10&pageNo=1&dataType=JSON&base_date=${year}${month}${day}&base_time=${hour}00&nx=${latitude}&ny=${longitude}`;
 
 			// API 요청 보내기
 			const response = await axios.get(apiUrl);
@@ -110,4 +119,4 @@ const LocationComponent = () => {
 	);
 };
 
-export default LocationComponent;
+export default WeatherComponent;
