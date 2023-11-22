@@ -103,6 +103,24 @@ const FeedContainer = styled.div`
   border-radius: 5px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   background-color: #fff;
+  @media (max-width: 1024px) {
+    width: 400px;
+  }
+  @media (max-width: 768px) {
+    width: 80%;
+    max-width: 350px;
+  }
+  @media (max-width: 430px) {
+    width: calc(100% - 30px);
+    padding: 20px 0;
+    margin: 0 15px;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 1px solid #525d9191;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
 `;
 
 const FeedContent = styled.div`

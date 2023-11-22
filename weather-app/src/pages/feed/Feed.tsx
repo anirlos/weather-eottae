@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import FeedList from "./FeedList";
-import Nav from "../../components/nav/Nav";
 
 const Feed: FC = () => {
   const { userId, tag } = useParams<{ userId?: string; tag?: string }>();
@@ -32,7 +31,7 @@ const Feed: FC = () => {
   }, [userId, tag]);
 
   return (
-    <div>
+    <Container>
       <FilteredContent>
         {userId && (
           <UserContainer>
@@ -44,18 +43,27 @@ const Feed: FC = () => {
       </FilteredContent>
 
       <FeedList posts={posts} />
-    </div>
+    </Container>
   );
 };
 
 export default Feed;
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+  @media (max-width: 430px) {
+    background-color: #fff;
+    padding-top: 70px;
+  }
+`;
 
 const FilteredContent = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
 `;
 
 const UserContainer = styled.div`
@@ -64,6 +72,7 @@ const UserContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin: 10px 0;
+
   img {
     width: 50px;
     height: 50px;
@@ -76,10 +85,24 @@ const UserContainer = styled.div`
     font-size: 30px;
     color: #5d6dbe;
   }
+  @media (max-width: 430px) {
+    img {
+      width: 40px;
+      height: 40px;
+      margin-top: 10px;
+    }
+    p {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+  }
 `;
 
 const Tag = styled.p`
   color: #5d6dbe;
   font-size: 30px;
   margin: 10px 0;
+  @media (max-width: 430px) {
+    margin-top: 20px;
+  }
 `;

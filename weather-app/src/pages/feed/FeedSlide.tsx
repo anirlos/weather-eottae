@@ -44,9 +44,18 @@ const FeedSlide: FC<ImgsProps> = ({ imgs }) => {
 export default FeedSlide;
 
 const StyledSwiper = styled(Swiper)`
-  width: 500px;
+  width: 100%;
   height: 500px;
   border-radius: 5px;
+  @media (max-width: 1024px) {
+    height: 400px;
+  }
+  @media (max-width: 768px) {
+    height: 350px;
+  }
+  @media (max-width: 430px) {
+    height: 300px;
+  }
   img {
     width: 100%;
     height: 100%;
