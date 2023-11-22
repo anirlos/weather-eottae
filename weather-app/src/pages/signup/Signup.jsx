@@ -3,22 +3,33 @@ import styled from "styled-components";
 import weather from "../../assets/img/signup/weather.png";
 import devicon_google from "../../assets/img/login/devicon_google.png";
 import kakao from "../../assets/img/login/kakao.png";
+import Postcode from "../../components/login/Postcode";
 
 //유효성 검사, 비번확인, 미디어파일전송
 const Signup = () => {
-  const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [verifidePassword, setVerifidePassword] = useState("");
-  const [address, setAddress] = useState("");
-  const [message, setMessage] = useState("");
-  const [file, setFile] = useState("");
+  const [userInfo, setUserInfo] = useState({
+    userName: "",
+    nickName: "",
+    email: "",
+    password: "",
+    address: "",
+    message: "",
+    userImg: "",
+  });
+
+  
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserInfo((prevUserInfo) => ({ ...prevUserInfo, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`id : ${userId}, password: ${password}`);
+    console.log("통신");
   };
+
+ 
 
   return (
     <Container>
@@ -29,76 +40,68 @@ const Signup = () => {
         <div className="signup-form">
           <h1>회원가입</h1>
           <form onSubmit={handleSubmit}>
-          <div className="second-container">
+            <div className="second-container">
               <label htmlFor="userName">이름</label>
               <input
                 type="text"
-                value={userName}
+                value={userInfo.userName}
                 name="userName"
                 id=""
-                onChange={(e) => setUserName(e.target.value)}
+                onChange={handleChange}
               />
-            
-            
-              <label htmlFor="userName">아이디</label>
+
+              <label htmlFor="userName">닉네임</label>
               <input
                 type="text"
-                value={userId}
+                value={userInfo.nickName}
                 name="userId"
                 id=""
-                onChange={(e) => setUserId(e.target.value)}
+                onChange={handleChange}
               />
-           
 
-            
               <label htmlFor="email">email</label>
               <input
                 type="text"
-                value={email}
+                value={userInfo.email}
                 name="email"
                 id=""
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleChange}
               />
               <label htmlFor="password">비밀번호</label>
               <input
                 type="password"
-                value={password}
+                value={userInfo.password}
                 name="password"
                 id=""
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleChange}
               />
-              <label htmlFor="verifidePassword">비밀번호 확인</label>
-              <input
-                type="password"
-                value={verifidePassword}
-                name="verifidePassword"
-                id=""
-                onChange={(e) => setVerifidePassword(e.target.value)}
-              />
+              {/*다음 주소*/}
+              <Postcode />
+              {/*일반주소
               <label htmlFor="address">주소 입력</label>
               <input
                 type="text"
-                value={address}
+                value={userInfo.address}
                 name="address"
                 id=""
-                onChange={(e) => setAddress(e.target.value)}
-              />
+                onChange={handleChange}
+               /> */}
               <label htmlFor="message">
                 회원들에게 보일 인삿말과 프로필사진을 등록해보세요
               </label>
               <input
                 type="textarea"
-                value={message}
+                value={userInfo.message}
                 name="message"
                 id=""
-                onChange={(e) => setMessage(e.target.value)}
+                onChange={handleChange}
               ></input>
               <input
                 type="file"
-                value={file}
+                value={userInfo.userImg}
                 name="file"
                 id=""
-                onChange={(e) => setFile(e.target.value)}
+                onChange={handleChange}
               ></input>
             </div>
 
@@ -122,8 +125,6 @@ const Signup = () => {
 };
 
 export default Signup;
-
-
 
 const Container = styled.div`
   display: flex;
@@ -218,6 +219,16 @@ const Container = styled.div`
     font-size: 18px;
     margin: 0 auto;
   }
+  .custom, .custom-two {
+    background-color: black;
+    color: white;
+    width: 110px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: none;
+    font-size: 12px;
+
+  }
 
   .line-container {
     display: flex;
@@ -248,3 +259,4 @@ const Container = styled.div`
     }
   }
 `;
+
