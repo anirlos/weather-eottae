@@ -97,7 +97,7 @@ const NewPost = () => {
 		// 토큰을 로컬 스토리지에 저장
 		localStorage.setItem(
 			'token',
-			'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDA1NzY0OTEsImV4cCI6MTcwMDU4MDA5MSwic3ViIjoidGVzdEBlbWFpbC5jb20iLCJpZCI6NX0.kaUn6n0lwNDANmZXXDVSoKbnnnnAGfHDlt17TCJIWbQ' // 실제 토큰 값으로 대체해야 합니다.
+			'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDA1NzY0OTEsImV4cCI6MTcwMDU4MDA5MSwic3ViIjoidGVzdEBlbWFpbC5jb20iLCJpZCI6NX0.kaUn6n0lwNDANmZXXDVSoKbnnnnAGfHDlt17TCJIWbQ'
 		);
 
 		createPost(); // 컴포넌트가 마운트될 때 createPost 함수 호출
