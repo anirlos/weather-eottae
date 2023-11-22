@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Main from '../../components/main/MainLayout';
 import styled from 'styled-components';
@@ -7,32 +7,81 @@ import ImageWrap from './ImageWrap';
 import ContentWrap from './ContentWrap';
 import ButtonWrap from './ButtonWrap';
 import Modal from './Modal';
-import { createPost } from '../../api/createPostApi';
+import axios from 'axios';
+
+const BASE_URL = 'http://43.200.188.52';
 
 const NewPost = () => {
 	const [content, setContent] = useState('');
 	const [showModal, setShowModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
-
 	const navigate = useNavigate();
+
+	// 로컬 스토리지에서 토큰을 가져오는 함수
+	const getTokenFromLocalStorage = () => {
+		return localStorage.getItem('token');
+	};
 
 	const handleContentChange = (newContent) => {
 		setContent(newContent);
-		setIsEditing(false);
+		setIsEditing(true);
 	};
 
 	const handleSave = () => {
-		setShowModal(true); // 모달 표시
+		setShowModal(true);
 	};
 
-	const handleConfirmSave = async () => {
+	const createPost = async () => {
 		try {
-			await createPost(content);
+			// 로컬 스토리지에서 토큰을 가져옴
+			const token = getTokenFromLocalStorage();
+
+			// 아래에 필요한 변수들을 선언하고 값을 지정해주세요.
+			const accountNonExpired = '';
+			const accountNonLocked = '';
+			const authorities = '';
+			const credentialsNonExpired = '';
+			const enabled = true;
+			const hashtags = ''; // 해시태그
+			const location = ''; // 위치 정보
+			const mediaFiles = []; // 미디어 파일 목록
+			const password = ''; // 비밀번호
+			const temperature = ''; // 온도
+			const username = ''; // 사용자명
+
+			await axios.post(
+				`${BASE_URL}/api/post`,
+				{
+					content,
+					accountNonExpired,
+					accountNonLocked,
+					authorities,
+					credentialsNonExpired,
+					enabled,
+					hashtags,
+					location,
+					mediaFiles,
+					password,
+					temperature,
+					username,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+
 			navigate('/feed');
 		} catch (error) {
 			console.error('Failed to save post:', error);
 		}
+	};
+
+	const handleConfirmSave = () => {
+		// createPost 함수를 호출하고 토큰을 전달
+		createPost();
 	};
 
 	const handleCancelSave = () => {
@@ -43,13 +92,23 @@ const NewPost = () => {
 		setShowDeleteModal(false);
 	};
 
+	useEffect(() => {
+		// 컴포넌트가 마운트될 때 한 번만 실행
+		// 토큰을 로컬 스토리지에 저장
+		localStorage.setItem(
+			'token',
+			'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDA1NzY0OTEsImV4cCI6MTcwMDU4MDA5MSwic3ViIjoidGVzdEBlbWFpbC5jb20iLCJpZCI6NX0.kaUn6n0lwNDANmZXXDVSoKbnnnnAGfHDlt17TCJIWbQ' // 실제 토큰 값으로 대체해야 합니다.
+		);
+
+		createPost(); // 컴포넌트가 마운트될 때 createPost 함수 호출
+	}, []);
+
 	return (
 		<Main>
 			<Container>
 				<TopWrap />
 				<ImageWrap />
-				<ContentWrap onContentChange={handleContentChange} />
-				{/* <PlaceWrap /> */}
+				<ContentWrap content={content} onContentChange={handleContentChange} />
 				<ButtonWrap onSave={handleSave} isEditing={isEditing} />
 				{showModal && (
 					<Modal
