@@ -1,36 +1,27 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://43.200.188.52';
+const BASE_URL = 'http://43.200.188.52:8080';
 
-const createPost = async ({
-	content,
+const createPostAPI = async (content, files, token, postId) => {
+	const formData = new FormData();
+	formData.append('content', content);
+	files.forEach((file) => formData.append('files', file));
 
-	location,
-	mediaFiles,
-}) => {
+	if (postId) {
+		formData.append('postId', postId);
+	}
+
 	try {
-		const response = await axios.post(
-			`${BASE_URL}/api/post`,
-			{
-				content,
-
-				location,
-				mediaFiles,
+		const response = await axios.post(`${BASE_URL}/api/post`, formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+				Authorization: `Bearer ${token}`,
 			},
-			{
-				headers: {
-					Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDA3MjAyOTAsImV4cCI6MTcwMDcyMzg5MCwic3ViIjoidGVzdEBlbWFpbC5jb20iLCJpZCI6MX0.CDvPEJueJJYL5uXA6aCTb7rozMYGuJpRL6nfust8vSY`, // 동적으로 토큰을 사용
-				},
-			}
-		);
-		console.log('Post created:', response.data);
+		});
 		return response.data;
 	} catch (error) {
-		console.error('Failed to create post:', error);
-		throw new Error(
-			error.response ? error.response.data : 'Failed to create post'
-		);
+		throw error;
 	}
 };
 
-export default createPost;
+export default createPostAPI;

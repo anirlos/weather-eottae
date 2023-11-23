@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const MAX_FILES = 3;
 
-// Helper function to check if the file is a video
 const isVideo = (file) => {
 	return file && file.type.split('/')[0] === 'video';
 };
 
-const ImageWrap = () => {
+const ImageWrap = ({ onFilesChange }) => {
 	const [files, setFiles] = useState([]);
 	const [currentFileIndex, setCurrentFileIndex] = useState(0);
 
 	const handleFileChange = (event) => {
 		if (event.target.files) {
-			const filesArray = Array.from(event.target.files);
-			const remainingSlots = MAX_FILES - files.length;
-			const newFiles = filesArray.slice(0, remainingSlots);
-			const newFilesURLs = newFiles.map((file) => ({
-				url: URL.createObjectURL(file),
-				type: file.type,
-			}));
+			const filesArray = Array.from(event.target.files).slice(
+				0,
+				MAX_FILES - files.length
+			);
 
-			setFiles((prevFiles) => [...prevFiles, ...newFilesURLs]);
-			setCurrentFileIndex(files.length > 0 ? currentFileIndex : 0);
+			setFiles((prevFiles) => {
+				// 여기에서 'prevFiles'는 이전 파일 목록을 나타냅니다.
+				const updatedFiles = [...prevFiles, ...filesArray];
+				setCurrentFileIndex(prevFiles.length > 0 ? currentFileIndex : 0);
+				return updatedFiles;
+			});
 		}
 	};
 
@@ -37,6 +37,13 @@ const ImageWrap = () => {
 			prevIndex < files.length - 1 ? prevIndex + 1 : prevIndex
 		);
 	};
+
+	// Clean up object URLs
+	useEffect(() => {
+		return () => {
+			files.forEach((file) => URL.revokeObjectURL(file.preview));
+		};
+	}, [files]);
 
 	return (
 		<Container>
@@ -60,14 +67,14 @@ const ImageWrap = () => {
 						{isVideo(files[currentFileIndex]) ? (
 							<VideoPreview controls>
 								<source
-									src={files[currentFileIndex].url}
+									src={URL.createObjectURL(files[currentFileIndex])}
 									type={files[currentFileIndex].type}
 								/>
 								Your browser does not support the video tag.
 							</VideoPreview>
 						) : (
 							<ImagePreview
-								src={files[currentFileIndex].url}
+								src={URL.createObjectURL(files[currentFileIndex])}
 								alt="Uploaded content"
 							/>
 						)}

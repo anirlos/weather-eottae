@@ -1,4 +1,4 @@
-const BASE_URL = 'http://43.200.188.52';
+const BASE_URL = 'http://43.200.188.52:8080';
 
 export const updatePost = async (id, content) => {
 	try {

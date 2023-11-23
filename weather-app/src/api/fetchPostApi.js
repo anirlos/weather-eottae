@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://43.200.188.52';
+const BASE_URL = 'http://43.200.188.52:8080';
 
 export const fetchPost = async (id) => {
 	try {
