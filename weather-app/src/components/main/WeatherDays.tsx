@@ -1,7 +1,7 @@
 import React from "react";
-import 구름 from "../../assets/img/main/흐림.png";
-import 눈 from "../../assets/img/main/눈.png";
-import 해 from "../../assets/img/main/해.png";
+import 구름 from "../../assets/img/main/흐림icon.png";
+import 눈 from "../../assets/img/main/눈icon.png";
+import 해 from "../../assets/img/main/해icon.png";
 import styled from "styled-components";
 
 const WeatherDays = () => {
@@ -9,7 +9,7 @@ const WeatherDays = () => {
     <WeatherDaysWrap>
       <DayWrap>
         <div>
-          <p>12/03</p>
+          <p>내일</p>
           <img src={구름} />
         </div>
         <DaysTemperatures>
@@ -19,8 +19,8 @@ const WeatherDays = () => {
       </DayWrap>
       <DayWrap>
         <div>
-          <p>12/04</p>
-          <img src={구름} />
+          <p>모레</p>
+          <img src={눈} />
         </div>
         <DaysTemperatures>
           <div className="high"> 최고: 20°</div>
@@ -30,8 +30,8 @@ const WeatherDays = () => {
 
       <DayWrap>
         <div>
-          <p>12/05</p>
-          <img src={구름} />
+          <p>글피</p>
+          <img src={해} />
         </div>
         <DaysTemperatures>
           <div className="high"> 최고: 20°</div>
@@ -64,15 +64,15 @@ const WeatherDaysWrap = styled.div`
 
   img {
     width: 150px;
-    height: 100px;
   }
 `;
 
 const DaysTemperatures = styled.div`
-  padding-top: 25%;
+  padding-top: 30%;
+  margin-right: 50px;
 
   .high {
-    color: #d67373;
+    color: #da3939;
     margin-bottom: 10px;
   }
   .low {
@@ -83,4 +83,19 @@ const DaysTemperatures = styled.div`
 const DayWrap = styled.div`
   display: flex;
   justify-content: center;
+  position: relative;
+  margin-left: 20px;
+  &::after {
+    content: "";
+    width: 1px;
+    height: 150px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: #cdcccc8a;
+  }
+  &:last-child::after {
+    display: none;
+  }
 `;
