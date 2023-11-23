@@ -38,33 +38,17 @@ const NewPost = () => {
 			const token = getTokenFromLocalStorage();
 
 			// 아래에 필요한 변수들을 선언하고 값을 지정해주세요.
-			const accountNonExpired = '';
-			const accountNonLocked = '';
-			const authorities = '';
-			const credentialsNonExpired = '';
-			const enabled = true;
-			const hashtags = ''; // 해시태그
+
 			const location = ''; // 위치 정보
 			const mediaFiles = []; // 미디어 파일 목록
-			const password = ''; // 비밀번호
-			const temperature = ''; // 온도
-			const username = ''; // 사용자명
 
 			await axios.post(
 				`${BASE_URL}/api/post`,
 				{
 					content,
-					accountNonExpired,
-					accountNonLocked,
-					authorities,
-					credentialsNonExpired,
-					enabled,
-					hashtags,
+
 					location,
 					mediaFiles,
-					password,
-					temperature,
-					username,
 				},
 				{
 					headers: {
@@ -97,7 +81,7 @@ const NewPost = () => {
 		// 토큰을 로컬 스토리지에 저장
 		localStorage.setItem(
 			'token',
-			'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDA1NzY0OTEsImV4cCI6MTcwMDU4MDA5MSwic3ViIjoidGVzdEBlbWFpbC5jb20iLCJpZCI6NX0.kaUn6n0lwNDANmZXXDVSoKbnnnnAGfHDlt17TCJIWbQ'
+			'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDA3MjAyOTAsImV4cCI6MTcwMDcyMzg5MCwic3ViIjoidGVzdEBlbWFpbC5jb20iLCJpZCI6MX0.CDvPEJueJJYL5uXA6aCTb7rozMYGuJpRL6nfust8vSY'
 		);
 
 		createPost(); // 컴포넌트가 마운트될 때 createPost 함수 호출
@@ -109,7 +93,7 @@ const NewPost = () => {
 				<TopWrap />
 				<ImageWrap />
 				<ContentWrap content={content} onContentChange={handleContentChange} />
-				<ButtonWrap onSave={handleSave} isEditing={isEditing} />
+				<ButtonWrap onSave={handleSave} />
 				{showModal && (
 					<Modal
 						message="저장하시겠습니까?"
