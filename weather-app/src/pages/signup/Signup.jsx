@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import styled from "styled-components";
 import weather from "../../assets/img/signup/weather.png";
 import devicon_google from "../../assets/img/login/devicon_google.png";
 import kakao from "../../assets/img/login/kakao.png";
 import Postcode from "../../components/login/Postcode";
 
-//유효성 검사, 비번확인, 미디어파일전송
+
 const Signup = () => {
   const [userInfo, setUserInfo] = useState({
     userName: "",
@@ -13,40 +14,80 @@ const Signup = () => {
     email: "",
     password: "",
     address: "",
-    message: "",
-    userImg: "",
-  });
+    message: "",})
+ 
+    const [zipCode, setZipcode] = useState("");
+    const [roadAddress, setRoadAddress] = useState("");
+    const [detailAddress, setDetailAddress] = useState("");  
 
+    const [file,setFile]= useState("")
+
+const handleChange = (e) => {
+    const { name, value} = e.target;
+    setUserInfo((prevUserInfo) => ({ ...prevUserInfo, [name]: value }));
+
+    if(e.target.files && e.target.files.length >0){
+      setFile(()=>e.target.files[0]);
+    }
+    
+  };
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+
+    try{
+
+      const form= new FormData(); 
+
+      form.append('request', JSON.stringify({ 
+        userName: userInfo.userName, 
+        password: userInfo.password,
+        nickName: userInfo.nickName,
+        email:userInfo.email,
+        address: `${zipCode} ${roadAddress} ${detailAddress}`,
+        message: userInfo.message}));
+      form.append('file', file,file.name);
+      
+    
+
+      const response = await axios.post('http://ec2-43-200-188-52.ap-northeast-2.compute.amazonaws.com:8080/api/signup',
+      form,
+      {headers: {"Content-Type" : 'multipart/form-data'}});
+
+   
+    if(response.status===200){
+      console.log('통신성공' , response);
+    } else {
+      console.log('통신실패', response);
+    }
+    
+    
+    }catch(err){
+      console.log('통신실패', err); 
+    }
+    
+  }; 
   
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserInfo((prevUserInfo) => ({ ...prevUserInfo, [name]: value }));
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("통신");
-  };
-
- 
-
+  console.log("useInfo입니다.",{userInfo,zipCode,roadAddress,detailAddress,file,key:file.name});
   return (
     <Container>
       <div className="cover-img">
-        <img src={weather} alt="login" height="100%" width="720px" />
+        <img src={weather} alt="signup" height="100%" width="720px" />
       </div>
       <div className="signup-container">
         <div className="signup-form">
           <h1>회원가입</h1>
-          <form onSubmit={handleSubmit}>
+         
             <div className="second-container">
               <label htmlFor="userName">이름</label>
               <input
                 type="text"
                 value={userInfo.userName}
                 name="userName"
-                id=""
+                id="text"
                 onChange={handleChange}
               />
 
@@ -54,8 +95,8 @@ const Signup = () => {
               <input
                 type="text"
                 value={userInfo.nickName}
-                name="userId"
-                id=""
+                name="nickName"
+                id="nickName"
                 onChange={handleChange}
               />
 
@@ -64,7 +105,7 @@ const Signup = () => {
                 type="text"
                 value={userInfo.email}
                 name="email"
-                id=""
+                id="email"
                 onChange={handleChange}
               />
               <label htmlFor="password">비밀번호</label>
@@ -72,18 +113,19 @@ const Signup = () => {
                 type="password"
                 value={userInfo.password}
                 name="password"
-                id=""
+                id="password"
                 onChange={handleChange}
               />
-              {/*다음 주소*/}
-              <Postcode />
+              
+              <Postcode zipCode={zipCode} setZipcode={setZipcode} roadAddress={roadAddress} setRoadAddress={setRoadAddress} detailAddress={detailAddress} setDetailAddress={setDetailAddress}/>
+              
               {/*일반주소
               <label htmlFor="address">주소 입력</label>
               <input
                 type="text"
                 value={userInfo.address}
                 name="address"
-                id=""
+                id="address"
                 onChange={handleChange}
                /> */}
               <label htmlFor="message">
@@ -93,20 +135,18 @@ const Signup = () => {
                 type="textarea"
                 value={userInfo.message}
                 name="message"
-                id=""
+                id="message"
                 onChange={handleChange}
               ></input>
               <input
                 type="file"
-                value={userInfo.userImg}
                 name="file"
-                id=""
+                multiple="multiple"
                 onChange={handleChange}
               ></input>
             </div>
-
-            <button>회원가입</button>
-          </form>
+          <button onClick={handleSubmit}>회원가입</button>
+          
           <div className="line-container">
             <div className="line">
               <hr className="line" />

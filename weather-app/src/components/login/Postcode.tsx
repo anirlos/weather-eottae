@@ -2,11 +2,11 @@ import React,{useState} from "react";
 import DaumPostcode from "react-daum-postcode";
 import Modal from "react-modal"; // 추가
 import styled from "styled-components";
+import axios from "axios";
 
-const Postcode: React.FC = () =>{
-    const [zipCode, setZipcode] = useState<string>("");
-    const [roadAddress, setRoadAddress] = useState<string>("");
-    const [detailAddress, setDetailAddress] = useState<string>("");    // 추가
+
+const Postcode: React.FC = ({zipCode,setZipcode,roadAddress,setRoadAddress,detailAddress,setDetailAddress}:any) =>{
+
     const [isOpen, setIsOpen] = useState<boolean>(false); //추가
 
     const completeHandler = (data:any) =>{
@@ -41,13 +41,15 @@ const Postcode: React.FC = () =>{
     }
 
     // 추가
-    const clickHandler = () =>{
-        if(detailAddress===""){
-            alert("상세주소를 입력해주세요.");
-        } else{
-            console.log(zipCode, roadAddress, detailAddress);
-        } 
-    }
+    const clickHandler = async () => {
+        if (detailAddress === "") {
+          alert("상세주소를 입력해주세요.");
+        } else {
+          console.log(zipCode,roadAddress,detailAddress )
+       
+      toggle();
+        }  
+      };
 
     return(
         <div>
