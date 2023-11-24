@@ -20,9 +20,9 @@ const ImageWrap = ({ onFilesChange }) => {
 			);
 
 			setFiles((prevFiles) => {
-				// 여기에서 'prevFiles'는 이전 파일 목록을 나타냅니다.
 				const updatedFiles = [...prevFiles, ...filesArray];
 				setCurrentFileIndex(prevFiles.length > 0 ? currentFileIndex : 0);
+				onFilesChange(updatedFiles); // 상위 컴포넌트에 파일 목록 전달
 				return updatedFiles;
 			});
 		}
@@ -41,7 +41,11 @@ const ImageWrap = ({ onFilesChange }) => {
 	// Clean up object URLs
 	useEffect(() => {
 		return () => {
-			files.forEach((file) => URL.revokeObjectURL(file.preview));
+			files.forEach((file) => {
+				if (file instanceof File) {
+					URL.revokeObjectURL(file);
+				}
+			});
 		};
 	}, [files]);
 

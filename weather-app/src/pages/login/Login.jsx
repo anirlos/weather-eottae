@@ -1,18 +1,48 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import login from '../../assets/img/login/login.png';
 import devicon_google from '../../assets/img/login/devicon_google.png';
 import kakao from '../../assets/img/login/kakao.png';
+import axios from 'axios';
 
 const Login = () => {
 	const [userId, setUserId] = useState('');
 	const [password, setPassword] = useState('');
+	const navigate = useNavigate();
 
-	const handleSubmit = (e) => {
+	const handleInputChange = (e) => {
+		if (e.target.name === 'userId') {
+			setUserId(e.target.value);
+		} else if (e.target.name === 'password') {
+			setPassword(e.target.value);
+		}
+	};
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(`id : ${userId}, password: ${password}`);
-		//서버에 요청. 여기에도 토큰을 담아서 요청? 서버에서 언제 토큰을 받고 또 로컬스토리지.셋아이템() 언제 어디에? 쓰는지?
+
+		try {
+			const response = await axios.post('http://43.200.188.52:8080/login', {
+				email: 'test@email.com',
+				password: 'password12@',
+			});
+			const accessToken = response.headers['authorization_access_token'];
+			const refreshToken = response.headers['authorization_refresh_token'];
+
+			if (accessToken && refreshToken) {
+				localStorage.setItem('access_token', accessToken);
+				localStorage.setItem('refresh_token', refreshToken);
+				axios.defaults.headers.common[
+					'Authorization'
+				] = `Bearer ${accessToken}`;
+				navigate('/');
+			} else {
+				console.log('토큰이 없습니다.');
+			}
+		} catch (error) {
+			console.error('로그인 에러:', error);
+		}
 	};
 
 	return (
@@ -20,40 +50,39 @@ const Login = () => {
 			<div className="cover-img">
 				<img src={login} alt="login" height="100%" width="720px" />
 			</div>
+
 			<div className="loginPage">
 				<div className="loginPage-content">
 					<h1>로그인</h1>
 					<p>오늘도 좋은 날이에요</p>
 					<div className="form-container">
-						<form onSubmit={handleSubmit}>
-							<div className="textfield-container">
-								<input
-									type="text"
-									value={userId}
-									name="id"
-									id=""
-									placeholder=" 아이디"
-									onChange={(e) => setUserId(e.target.value)}
-								/>
-								<input
-									type="password"
-									value={password}
-									name="password"
-									id=""
-									placeholder=" 비밀번호"
-									onChange={(e) => setPassword(e.target.value)}
-								/>
+						<div className="textfield-container">
+							<input
+								type="text"
+								value={userId}
+								name="id"
+								id=""
+								placeholder="아이디"
+								onChange={(e) => setUserId(e.target.value)}
+							/>
+							<input
+								type="password"
+								value={password}
+								name="password"
+								id=""
+								placeholder="비밀번호"
+								onChange={(e) => setPassword(e.target.value)}
+							/>
+						</div>
+						<div className="button-container">
+							<div className="checkbox">
+								<input type="checkbox" id="checkbox" />
+								로그인 정보 기억하기
 							</div>
-							<div className="button-container">
-								<div className="checkbox">
-									<input type="checkbox" id="checkbox" />
-									로그인 정보 기억하기
-								</div>
-								<div className="button">
-									<button>로그인</button>
-								</div>
+							<div className="button">
+								<button onClick={handleSubmit}>로그인</button>
 							</div>
-						</form>
+						</div>
 					</div>
 					<div className="password-container">
 						<p>비밀번호를 잊으셨나요?</p>

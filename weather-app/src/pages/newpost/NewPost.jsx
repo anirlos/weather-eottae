@@ -11,7 +11,8 @@ import createPostAPI from '../../api/createPostApi';
 
 const NewPost = () => {
 	const [content, setContent] = useState('');
-	const [files, setFiles] = useState([]);
+	const [files, setFiles] = useState([]); // 이미지 파일들
+	const [hashtags, setHashtags] = useState([]); // 해시태그들
 	const [showModal, setShowModal] = useState(false);
 	const navigate = useNavigate();
 
@@ -19,12 +20,12 @@ const NewPost = () => {
 		return localStorage.getItem('token');
 	};
 
-	const getPostIdFromLocalStorage = () => {
-		return localStorage.getItem('postId');
-	};
-
 	const handleContentChange = (newContent) => {
 		setContent(newContent);
+
+		// 해시태그 추출 로직
+		const extractedHashtags = newContent.match(/#[\p{L}]+/gu) || [];
+		setHashtags(extractedHashtags);
 	};
 
 	const handleFilesChange = (newFiles) => {
@@ -38,8 +39,7 @@ const NewPost = () => {
 	const handleConfirmSave = async () => {
 		try {
 			const token = getTokenFromLocalStorage();
-			const postId = getPostIdFromLocalStorage();
-			await createPostAPI(content, files, token, postId);
+			await createPostAPI(content, files, hashtags, token);
 			setShowModal(false);
 			navigate('/feed');
 		} catch (error) {
