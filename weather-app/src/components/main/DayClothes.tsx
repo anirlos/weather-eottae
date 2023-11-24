@@ -11,7 +11,7 @@ const DayClothes = () => {
       <div className="clothes__info">
         <img src={기온표} />
         <div>
-          <p className="weather-info">오늘의 평균 기온은 14°C 입니다</p>
+          <p className="weather-info">현재 기온은 14°C 입니다</p>
           <div className="clothes">
             <h2>추천의상</h2>
 
@@ -34,6 +34,7 @@ const DayClothesWrap = styled.div`
   background-color: white;
   border-radius: 10px;
   box-shadow: 2px 4px 10px 0 #dcdbdb;
+  text-align: center;
   .title {
     text-align: center;
     font-size: 24px;
@@ -48,6 +49,7 @@ const DayClothesWrap = styled.div`
   .clothes {
     text-align: center;
     border-radius: 10px;
+    width: 300px;
 
     box-shadow: 2px 4px 10px 0 #dcdbdb;
     h2 {

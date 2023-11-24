@@ -1,54 +1,38 @@
-// import axios from 'axios';
+import axios from 'axios';
 
-// const BASE_URL = 'http://43.200.188.52';
+const BASE_URL = 'http://43.200.188.52:8080';
 
-// const createPost = async ({
-// 	content,
-// 	accountNonExpired,
-// 	accountNonLocked,
-// 	authorities,
-// 	credentialsNonExpired,
-// 	enabled,
-// 	hashtags,
-// 	location,
-// 	mediaFiles,
-// 	password,
-// 	temperature,
-// 	username,
-// }) => {
-// 	try {
-// 		const response = await axios.post(
-// 			`${BASE_URL}/api/post`,
-// 			{
-// 				content,
-// 				accountNonExpired,
-// 				accountNonLocked,
-// 				authorities,
-// 				credentialsNonExpired,
-// 				enabled,
-// 				hashtags,
-// 				location,
-// 				mediaFiles,
-// 				password,
-// 				temperature,
-// 				username,
-// 			},
-// 			{
-// 				headers: {
-// 					Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDA1NzY0OTEsImV4cCI6MTcwMDU4MDA5MSwic3ViIjoidGVzdEBlbWFpbC5jb20iLCJpZCI6NX0.kaUn6n0lwNDANmZXXDVSoKbnnnnAGfHDlt17TCJIWbQ`,
-// 				},
-// 			}
-// 		);
-// 		console.log('Post created:', response.data);
-// 		// 성공적으로 게시물을 생성한 경우 실행할 코드를 여기에 추가
-// 		return response.data;
-// 	} catch (error) {
-// 		console.error('Failed to create post:', error);
-// 		// 오류 처리
-// 		throw new Error(
-// 			error.response ? error.response.data : 'Failed to create post'
-// 		);
-// 	}
-// };
+const createPostAPI = async (
+	content,
+	temperature,
+	location,
+	mediaFiles,
+	hashtags
+) => {
+	const formData = new FormData();
+	formData.append('content', content);
+	formData.append('temperature', temperature); // 온도 데이터 추가
+	formData.append('location', location); // 위치 데이터 추가
 
-// export default createPost;
+	mediaFiles.forEach((file) => formData.append('mediaFiles', file)); // mediaFiles 배열 처리
+
+	// 해시태그가 있는 경우 JSON 문자열로 변환하여 추가
+	if (hashtags && hashtags.length > 0) {
+		formData.append('hashtags', JSON.stringify(hashtags));
+	}
+
+	try {
+		const response = await axios.post(`${BASE_URL}/api/post`, formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+				// 실제 애플리케이션에서는 토큰을 안전하게 관리해야 합니다.
+				Authorization: `Bearer your_access_token`,
+			},
+		});
+		return response.data;
+	} catch (error) {
+		throw error;
+	}
+};
+
+export default createPostAPI;

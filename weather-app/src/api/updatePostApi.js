@@ -1,9 +1,9 @@
-const BASE_URL = 'https://example.com';
+const BASE_URL = 'http://43.200.188.52:8080';
 
 export const updatePost = async (id, content) => {
 	try {
-		const response = await fetch(`${BASE_URL}/posts/${id}`, {
-			method: 'PUT',
+		const response = await fetch(`${BASE_URL}/api/posts/${id}`, {
+			method: 'get',
 			headers: {
 				'Content-Type': 'application/json',
 			},

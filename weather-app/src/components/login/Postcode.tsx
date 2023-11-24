@@ -52,30 +52,30 @@ const Postcode: React.FC = ({zipCode,setZipcode,roadAddress,setRoadAddress,detai
       };
 
     return(
-        <div>
+        
             <Container>
                 <label htmlFor="address">주소</label> 
                 <div className="zip" >
-                    <input value={zipCode} className="zipcode" readOnly placeholder="우편번호" />
+                    <input className='zipcode'value={zipCode} readOnly placeholder="우편번호" />
                     <button className="custom" onClick={toggle}>우편번호 검색</button>
                 <br />
                 </div>
-            </Container>
-            <Container>
-                <input value={roadAddress} readOnly placeholder="도로명 주소" />
+           
+            
+                <input value={roadAddress} className="road" readOnly placeholder="도로명 주소" />
                 <br />
-            </Container>
+            
             <Modal isOpen={isOpen} ariaHideApp={false} style={customStyles}>
                 <DaumPostcode onComplete={completeHandler}/>
             </Modal>
             <Label>
-            <input type="text"  onChange={changeHandler} value={detailAddress} placeholder="상세주소"/>
+            <input type="text" className='detail'onChange={changeHandler} value={detailAddress} placeholder="상세주소"/>
             <br />
             <button className="custom-two" onClick={clickHandler}>주소 등록</button>
             </Label>
+            </Container>
             
-            
-        </div>
+        
     );
 }
 
@@ -84,21 +84,34 @@ export default Postcode;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  width: 415px;
   
-  input {
-   margin:10px;
   }
 
+  input{
+    margin:3px;
+  }
+  
+  
   .zip {
     display: flex;
     flex-direction: row;
     gap: 18px;
   }
   .zipcode {
+    margin:10px;
     width: 250px;
     margin: 10px;
   }
 
+  .road{
+    margin-left: 10px;
+  }
+  .detail {
+    width: 70%;
+    padding:0;
+    margin-bottom:5px;
+  }
 button {
     margin:  10px;
 }
@@ -109,13 +122,14 @@ const Label = styled.label`
 
   input {
     border: none;
-    padding: 0 15px;
+    padding: 0;
     height: 40px;
-    width: 406px;
+    width: 200px;
+    margin-bottom:5px;
   }
   button {
     position: absolute;
-    top: 0;
-    right: 5px;
+    top: 0px;
+    right: 20px;
   }
 `;

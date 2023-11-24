@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 import weather from "../../assets/img/signup/weather.png";
 import devicon_google from "../../assets/img/login/devicon_google.png";
 import kakao from "../../assets/img/login/kakao.png";
 import Postcode from "../../components/login/Postcode";
-
 
 const Signup = () => {
   const [userInfo, setUserInfo] = useState({
@@ -14,64 +14,98 @@ const Signup = () => {
     email: "",
     password: "",
     address: "",
-    message: "",})
- 
-    const [zipCode, setZipcode] = useState("");
-    const [roadAddress, setRoadAddress] = useState("");
-    const [detailAddress, setDetailAddress] = useState("");  
+    message: "",
+  });
 
-    const [file,setFile]= useState("")
+  const [zipCode, setZipcode] = useState("");
+  const [roadAddress, setRoadAddress] = useState("");
+  const [detailAddress, setDetailAddress] = useState("");
 
-const handleChange = (e) => {
-    const { name, value} = e.target;
+  const [file, setFile] = useState("");
+
+  const navigate = useNavigate();
+
+  const [passwordError, setPasswordError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setUserInfo((prevUserInfo) => ({ ...prevUserInfo, [name]: value }));
 
-    if(e.target.files && e.target.files.length >0){
-      setFile(()=>e.target.files[0]);
+    if (name === "password") {
+      // 비밀번호 유효성
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,}$/;
+
+      if (!passwordRegex.test(value)) {
+        setPasswordError(
+          "비밀번호는 9자 이상, 영문 소문자, 대문자, 숫자, 특수문자(@$!%*?&)를 포함해야합니다."
+        );
+      } else {
+        setPasswordError("");
+      }
     }
-    
+
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(() => e.target.files[0]);
+    }
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
 
-    try{
+    try {
+      const formData = new FormData();
 
-      const form= new FormData(); 
-
-      form.append('request', JSON.stringify({ 
-        userName: userInfo.userName, 
+      const jsonData = {
+        userName: userInfo.userName,
         password: userInfo.password,
         nickName: userInfo.nickName,
-        email:userInfo.email,
+        email: userInfo.email,
         address: `${zipCode} ${roadAddress} ${detailAddress}`,
-        message: userInfo.message}));
-      form.append('file', file,file.name);
-      
-    
+        message: userInfo.message,
+      };
 
-      const response = await axios.post('http://ec2-43-200-188-52.ap-northeast-2.compute.amazonaws.com:8080/api/signup',
-      form,
-      {headers: {"Content-Type" : 'multipart/form-data'}});
+      // JSON 데이터를 Blob으로 변환
+      const jsonBlob = new Blob([JSON.stringify(jsonData)], {
+        type: "application/json",
+      });
 
-   
-    if(response.status===200){
-      console.log('통신성공' , response);
-    } else {
-      console.log('통신실패', response);
+      // FormData에 Blob 추가
+      formData.append("request", jsonBlob);
+
+      formData.append("file", file, file.name);
+
+      const headers = {
+        "Content-Type": "multipart/form-data",
+        accept: "application/json",
+      };
+
+      const response = await axios.post(
+        "http://43.200.188.52:8080/api/signup",
+        formData,
+        { headers }
+      );
+
+      if (response.status === 200) {
+        console.log("통신 성공", response);
+        navigate("/");
+      } else {
+        console.log("통신 실패", response);
+      }
+    } catch (err) {
+      console.log("통신 실패", err);
     }
-    
-    
-    }catch(err){
-      console.log('통신실패', err); 
-    }
-    
-  }; 
-  
+  };
 
+  console.log("useInfo입니다.", {
+    userInfo,
+    zipCode,
+    roadAddress,
+    detailAddress,
+    file,
+    key: file.name,
+  });
 
-  console.log("useInfo입니다.",{userInfo,zipCode,roadAddress,detailAddress,file,key:file.name});
   return (
     <Container>
       <div className="cover-img">
@@ -80,46 +114,53 @@ const handleSubmit = async (e) => {
       <div className="signup-container">
         <div className="signup-form">
           <h1>회원가입</h1>
-         
-            <div className="second-container">
-              <label htmlFor="userName">이름</label>
-              <input
-                type="text"
-                value={userInfo.userName}
-                name="userName"
-                id="text"
-                onChange={handleChange}
-              />
 
-              <label htmlFor="userName">닉네임</label>
-              <input
-                type="text"
-                value={userInfo.nickName}
-                name="nickName"
-                id="nickName"
-                onChange={handleChange}
-              />
+          <div className="second-container">
+            <label htmlFor="userName">이름</label>
+            <input
+              type="text"
+              value={userInfo.userName}
+              name="userName"
+              id="text"
+              onChange={handleChange}
+            />
 
-              <label htmlFor="email">email</label>
-              <input
-                type="text"
-                value={userInfo.email}
-                name="email"
-                id="email"
-                onChange={handleChange}
-              />
-              <label htmlFor="password">비밀번호</label>
-              <input
-                type="password"
-                value={userInfo.password}
-                name="password"
-                id="password"
-                onChange={handleChange}
-              />
-              
-              <Postcode zipCode={zipCode} setZipcode={setZipcode} roadAddress={roadAddress} setRoadAddress={setRoadAddress} detailAddress={detailAddress} setDetailAddress={setDetailAddress}/>
-              
-              {/*일반주소
+            <label htmlFor="userName">닉네임</label>
+            <input
+              type="text"
+              value={userInfo.nickName}
+              name="nickName"
+              id="nickName"
+              onChange={handleChange}
+            />
+
+            <label htmlFor="email">email</label>
+            <input
+              type="text"
+              value={userInfo.email}
+              name="email"
+              id="email"
+              onChange={handleChange}
+            />
+            <label htmlFor="password">비밀번호</label>
+            <input
+              type="password"
+              value={userInfo.password}
+              name="password"
+              id="password"
+              onChange={handleChange}
+            />
+            {passwordError && <p style={{ color: "grey" }}>{passwordError}</p>}
+            <Postcode
+              zipCode={zipCode}
+              setZipcode={setZipcode}
+              roadAddress={roadAddress}
+              setRoadAddress={setRoadAddress}
+              detailAddress={detailAddress}
+              setDetailAddress={setDetailAddress}
+            />
+
+            {/*일반주소
               <label htmlFor="address">주소 입력</label>
               <input
                 type="text"
@@ -128,25 +169,26 @@ const handleSubmit = async (e) => {
                 id="address"
                 onChange={handleChange}
                /> */}
-              <label htmlFor="message">
-                회원들에게 보일 인삿말과 프로필사진을 등록해보세요
-              </label>
-              <input
-                type="textarea"
-                value={userInfo.message}
-                name="message"
-                id="message"
-                onChange={handleChange}
-              ></input>
-              <input
-                type="file"
-                name="file"
-                multiple="multiple"
-                onChange={handleChange}
-              ></input>
-            </div>
+
+            <label htmlFor="message" className="message-margin">
+              회원들에게 보일 인삿말과 프로필사진을 등록해보세요
+            </label>
+            <input
+              type="text"
+              value={userInfo.message}
+              name="message"
+              id="message"
+              onChange={handleChange}
+            ></input>
+            <input
+              type="file"
+              name="file"
+              multiple="multiple"
+              onChange={handleChange}
+            ></input>
+          </div>
           <button onClick={handleSubmit}>회원가입</button>
-          
+
           <div className="line-container">
             <div className="line">
               <hr className="line" />
@@ -212,27 +254,8 @@ const Container = styled.div`
     outline: none;
   }
 
-  input[type="textarea"] {
-    margin: 0 auto;
-    height: 80px;
-    width: 400px;
-    color: black;
-    border: 0.2px solid black;
-    border-radius: 10px;
-    outline: none;
-  }
-
-  input[type="textarea"] {
-    margin: 0 auto;
-    height: 80px;
-    width: 400px;
-    color: black;
-    border: 0.2px solid black;
-    border-radius: 10px;
-    outline: none;
-  }
-
   input[type="file"]::file-selector-button {
+    margin-top: 5px;
     width: 150px;
     height: 30px;
     background: #fff;
@@ -257,9 +280,9 @@ const Container = styled.div`
     border-radius: 10px;
     cursor: pointer;
     font-size: 18px;
-    margin: 0 auto;
   }
-  .custom, .custom-two {
+  .custom {
+    margin-top: 10px;
     background-color: black;
     color: white;
     width: 110px;
@@ -267,9 +290,20 @@ const Container = styled.div`
     border: 1px solid black;
     border-radius: none;
     font-size: 12px;
-
   }
 
+  .custom-two {
+    background-color: black;
+    color: white;
+    width: 110px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: none;
+    font-size: 12px;
+  }
+  .message-margin {
+    margin-top: 8px;
+  }
   .line-container {
     display: flex;
     flex-direction: column;
@@ -299,4 +333,3 @@ const Container = styled.div`
     }
   }
 `;
-
