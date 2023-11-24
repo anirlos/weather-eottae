@@ -9,22 +9,20 @@ import ErrorModal from "./ErrorModal";
 import HeartsModal from "./HeartsModal";
 
 interface FeedHeartsProps {
+  postId: number;
+  liked: boolean;
   heartCount: number;
-  postId: string;
 }
 
 const FeedHearts: FC<FeedHeartsProps> = ({
-  heartCount: initialHeartCount,
   postId,
+  liked,
+  heartCount: initialHeartCount,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const [isHeart, setIsHeart] = useState(liked);
+  const [heartCount, setHeartCount] = useState(initialHeartCount);
 
-  const heartCount =
-    useSelector((state: RootState) => state.likes[postId]) || initialHeartCount;
-
-  const [isHeart, setIsHeart] = useState(false);
-
-  const isLoggedIn = false; // 임시 로그인 상태 확인
+  const isLoggedIn = true; // 임시 로그인 상태 확인
 
   const [showErrorModal, setShowErrorModal] = useState(false); // 에러 모달 상태
   const [showHeartsModal, setShowHeartsModal] = useState(false); // 좋아요 유저 모달 상태
@@ -50,11 +48,29 @@ const FeedHearts: FC<FeedHeartsProps> = ({
       setShowErrorModal(true); // 로그인되지 않은 경우 에러 모달 표시
       return;
     }
+    const token =
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDA3NDAxODcsImV4cCI6MTcwMDc0Mzc4Nywic3ViIjoidGVzdEBlbWFpbC5jb20iLCJpZCI6MX0.qwcKaUf6z2_OU_Lv7PlR1c0TjKy-4Bq-LBP3tsWc3aI";
+    try {
+      const response = await axios.post(
+        `http://43.200.188.52:8080/api/post/${postId}/like`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    await dispatch(toggleLike({ postId, isLiked: isHeart }));
-    setIsHeart(!isHeart); // 좋아요 상태 토글
-    fetchHeartUsers(); // 모달에 표시될 유저 목록 다시 불러오기
-    console.log(heartCount);
+      if (response.status === 201) {
+        setIsHeart(true);
+        setHeartCount(heartCount + 1);
+      } else if (response.status === 204) {
+        setIsHeart(false);
+        setHeartCount(heartCount - 1);
+      }
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
   };
 
   const openModal = () => {
@@ -113,7 +129,7 @@ const HeartButton = styled.button`
   background-color: transparent;
   margin-right: 8px;
   padding: 0;
-  font-size: 20px;
+  font-size: 1.25rem;
   display: flex;
   :hover {
     opacity: 0.6;
@@ -129,7 +145,7 @@ const HeartsModalButton = styled.button`
   border: none;
   background-color: transparent;
   font-family: "Jua", sans-serif;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 20px;
   color: #4d4343;
   padding: 0;

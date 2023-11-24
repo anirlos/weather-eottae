@@ -66,14 +66,14 @@ const ModalHeader = styled.div`
   justify-content: center;
   border-radius: 5px 5px 0 0;
   p {
-    font-size: 20px;
+    font-size: 1.25rem;
     color: #fff;
   }
   button {
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 20px;
+    font-size: 1.25rem;
     color: #fff;
     border: none;
     background-color: transparent;
@@ -115,5 +115,5 @@ const UserInfo = styled.div`
 
 const StyledBsArrowRightSquareFill = styled(BsArrowRightSquareFill)`
   color: #5d6dbe;
-  font-size: 20px;
+  font-size: 1.25rem;
 `;

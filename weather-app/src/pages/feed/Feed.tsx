@@ -9,26 +9,48 @@ const Feed: FC = () => {
   const [posts, setPosts] = useState([]);
   const [userImg, setUserImg] = useState("");
 
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     let endpoint = "/api/feed/posts";
+  //     if (userId) {
+  //       endpoint = `/api/feed/posts/${userId}`;
+  //     } else if (tag) {
+  //       endpoint = `/api/feed/posts/hashtags/${tag}`;
+  //     }
+  //     const response = await axios.get(endpoint);
+
+  //     if (userId) {
+  //       setUserImg(response.data.userImg);
+  //       setPosts(response.data.userFeeds);
+  //     } else {
+  //       setPosts(response.data);
+  //     }
+  //   };
+
+  //   fetchPosts();
+  // }, [userId, tag]);
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      let endpoint = "/api/feed/posts";
-      if (userId) {
-        endpoint = `/api/feed/posts/${userId}`;
-      } else if (tag) {
-        endpoint = `/api/feed/posts/hashtags/${tag}`;
-      }
-      const response = await axios.get(endpoint);
+    let token = "";
+    if (token) {
+      token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDA3NDAxODcsImV4cCI6MTcwMDc0Mzc4Nywic3ViIjoidGVzdEBlbWFpbC5jb20iLCJpZCI6MX0.qwcKaUf6z2_OU_Lv7PlR1c0TjKy-4Bq-LBP3tsWc3aI";
+    }
 
-      if (userId) {
-        setUserImg(response.data.userImg);
-        setPosts(response.data.userFeeds);
-      } else {
-        setPosts(response.data);
-      }
-    };
+    axios
+      .get("http://43.200.188.52:8080/api/posts", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log("content:", res.data.content);
+        setPosts(res.data.content);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
-    fetchPosts();
-  }, [userId, tag]);
+  console.log("posts:", posts);
 
   return (
     <Container>
@@ -82,7 +104,7 @@ const UserContainer = styled.div`
     margin-right: 10px;
   }
   p {
-    font-size: 30px;
+    font-size: 1.875rem;
     color: #5d6dbe;
   }
   @media (max-width: 430px) {
@@ -92,7 +114,7 @@ const UserContainer = styled.div`
       margin-top: 10px;
     }
     p {
-      font-size: 20px;
+      font-size: 1.25rem;
       margin-top: 10px;
     }
   }
@@ -100,7 +122,7 @@ const UserContainer = styled.div`
 
 const Tag = styled.p`
   color: #5d6dbe;
-  font-size: 30px;
+  font-size: 1.875rem;
   margin: 10px 0;
   @media (max-width: 430px) {
     margin-top: 20px;

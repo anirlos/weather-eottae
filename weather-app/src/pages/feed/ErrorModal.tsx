@@ -39,13 +39,17 @@ const ModalContent = styled.div`
   border-radius: 10px;
   position: relative;
   padding: 20px 20px 40px;
+  @media (max-width: 430px) {
+    width: 70%;
+    margin: 0 auto;
+  }
 `;
 
 const CloseButton = styled.button`
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 20px;
+  font-size: 1.25rem;
   color: #000;
   border: none;
   background-color: transparent;
@@ -57,12 +61,12 @@ const ErrorMessage = styled.div`
   align-items: center;
   margin: 20px 0 30px;
   svg {
-    font-size: 50px;
+    font-size: 3.125rem;
     color: #5d6dbe;
   }
   p {
     margin-top: 15px;
-    font-size: 18px;
+    font-size: 1.125rem;
   }
 `;
 
@@ -75,7 +79,7 @@ const LinkContainer = styled.div`
     height: 45px;
     border-radius: 15px;
     text-align: center;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-family: "Jua", sans-serif;
   }
   .signup {

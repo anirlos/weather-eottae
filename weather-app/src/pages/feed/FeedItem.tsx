@@ -20,19 +20,20 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
   }
 
   const combinedTextLength =
-    post.text.length + post.tags.reduce((acc, tag) => acc + tag.length + 1, 0);
-  const showMoreButton = combinedTextLength > 20 || post.text.includes("\n");
+    post.content.length +
+    post.hashtagNames.reduce((acc, tag) => acc + tag.length + 1, 0);
+  const showMoreButton = combinedTextLength > 20 || post.content.includes("\n");
   const displayText =
     isExpanded || !showMoreButton
-      ? post.text
-      : `${post.text.substring(0, 20)}...`;
+      ? post.content
+      : `${post.content.substring(0, 20)}...`;
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const handleUserClick = (userId: string) => {
-    navigate(`/feed/${userId}`);
+  const handleUserClick = (userName: string) => {
+    navigate(`/feed/${userName}`);
   };
 
   const handleTagClick = (tag: string) => {
@@ -46,14 +47,14 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
         <FeedHeader>
           <img
             src={post.userImg}
-            alt={`${post.userId} 프로필 이미지`}
-            onClick={() => handleUserClick(post.userId)}
+            alt={`${post.userName} 프로필 이미지`}
+            onClick={() => handleUserClick(post.userName)}
           />
           <div>
             <div>
               <span
                 className="user"
-                onClick={() => handleUserClick(post.userId)}
+                onClick={() => handleUserClick(post.userName)}
               >
                 {post.userId}
               </span>
@@ -66,16 +67,24 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
           </div>
         </FeedHeader>
 
-        <FeedSlide imgs={post.imgs} />
+        {/* {post.mediaUrls && post.mediaUrls.length > 0 && (
+          <FeedSlide imgs={post.mediaUrls} />
+        )} */}
 
-        <FeedHearts heartCount={post.heartCount} postId={post.postId} />
+        <FeedSlide imgs={post.mediaUrls} />
+
+        <FeedHearts
+          liked={post.liked}
+          heartCount={post.likedCount}
+          postId={post.postId}
+        />
 
         <FeedBottom>
           <div className="feed-text">
             <p>{displayText}</p>
             {isExpanded && (
               <div className="feed-tags">
-                {post.tags.map((tag, index) => (
+                {post.hashtagNames.map((tag, index) => (
                   <Tag key={index} onClick={() => handleTagClick(tag)}>
                     {tag}
                   </Tag>
@@ -155,7 +164,7 @@ const FeedHeader = styled.div`
   div > div:last-child {
     margin-top: 4px;
     span {
-      font-size: 14px;
+      font-size: 0.875rem;
     }
   }
 `;

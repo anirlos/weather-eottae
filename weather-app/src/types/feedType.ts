@@ -1,4 +1,4 @@
-export interface Post {
+export interface Feed {
   userImg: string;
   userId: string;
   date: string;
@@ -14,4 +14,19 @@ export interface Post {
 export interface User {
   userImg: string;
   userId: string;
+}
+
+export interface Post {
+  postId: number;
+  userId: number;
+  userImg: string;
+  userName: string;
+  date: string;
+  location: string;
+  temperature: number;
+  mediaUrls: string[];
+  content: string;
+  liked: boolean;
+  likedCount: number;
+  hashtagNames: string[];
 }
