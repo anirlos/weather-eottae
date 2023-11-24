@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const ContentWrap = ({ onContentChange }) => {
+const ContentWrap = ({ onContentChange, onHashtagsChange }) => {
 	const [content, setContent] = useState(''); // 초기 상태 설정
 
 	const handleContentChange = (event) => {
-		setContent(event.target.value); // 입력 값으로 상태 업데이트
-		onContentChange(event.target.value);
+		const newValue = event.target.value;
+		setContent(newValue); // 입력 값으로 상태 업데이트
+		onContentChange(newValue);
+
+		// 해시태그 추출 로직
+		const hashtags = newValue.match(/#[\p{L}]+/gu) || [];
+		onHashtagsChange(hashtags);
 	};
 
 	return (
