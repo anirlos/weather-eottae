@@ -6,8 +6,8 @@ import ImageWrap from '../newpost/ImageWrap';
 import ContentWrap from '../newpost/ContentWrap';
 import ButtonWrap from '../newpost/ButtonWrap';
 import Modal from '../newpost/Modal';
-import { fetchPost } from './getPostApi';
-import { updatePost } from './updatePostApi';
+import { fetchPost } from '../../api/fetchPostApi';
+import { updatePost } from '../../api/updatePostApi';
 import { deletePost } from '../../api/deletePostApi';
 
 const EditPost = () => {
@@ -18,17 +18,6 @@ const EditPost = () => {
 
 	const { id } = useParams();
 	const navigate = useNavigate();
-
-	const postId = 1; // 가져올 더미 데이터의 ID를 지정
-	fetchPost(postId)
-		.then((data) => {
-			console.log('Fetched data:', data);
-			// 여기에서 데이터를 사용하거나 처리합니다.
-		})
-		.catch((error) => {
-			console.error('Error fetching post:', error);
-			// 오류 처리
-		});
 
 	useEffect(() => {
 		if (id) {
@@ -117,8 +106,12 @@ const EditPost = () => {
 export default EditPost;
 
 const Container = styled.div`
-	max-width: 600px;
 	width: 100%;
 	height: 100%;
-	margin: 0 auto;
+	max-width: 700px;
+	margin: 30px auto;
+	padding: 30px 0;
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 2px 4px 10px 0 #dcdbdb;
 `;
