@@ -47,6 +47,13 @@ export const MessageBubble = styled.div<MessageBubbleProps>`
     display: flex;
     justify-content: space-between; // 닉네임과 시간을 양 끝으로 분산 배치
     margin-bottom: 4px;
+
+    .nickname {
+      min-width: 100px;
+    }
+    .timestamp {
+      color: ${(props) => (props.own ? "#c8e7ff" : "#564592")};
+    }
   }
 
   .message {

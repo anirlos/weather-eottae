@@ -4,7 +4,7 @@ import { MessageInput } from "../../components/Chat/MessageInput";
 import { ChatViewContainer } from "./ChaView.styled";
 import ChatNotice from "../../components/Chat/ChatNotice";
 import socket from "../../api/socket";
-import { getUserNickname } from "../../api/userService"; // 경로 확인 필요
+import { getUserName } from "../../api/userNameApi";
 
 const ChatView = () => {
   const [userNick, setUserNick] = useState("");
@@ -12,18 +12,21 @@ const ChatView = () => {
   const [roomName, setRoomName] = useState("");
 
   useEffect(() => {
-    // 유저 닉네임 가져오기
-    const fetchAndSetUserNickname = async () => {
+    // 유저의 name을 가져오는 함수
+    const fetchAndSetUserName = async () => {
       try {
-        const nickname = await getUserNickname();
-        setUserNick(nickname);
+        const name = await getUserName();
+        setUserNick(name || "익명"); // name이 없는 경우 '익명'으로 처리
       } catch (error) {
-        console.error("유저 닉네임을 가져오지 못했습니다:", error);
+        console.error("유저 이름을 가져오지 못했습니다:", error);
         // 에러를 적절히 처리
+        setUserNick("에러 발생");
       }
     };
 
-    fetchAndSetUserNickname();
+    if (localStorage.getItem("access_token")) {
+      fetchAndSetUserName();
+    }
 
     // URL에서 쿼리 파라미터 추출 및 방 입장 로직
     const searchParams = new URLSearchParams(window.location.search);
