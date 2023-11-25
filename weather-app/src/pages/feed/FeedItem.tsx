@@ -23,8 +23,10 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
     post.content.length +
     post.hashtagNames.reduce((acc, tag) => acc + tag.length + 1, 0);
   const showMoreButton = combinedTextLength > 20 || post.content.includes("\n");
+  const shouldDisplayFullText =
+    combinedTextLength <= 20 && !post.content.includes("\n");
   const displayText =
-    isExpanded || !showMoreButton
+    isExpanded || shouldDisplayFullText
       ? post.content
       : `${post.content.substring(0, 20)}...`;
 
@@ -67,11 +69,9 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
           </div>
         </FeedHeader>
 
-        {/* {post.mediaUrls && post.mediaUrls.length > 0 && (
+        {post.mediaUrls && post.mediaUrls.length > 0 && (
           <FeedSlide imgs={post.mediaUrls} />
-        )} */}
-
-        <FeedSlide imgs={post.mediaUrls} />
+        )}
 
         <FeedHearts
           liked={post.liked}
@@ -82,15 +82,16 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
         <FeedBottom>
           <div className="feed-text">
             <p>{displayText}</p>
-            {isExpanded && (
-              <div className="feed-tags">
-                {post.hashtagNames.map((tag, index) => (
-                  <Tag key={index} onClick={() => handleTagClick(tag)}>
-                    {tag}
-                  </Tag>
-                ))}
-              </div>
-            )}
+            {(isExpanded || shouldDisplayFullText) &&
+              post.hashtagNames.length > 0 && (
+                <div className="feed-tags">
+                  {post.hashtagNames.map((tag, index) => (
+                    <Tag key={index} onClick={() => handleTagClick(tag)}>
+                      {tag}
+                    </Tag>
+                  ))}
+                </div>
+              )}
           </div>
           {showMoreButton && (
             <MoreButton onClick={toggleExpand}>

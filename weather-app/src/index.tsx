@@ -6,6 +6,9 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "./redux/store/store";
 import { Provider } from "react-redux";
 import { GlobalStyle } from "./styles/GlobalStyle";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 // mocking API 부분
 if (process.env.NODE_ENV === "development") {
@@ -17,14 +20,11 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  // <React.StrictMode>
-  //   <Root>
-  //     <App />
-  //   </Root>
-  // </React.StrictMode>
   <Provider store={store}>
     <GlobalStyle />
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
   </Provider>
 );
 

@@ -1,9 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import axios from "axios";
-import { toggleLike } from "../../redux/slice/heartSlice";
-import { AppDispatch, RootState } from "../../redux/store/store";
+import { toggleLike, fetchHeartUsers } from "../../api/feed";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import ErrorModal from "./ErrorModal";
 import HeartsModal from "./HeartsModal";
@@ -22,44 +19,24 @@ const FeedHearts: FC<FeedHeartsProps> = ({
   const [isHeart, setIsHeart] = useState(liked);
   const [heartCount, setHeartCount] = useState(initialHeartCount);
 
-  const isLoggedIn = true; // 임시 로그인 상태 확인
-
   const [showErrorModal, setShowErrorModal] = useState(false); // 에러 모달 상태
   const [showHeartsModal, setShowHeartsModal] = useState(false); // 좋아요 유저 모달 상태
 
   const [heartUsers, setHeartUsers] = useState([]);
-
-  const fetchHeartUsers = async () => {
-    try {
-      const response = await axios.get(`/api/feed/posts/${postId}/hearts`);
-      setHeartUsers(response.data.userList);
-    } catch (error) {
-      console.error("좋아요 유저 목록 가져오는 중 오류발생:", error);
-    }
-  };
 
   useEffect(() => {
     setIsHeart(heartCount > initialHeartCount);
   }, [heartCount, initialHeartCount]);
 
   const handleLike = async () => {
-    if (!isLoggedIn) {
-      document.body.style.overflowY = "hidden"; // 모달 열린 경우 전체 스크롤 방지
-      setShowErrorModal(true); // 로그인되지 않은 경우 에러 모달 표시
+    if (!localStorage.getItem("access_token")) {
+      document.body.style.overflowY = "hidden";
+      setShowErrorModal(true);
       return;
     }
-    const token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDA3NDAxODcsImV4cCI6MTcwMDc0Mzc4Nywic3ViIjoidGVzdEBlbWFpbC5jb20iLCJpZCI6MX0.qwcKaUf6z2_OU_Lv7PlR1c0TjKy-4Bq-LBP3tsWc3aI";
+
     try {
-      const response = await axios.post(
-        `http://43.200.188.52:8080/api/post/${postId}/like`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await toggleLike(postId);
 
       if (response.status === 201) {
         setIsHeart(true);
@@ -73,10 +50,11 @@ const FeedHearts: FC<FeedHeartsProps> = ({
     }
   };
 
-  const openModal = () => {
+  const openModal = async () => {
     if (heartCount > 0) {
-      document.body.style.overflowY = "hidden"; // 모달 닫힌 경우 전체 스크롤 되돌리기
-      fetchHeartUsers();
+      document.body.style.overflowY = "hidden";
+      const users = await fetchHeartUsers(postId);
+      setHeartUsers(users);
       setShowHeartsModal(true);
     }
   };
@@ -89,6 +67,8 @@ const FeedHearts: FC<FeedHeartsProps> = ({
       setShowHeartsModal(false);
     }
   };
+
+  console.log(isHeart);
 
   return (
     <HeartContainer>

@@ -27,13 +27,13 @@ const HeartsModal: FC<HeartsModalProps> = ({ heartUsers, onClose }) => {
         <UserList>
           {heartUsers.map((user, index) => (
             <UserItem key={index}>
-              <div onClick={() => handleUserClick(user.userId)}>
+              <div onClick={() => handleUserClick(user.name)}>
                 <UserInfo>
                   <img
-                    src={user.userImg}
-                    alt={`${user.userId}' 프로필 이미지`}
+                    src={user.imageUrl}
+                    alt={`${user.name}' 프로필 이미지`}
                   />
-                  <p>{user.userId}</p>
+                  <p>{user.name}</p>
                 </UserInfo>
                 <StyledBsArrowRightSquareFill />
               </div>

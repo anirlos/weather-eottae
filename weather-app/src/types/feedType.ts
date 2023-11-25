@@ -12,8 +12,10 @@ export interface Feed {
 }
 
 export interface User {
-  userImg: string;
-  userId: string;
+  memberId: number;
+  name: string;
+  imageUrl: string;
+  nickName: string;
 }
 
 export interface Post {
@@ -29,4 +31,11 @@ export interface Post {
   liked: boolean;
   likedCount: number;
   hashtagNames: string[];
+}
+
+export interface Likers {
+  memberId: number;
+  name: string;
+  imageUrl: string;
+  nickName: string;
 }

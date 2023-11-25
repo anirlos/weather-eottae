@@ -2,11 +2,14 @@ import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
+import { useInfinite } from "../../hooks/useInfinite";
+import useIntersect from "./../../hooks/useIntersect";
 import FeedList from "./FeedList";
+import Loading from "../../components/loading/Loading";
 
 const Feed: FC = () => {
   const { userId, tag } = useParams<{ userId?: string; tag?: string }>();
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
   const [userImg, setUserImg] = useState("");
 
   // useEffect(() => {
@@ -30,30 +33,61 @@ const Feed: FC = () => {
   //   fetchPosts();
   // }, [userId, tag]);
 
-  useEffect(() => {
-    let token = "";
-    if (token) {
-      token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDA3NDAxODcsImV4cCI6MTcwMDc0Mzc4Nywic3ViIjoidGVzdEBlbWFpbC5jb20iLCJpZCI6MX0.qwcKaUf6z2_OU_Lv7PlR1c0TjKy-4Bq-LBP3tsWc3aI";
-    }
+  // useEffect(() => {
+  //   const token = localStorage.getItem("access_token");
+  //   console.log(token);
+  //   axios
+  //     .get("http://43.200.188.52:8080/api/posts", {
+  //       headers: {
+  //         Authorization: `${token}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log("content:", res.data.content);
+  //       setPosts(res.data.content);
+  //     })
+  //     .catch((error) => console.error(error));
+  // }, []);
 
-    axios
-      .get("http://43.200.188.52:8080/api/posts", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log("content:", res.data.content);
-        setPosts(res.data.content);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+  const {
+    isPending,
+    error,
+    data,
+    isFetchingPreviousPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfinite();
+
+  const onIntersect = (
+    entry: IntersectionObserverEntry,
+    observer: IntersectionObserver
+  ) => {
+    if (entry.isIntersecting && hasNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const ref = useIntersect(onIntersect);
+
+  if (isPending) return <Loading />;
+  if (error)
+    return (
+      <ErrorContent>
+        <p>게시물을 불러오던 중 오류가 발생했습니다</p>
+      </ErrorContent>
+    );
+
+  const posts = data?.pages.flatMap((page) => page.content) || [];
 
   console.log("posts:", posts);
 
   return (
     <Container>
+      {posts.length <= 0 && (
+        <ErrorContent>
+          <p>등록된 게시물이 없습니다</p>
+        </ErrorContent>
+      )}
       <FilteredContent>
         {userId && (
           <UserContainer>
@@ -65,6 +99,12 @@ const Feed: FC = () => {
       </FilteredContent>
 
       <FeedList posts={posts} />
+      {isFetchingPreviousPage ? (
+        <p>로딩중...</p>
+      ) : !hasNextPage ? (
+        <p>게시물이 더 이상 존재하지 않습니다.</p>
+      ) : null}
+      <div ref={ref} />
     </Container>
   );
 };
@@ -79,6 +119,15 @@ const Container = styled.div`
     background-color: #fff;
     padding-top: 70px;
   }
+`;
+
+const ErrorContent = styled.div`
+  width: 100%;
+  height: calc(100vh - 150px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
 `;
 
 const FilteredContent = styled.div`
