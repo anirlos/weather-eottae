@@ -50,7 +50,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ isOpen, onClose, onSave }) => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await axios.get("/api/user/info"); // API 경로는 예시
+        const response = await axios.get("/api/user"); // API 경로는 예시
         setEmail(response.data.email);
       } catch (error) {
         console.error("UserInfo 가져오기 실패", error);

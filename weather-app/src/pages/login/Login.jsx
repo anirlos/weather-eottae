@@ -12,7 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    if (e.target.name === "userId") {
+    if (e.target.name === "email") {
       setUserId(e.target.value);
     } else if (e.target.name === "password") {
       setPassword(e.target.value);
@@ -60,18 +60,17 @@ const Login = () => {
               <input
                 type="text"
                 value={userId}
-                name="id"
+                name="email"
                 id=""
-                placeholder="아이디"
-                onChange={(e) => setUserId(e.target.value)}
+                placeholder="이메일"
+                onChange={handleInputChange}
               />
               <input
                 type="password"
                 value={password}
                 name="password"
-                id=""
                 placeholder="비밀번호"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleInputChange}
               />
             </div>
             <div className="button-container">

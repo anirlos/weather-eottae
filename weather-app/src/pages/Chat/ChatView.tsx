@@ -4,44 +4,54 @@ import { MessageInput } from "../../components/Chat/MessageInput";
 import { ChatViewContainer } from "./ChaView.styled";
 import ChatNotice from "../../components/Chat/ChatNotice";
 import socket from "../../api/socket";
+import { getUserName } from "../../api/userNameApi";
 
 const ChatView = () => {
-  const [userNick, setUserNick] = useState("닉네임입력");
-
-  // URL에서 쿼리 파라미터 추출
+  const [userNick, setUserNick] = useState("");
   const [roomCode, setRoomCode] = useState("");
   const [roomName, setRoomName] = useState("");
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    setRoomCode(searchParams.get("room_code") || "");
-    setRoomName(searchParams.get("room_name") || "");
+    // 유저의 name을 가져오는 함수
+    const fetchAndSetUserName = async () => {
+      try {
+        const name = await getUserName();
+        setUserNick(name || "익명"); // name이 없는 경우 '익명'으로 처리
+      } catch (error) {
+        console.error("유저 이름을 가져오지 못했습니다:", error);
+        // 에러를 적절히 처리
+        setUserNick("에러 발생");
+      }
+    };
 
-    // 방 입장
-    if (roomCode) {
-      socket.emit("join", roomCode);
+    if (localStorage.getItem("access_token")) {
+      fetchAndSetUserName();
+    }
+
+    // URL에서 쿼리 파라미터 추출 및 방 입장 로직
+    const searchParams = new URLSearchParams(window.location.search);
+    const newRoomCode = searchParams.get("room_code") || "";
+    const newRoomName = searchParams.get("room_name") || "";
+    setRoomCode(newRoomCode);
+    setRoomName(newRoomName);
+
+    if (newRoomCode) {
+      socket.emit("join", newRoomCode);
     }
 
     // 컴포넌트 언마운트 시 실행될 클린업 함수
     return () => {
-      if (roomCode) {
-        socket.emit("leave", roomCode); // 퇴장시 서버에 알림
+      if (newRoomCode) {
+        socket.emit("leave", newRoomCode); // 방 퇴장 시 서버에 알림
       }
     };
-  }, [roomCode]); // roomCode가 변경될 때만 실행
-
-  // 사용자가 닉네임을 입력할 때 호출되는 함수
-  const handleNickChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserNick(event.target.value);
-  };
+  }, []); // 의존성 배열을 비워 컴포넌트 마운트 시에만 실행
 
   return (
     <ChatViewContainer>
       <ChatNotice />
-      <input type="text" value={userNick} onChange={handleNickChange} />
       <MessageInput nick={userNick} roomCode={roomCode} roomName={roomName} />
       <ChatRoom currentUserNick={userNick} />
-      {/* currentUserNick prop을 전달 */}
     </ChatViewContainer>
   );
 };
