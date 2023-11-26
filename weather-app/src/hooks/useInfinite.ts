@@ -1,10 +1,23 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getPosts } from "../api/feed";
+import { getPosts, getUserPosts, getTagPosts } from "../api/feed";
 
-export const useInfinite = () => {
+export const useInfinite = (userEmail?: string, tag?: string) => {
   return useInfiniteQuery({
-    queryKey: ["posts"],
-    queryFn: ({ pageParam = 0 }) => getPosts({ page: pageParam, size: 10 }),
+    queryKey: userEmail
+      ? ["userPosts", userEmail]
+      : tag
+      ? ["taggedPosts", tag]
+      : ["posts"],
+
+    queryFn: ({ pageParam = 0 }) => {
+      if (userEmail) {
+        return getUserPosts(userEmail, { page: pageParam, size: 10 });
+      } else if (tag) {
+        return getTagPosts(tag, { page: pageParam, size: 10 });
+      } else {
+        return getPosts({ page: pageParam, size: 10 });
+      }
+    },
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.last) return undefined;

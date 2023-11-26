@@ -34,8 +34,9 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
     setIsExpanded(!isExpanded);
   };
 
-  const handleUserClick = (userName: string) => {
-    navigate(`/feed/${userName}`);
+  const handleUserClick = (userEmail: string) => {
+    navigate(`/feed/${userEmail}`);
+    console.log("Navigated to:", `/feed/${userEmail}`);
   };
 
   const handleTagClick = (tag: string) => {
@@ -49,16 +50,16 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
         <FeedHeader>
           <img
             src={post.userImg}
-            alt={`${post.userName} 프로필 이미지`}
-            onClick={() => handleUserClick(post.userName)}
+            alt={`${post.nickName} 프로필 이미지`}
+            onClick={() => handleUserClick(post.userEmail)}
           />
           <div>
             <div>
               <span
                 className="user"
-                onClick={() => handleUserClick(post.userName)}
+                onClick={() => handleUserClick(post.userEmail)}
               >
-                {post.userId}
+                {post.nickName}
               </span>
               <span className="date">{formatDate(post.date)}</span>
             </div>
@@ -87,7 +88,7 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
                 <div className="feed-tags">
                   {post.hashtagNames.map((tag, index) => (
                     <Tag key={index} onClick={() => handleTagClick(tag)}>
-                      {tag}
+                      #{tag}
                     </Tag>
                   ))}
                 </div>
@@ -171,12 +172,18 @@ const FeedHeader = styled.div`
 `;
 
 const FeedBottom = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: start;
+  word-break: break-all;
   .feed-text {
     display: inline-block;
     text-align: left;
+    p {
+      /* white-space: pre-wrap; */
+      white-space: pre-line;
+    }
   }
   .feed-tags {
     margin-top: 10px;

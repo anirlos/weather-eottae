@@ -13,8 +13,8 @@ interface HeartsModalProps {
 const HeartsModal: FC<HeartsModalProps> = ({ heartUsers, onClose }) => {
   const navigate = useNavigate();
 
-  const handleUserClick = (userId: string) => {
-    navigate(`/feed/${userId}`);
+  const handleUserClick = (userEmail: string) => {
+    navigate(`/feed/${userEmail}`);
   };
 
   return (
@@ -27,13 +27,13 @@ const HeartsModal: FC<HeartsModalProps> = ({ heartUsers, onClose }) => {
         <UserList>
           {heartUsers.map((user, index) => (
             <UserItem key={index}>
-              <div onClick={() => handleUserClick(user.name)}>
+              <div onClick={() => handleUserClick(user.email)}>
                 <UserInfo>
                   <img
                     src={user.imageUrl}
-                    alt={`${user.name}' 프로필 이미지`}
+                    alt={`${user.nickName}' 프로필 이미지`}
                   />
-                  <p>{user.name}</p>
+                  <p>{user.nickName}</p>
                 </UserInfo>
                 <StyledBsArrowRightSquareFill />
               </div>

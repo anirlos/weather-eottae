@@ -1,53 +1,18 @@
 import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useInfinite } from "../../hooks/useInfinite";
 import useIntersect from "./../../hooks/useIntersect";
 import FeedList from "./FeedList";
 import Loading from "../../components/loading/Loading";
 
 const Feed: FC = () => {
-  const { userId, tag } = useParams<{ userId?: string; tag?: string }>();
-  // const [posts, setPosts] = useState([]);
-  const [userImg, setUserImg] = useState("");
+  const { userEmail, tag } = useParams<{ userEmail?: string; tag?: string }>();
 
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     let endpoint = "/api/feed/posts";
-  //     if (userId) {
-  //       endpoint = `/api/feed/posts/${userId}`;
-  //     } else if (tag) {
-  //       endpoint = `/api/feed/posts/hashtags/${tag}`;
-  //     }
-  //     const response = await axios.get(endpoint);
-
-  //     if (userId) {
-  //       setUserImg(response.data.userImg);
-  //       setPosts(response.data.userFeeds);
-  //     } else {
-  //       setPosts(response.data);
-  //     }
-  //   };
-
-  //   fetchPosts();
-  // }, [userId, tag]);
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("access_token");
-  //   console.log(token);
-  //   axios
-  //     .get("http://43.200.188.52:8080/api/posts", {
-  //       headers: {
-  //         Authorization: `${token}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       console.log("content:", res.data.content);
-  //       setPosts(res.data.content);
-  //     })
-  //     .catch((error) => console.error(error));
-  // }, []);
+  const [userProfile, setUserProfile] = useState({
+    imageUrl: "",
+    nickName: "",
+  });
 
   const {
     isPending,
@@ -56,7 +21,7 @@ const Feed: FC = () => {
     isFetchingPreviousPage,
     fetchNextPage,
     hasNextPage,
-  } = useInfinite();
+  } = useInfinite(userEmail, tag);
 
   const onIntersect = (
     entry: IntersectionObserverEntry,
@@ -69,6 +34,16 @@ const Feed: FC = () => {
 
   const ref = useIntersect(onIntersect);
 
+  useEffect(() => {
+    if (userEmail && data?.pages[0]?.memberId) {
+      const userData = data.pages[0];
+      setUserProfile({
+        imageUrl: userData.imageUrl,
+        nickName: userData.nickName,
+      });
+    }
+  }, [data, userEmail]);
+
   if (isPending) return <Loading />;
   if (error)
     return (
@@ -77,33 +52,45 @@ const Feed: FC = () => {
       </ErrorContent>
     );
 
-  const posts = data?.pages.flatMap((page) => page.content) || [];
+  const posts = userEmail
+    ? data?.pages.flatMap((page) => page.postResponseDtos) || []
+    : data?.pages.flatMap((page) => page.content) || [];
 
   console.log("posts:", posts);
 
   return (
     <Container>
-      {posts.length <= 0 && (
-        <ErrorContent>
-          <p>등록된 게시물이 없습니다</p>
-        </ErrorContent>
-      )}
       <FilteredContent>
-        {userId && (
+        {userEmail && (
           <UserContainer>
-            <img src={userImg} alt={`${userId} 프로필 이미지`} />
-            <p>{userId}</p>
+            <img
+              src={userProfile.imageUrl}
+              alt={`${userEmail} 프로필 이미지`}
+            />
+            <p>{userProfile.nickName}</p>
           </UserContainer>
         )}
         {tag && <Tag>#{tag}</Tag>}
       </FilteredContent>
 
+      {posts.length <= 0 && (
+        <ErrorContent>
+          <p>등록된 게시물이 없습니다</p>
+        </ErrorContent>
+      )}
+
       <FeedList posts={posts} />
-      {isFetchingPreviousPage ? (
-        <p>로딩중...</p>
-      ) : !hasNextPage ? (
-        <p>게시물이 더 이상 존재하지 않습니다.</p>
-      ) : null}
+
+      <LoadingMessage>
+        {isFetchingPreviousPage ? (
+          <Loader>
+            <span></span>
+            <span></span>
+            <span></span>
+          </Loader>
+        ) : null}
+      </LoadingMessage>
+
       <div ref={ref} />
     </Container>
   );
@@ -175,5 +162,44 @@ const Tag = styled.p`
   margin: 10px 0;
   @media (max-width: 430px) {
     margin-top: 20px;
+  }
+`;
+
+const LoadingMessage = styled.div`
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const loadingCircle = keyframes`
+  0%, 100%{
+    opacity: 0;
+  }
+  60%{
+    opacity: 1;
+  }
+`;
+
+const Loader = styled.div`
+  span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: #5d6dbe;
+    margin-right: 10px;
+    opacity: 0;
+    &:nth-child(1) {
+      animation: ${loadingCircle} 1s ease-in-out infinite;
+    }
+    &:nth-child(2) {
+      animation: ${loadingCircle} 1s ease-in-out 0.33s infinite;
+    }
+    &:nth-child(3) {
+      animation: ${loadingCircle} 1s ease-in-out 0.66s infinite;
+      margin-right: 0;
+    }
   }
 `;
