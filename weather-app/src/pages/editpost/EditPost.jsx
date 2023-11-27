@@ -11,83 +11,105 @@ import { updatePost } from '../../api/updatePostApi';
 import { deletePost } from '../../api/deletePostApi';
 
 const EditPost = () => {
-	const [content, setContent] = useState('');
-	const [showModal, setShowModal] = useState(false);
-	const [showDeleteModal, setShowDeleteModal] = useState(false);
-	const [isEditing, setIsEditing] = useState(true);
-
-	const { id } = useParams();
+	const { postId } = useParams(); // 게시물 ID를 가져옵니다.
 	const navigate = useNavigate();
 
+	// 상태 변수들
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [showModal, setShowModal] = useState(false);
+	const [content, setContent] = useState('');
+	const [files, setFiles] = useState([]); // 이미지 파일들
+	const [hashtags, setHashtags] = useState('');
+	const [temperature, setTemperature] = useState(''); // 온도
+	const [location, setLocation] = useState(''); // 위치
+
 	useEffect(() => {
-		if (id) {
-			fetchPost(id)
-				.then((data) => {
-					setContent(data.content);
-				})
-				.catch((error) => {
-					console.error(error);
-					// 에러 처리
-				});
-		}
-	}, [id]);
+		const loadPost = async () => {
+			try {
+				// URL 경로의 파라미터로부터 postId를 가져옵니다.
+				const postData = await fetchPost(postId);
+				setContent(postData.content);
+				setFiles(postData.files);
+				setHashtags(postData.hashtags);
+				setTemperature(postData.temperature);
+				setLocation(postData.location);
+			} catch (error) {
+				console.error('Failed to fetch post:', error);
+			}
+		};
 
-	const handleContentChange = (newContent) => {
-		setContent(newContent);
-		setIsEditing(true);
-	};
+		loadPost();
+	}, [postId]);
 
-	const handleSave = () => {
-		setShowModal(true); // 수정 확인 모달 표시
-	};
+	const handleContentChange = (e) => setContent(e.target.value);
+	const handleHashtagsChange = (e) => setHashtags(e.target.value);
+	const handleFilesChange = (newFiles) => setFiles(newFiles);
+	const handleLocationChange = (newLocation) => setLocation(newLocation);
+	const handleWeatherUpdate = (newTemperature) =>
+		setTemperature(newTemperature);
+
+	const handleSave = () => setShowModal(true);
+	const handleCancelSave = () => setShowModal(false);
+	const handleDelete = () => setShowDeleteModal(true);
 
 	const handleConfirmSave = async () => {
 		try {
-			await updatePost(id, { content });
-			navigate('/'); // 홈으로 리디렉션
+			const token = localStorage.getItem('access_token');
+			await updatePost(
+				postId,
+				{
+					content,
+					temperature,
+					location,
+					files,
+					hashtags,
+				},
+				token
+			); // token을 별도의 매개변수로 전달
+			setShowModal(false);
+			navigate('/feed');
 		} catch (error) {
-			console.error(error);
-			// 에러 처리
+			console.error('Failed to update post:', error);
 		}
-	};
-
-	const handleDelete = () => {
-		setShowDeleteModal(true); // 삭제 확인 모달 표시
 	};
 
 	const handleConfirmDelete = async () => {
 		try {
-			await deletePost(id); // 포스트 삭제
-			navigate('/'); // 홈으로 리디렉션
+			await deletePost(postId);
+			setShowDeleteModal(false);
+			navigate('/feed');
 		} catch (error) {
-			console.error(error);
-			// 에러 처리
+			console.error('Failed to delete post:', error);
 		}
 	};
 
 	const handleCancel = () => {
-		setIsEditing(false);
 		setShowModal(false);
-		setShowDeleteModal(false); // 모달을 닫을 때 showDeleteModal도 닫아야 합니다.
+		setShowDeleteModal(false);
 	};
 
 	return (
 		<Container>
-			<TopWrap />
-			<ImageWrap />
-			<ContentWrap content={content} onContentChange={handleContentChange} />
-			{/* <PlaceWrap /> */}
+			<TopWrap
+				onLocationUpdate={handleLocationChange}
+				onTemperatureChange={handleWeatherUpdate}
+			/>
+			<ImageWrap onFilesChange={handleFilesChange} />
+			<ContentWrap
+				content={content}
+				onContentChange={handleContentChange}
+				onHashtagsChange={handleHashtagsChange}
+			/>
 			<ButtonWrap
 				onSave={handleSave}
 				onDelete={handleDelete}
 				onCancel={handleCancel}
-				isEditing={isEditing}
 			/>
 
 			{showDeleteModal && (
 				<Modal
 					message="삭제하시겠습니까?"
-					onConfirm={handleConfirmDelete} // 삭제 확인 모달에서 삭제 버튼 클릭 시
+					onConfirm={handleConfirmDelete}
 					onCancel={handleCancel}
 				/>
 			)}
@@ -95,8 +117,8 @@ const EditPost = () => {
 			{showModal && (
 				<Modal
 					message="수정을 저장하시겠습니까?"
-					onConfirm={handleConfirmSave} // 수정 확인 모달에서 저장 버튼 클릭 시
-					onCancel={handleCancel}
+					onConfirm={handleConfirmSave}
+					onCancel={handleCancelSave}
 				/>
 			)}
 		</Container>
