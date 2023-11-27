@@ -26,6 +26,11 @@ const FeedSlide: FC<ImgsProps> = ({ imgs }) => {
         pagination={{ clickable: true }}
         navigation={true}
         modules={[Pagination, Navigation]}
+        onInit={(swiper: any) => {
+          if (!!swiper.navigation) {
+            swiper.navigation.destroy();
+          }
+        }}
       >
         {imgs?.map((img, index) => (
           <SwiperSlide key={index}>
