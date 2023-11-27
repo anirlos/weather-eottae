@@ -20,7 +20,6 @@ const Header = () => {
 					<span>
 						<img src={region} />
 						<LocationComponent />
-						<WeatherComponent />
 						<CoordinatesComponent />
 					</span>
 				</RegionInfo>

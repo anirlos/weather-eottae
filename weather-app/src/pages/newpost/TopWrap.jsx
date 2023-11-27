@@ -6,11 +6,19 @@ import { MdPlace } from 'react-icons/md';
 import LocationComponent from '../../components/location/Location';
 import WeatherComponent from '../../components/weather/Weather';
 
-const TopWrap = () => {
+const TopWrap = ({ onTemperatureChange, onLocationUpdate }) => {
 	const navigate = useNavigate();
 
 	const handleBack = () => {
 		navigate(-1); // 이전 페이지로 이동
+	};
+
+	const handleWeatherUpdate = (temperature) => {
+		onTemperatureChange(temperature); // 날씨 데이터를 NewPost로 전달
+	};
+
+	const handleLocationUpdate = (locationData) => {
+		onLocationUpdate(locationData);
 	};
 
 	const date = new Date();
@@ -31,9 +39,9 @@ const TopWrap = () => {
 			<Bottom>
 				<Place>
 					<MdPlace color="#5d6dbe" />
-					<LocationComponent />
+					<LocationComponent onLocationUpdate={handleLocationUpdate} />
 					&nbsp;
-					<WeatherComponent />
+					<WeatherComponent onWeatherUpdate={handleWeatherUpdate} />
 				</Place>
 				{/* <Temperature>19°C</Temperature> */}
 				<DateInfo>

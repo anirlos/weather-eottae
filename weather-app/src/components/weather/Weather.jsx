@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const WeatherComponent = () => {
+const WeatherComponent = ({ onWeatherUpdate }) => {
 	const [location, setLocation] = useState({
 		loaded: false,
 		coordinates: { lat: '', lng: '' },
@@ -63,12 +63,11 @@ const WeatherComponent = () => {
 			// API 응답에서 온도 정보 추출
 			const items = response.data.response.body.items.item;
 			const temperatureItem = items.find((item) => item.category === 'T1H'); // 온도 정보 카테고리
-			const temperature = temperatureItem.obsrValue; // 온도 값
-
+			const temperature = temperatureItem ? temperatureItem.obsrValue : -9999.0; // 온도 정보가 없을 경우 -9999.0 반환
 			return temperature;
 		} catch (error) {
 			console.error('Error fetching weather info:', error);
-			return 'error';
+			return -9999.0; // 에러 발생 시 -9999.0 반환
 		}
 	};
 
@@ -76,23 +75,17 @@ const WeatherComponent = () => {
 		const { latitude, longitude } = position.coords;
 		const state = await getState(latitude, longitude);
 		const temperature = await getWeatherInfo(latitude, longitude);
-
 		setLocation({
 			loaded: true,
-			coordinates: {
-				lat: latitude,
-				lng: longitude,
-			},
+			coordinates: { lat: latitude, lng: longitude },
 			state,
 			temperature,
 		});
+		onWeatherUpdate(temperature);
 	};
-
 	const onError = (error) => {
-		setLocation({
-			loaded: true,
-			error,
-		});
+		setLocation({ loaded: true, error });
+		onWeatherUpdate(-9999.0); // 에러 발생 시 -9999.0 전달
 	};
 
 	useEffect(() => {
@@ -110,7 +103,11 @@ const WeatherComponent = () => {
 		<div>
 			{location.loaded ? (
 				<div>
-					<p>{location.temperature}°C</p>
+					<p>
+						{location.temperature !== -9999.0
+							? `${location.temperature}°C`
+							: '날씨 정보 없음'}
+					</p>
 				</div>
 			) : (
 				<div>Loading...</div>

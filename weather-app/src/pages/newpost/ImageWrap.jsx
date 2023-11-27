@@ -18,7 +18,6 @@ const ImageWrap = ({ onFilesChange }) => {
 				0,
 				MAX_FILES - files.length
 			);
-
 			setFiles((prevFiles) => {
 				const updatedFiles = [...prevFiles, ...filesArray];
 				setCurrentFileIndex(prevFiles.length > 0 ? currentFileIndex : 0);
