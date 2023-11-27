@@ -1,4 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import { toggleLike, fetchHeartUsers } from "../../api/feed";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
@@ -46,7 +47,13 @@ const FeedHearts: FC<FeedHeartsProps> = ({
         setHeartCount(heartCount - 1);
       }
     } catch (error) {
-      console.error("Error toggling like:", error);
+      if (axios.isAxiosError(error)) {
+        if (error.response && error.response.status === 401) {
+          setShowErrorModal(true);
+        } else {
+          console.error("Error toggling like:", error);
+        }
+      }
     }
   };
 
