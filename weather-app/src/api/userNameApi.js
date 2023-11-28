@@ -1,11 +1,9 @@
 import axios from "axios";
 
-const BASE_URL = "http://43.200.188.52:8080/api"; // 올바른 기본 URL 사용
+const BASE_URL = "http://43.200.188.52:8080/api";
 
-// 'getAuthToken' 함수를 수정하여 로컬 스토리지에서 실제 액세스 토큰을 가져옵니다.
 const getAuthToken = () => localStorage.getItem("access_token");
 
-// 유저 정보를 가져오는 함수에서 실제 액세스 토큰을 사용합니다.
 const getUserInfo = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/user`, {
@@ -20,10 +18,10 @@ const getUserInfo = async () => {
   }
 };
 
-// 유저 정보에서 이름 가져오기
+// 유저 정보에서 nickName을 먼저 확인, 없으면 name을 반환
 const getUserName = async () => {
   const userInfo = await getUserInfo();
-  return userInfo.name;
+  return userInfo.nickName || userInfo.name || "익명";
 };
 
 export { getUserInfo, getUserName };
