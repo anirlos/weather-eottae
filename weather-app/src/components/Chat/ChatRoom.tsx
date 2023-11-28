@@ -52,7 +52,10 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ currentUserNick }) => {
           </ChatRoomListBtn>
         ))}
       </ChatRoomListContainer>{" "}
-      <ChatMessage currentUserNick={currentUserNick} />{" "}
+      <ChatMessage
+        currentUserNick={currentUserNick}
+        currentRoom={selectedRoom}
+      />
       {/* currentUserNick prop을 전달 */}
     </StyledChatRoom>
   );

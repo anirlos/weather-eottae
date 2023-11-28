@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import socket from "../../api/socket";
 import { StyledMessageInput } from "./MessageInput.styeld";
 
@@ -16,10 +16,6 @@ export const MessageInput = ({
 }: IMessageInputProps) => {
   // 입력 필드의 상태를 관리
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    socket.emit("join", roomCode);
-  }, [roomCode]);
 
   // 입력 필드 값이 변경될 때 호출되는 함수
   const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
