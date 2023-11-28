@@ -56,7 +56,7 @@ const App: React.FC = () => {
           />
           {/* 특정 유저 피드 조회 */}
           <Route
-            path="/feed/:userEmail"
+            path="/feed/:nickName"
             element={
               <Layout>
                 <Feed />

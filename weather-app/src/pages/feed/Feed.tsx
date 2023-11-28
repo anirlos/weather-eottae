@@ -7,7 +7,7 @@ import FeedList from "./FeedList";
 import Loading from "../../components/loading/Loading";
 
 const Feed: FC = () => {
-  const { userEmail, tag } = useParams<{ userEmail?: string; tag?: string }>();
+  const { nickName, tag } = useParams<{ nickName?: string; tag?: string }>();
 
   const [userProfile, setUserProfile] = useState({
     imageUrl: "",
@@ -21,7 +21,7 @@ const Feed: FC = () => {
     isFetchingPreviousPage,
     fetchNextPage,
     hasNextPage,
-  } = useInfinite(userEmail, tag);
+  } = useInfinite(nickName, tag);
 
   const onIntersect = (
     entry: IntersectionObserverEntry,
@@ -35,14 +35,14 @@ const Feed: FC = () => {
   const ref = useIntersect(onIntersect);
 
   useEffect(() => {
-    if (userEmail && data?.pages[0]?.memberId) {
+    if (nickName && data?.pages[0]?.memberId) {
       const userData = data.pages[0];
       setUserProfile({
         imageUrl: userData.imageUrl,
         nickName: userData.nickName,
       });
     }
-  }, [data, userEmail]);
+  }, [data, nickName]);
 
   if (isPending) return <Loading />;
   if (error)
@@ -52,7 +52,7 @@ const Feed: FC = () => {
       </ErrorContent>
     );
 
-  const posts = userEmail
+  const posts = nickName
     ? data?.pages.flatMap((page) => page.postResponseDtos) || []
     : data?.pages.flatMap((page) => page.content) || [];
 
@@ -61,12 +61,9 @@ const Feed: FC = () => {
   return (
     <Container>
       <FilteredContent>
-        {userEmail && (
+        {nickName && (
           <UserContainer>
-            <img
-              src={userProfile.imageUrl}
-              alt={`${userEmail} 프로필 이미지`}
-            />
+            <img src={userProfile.imageUrl} alt={`${nickName} 프로필 이미지`} />
             <p>{userProfile.nickName}</p>
           </UserContainer>
         )}

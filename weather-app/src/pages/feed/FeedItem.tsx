@@ -34,9 +34,8 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
     setIsExpanded(!isExpanded);
   };
 
-  const handleUserClick = (userEmail: string) => {
-    navigate(`/feed/${userEmail}`);
-    console.log("Navigated to:", `/feed/${userEmail}`);
+  const handleUserClick = (nickName: string) => {
+    navigate(`/feed/${nickName}`);
   };
 
   const handleTagClick = (tag: string) => {
@@ -51,13 +50,13 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
           <img
             src={post.userImg}
             alt={`${post.nickName} 프로필 이미지`}
-            onClick={() => handleUserClick(post.userEmail)}
+            onClick={() => handleUserClick(post.nickName)}
           />
           <div>
             <div>
               <span
                 className="user"
-                onClick={() => handleUserClick(post.userEmail)}
+                onClick={() => handleUserClick(post.nickName)}
               >
                 {post.nickName}
               </span>
