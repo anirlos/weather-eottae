@@ -31,9 +31,17 @@ const MobileNav = () => {
           <div />
         </HamburgerMenu>
         <LogoWrap>
-          <h1>
-            <img src={logo} alt="로고" />
-          </h1>
+          <Link
+            to={"/"}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigation("/");
+            }}
+          >
+            <h1>
+              <img src={logo} alt="로고" />
+            </h1>
+          </Link>
         </LogoWrap>
         <LogoutButton phoneOpen={isOpen}>
           <p>logout</p>
@@ -41,25 +49,43 @@ const MobileNav = () => {
       </Wrap>
       <NavWrap phoneOpen={isOpen}>
         <li>
-          <Link href="#" onClick={toggleNav}>
+          <Link
+            to={"/"}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigation("/");
+            }}
+          >
             <span>
-              <img src={weather} />
+              <img src={weather} alt="오늘의 날씨" />
               오늘의 날씨
             </span>
           </Link>
         </li>
         <li>
-          <Link to={"/chat"} onClick={toggleNav}>
+          <Link
+            to={"/chat"}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigation("/chat");
+            }}
+          >
             <span>
-              <img src={chat} />
+              <img src={chat} alt="지역 톡" />
               지역 톡
             </span>
           </Link>
         </li>
         <li>
-          <Link to={"/feed"} onClick={toggleNav}>
+          <Link
+            to={"/feed"}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigation("/feed");
+            }}
+          >
             <span>
-              <img src={clothing} />
+              <img src={clothing} alt="오늘 뭐 입지" />
               오늘 뭐 입지
             </span>
           </Link>
@@ -73,7 +99,7 @@ const MobileNav = () => {
             }}
           >
             <span>
-              <img src={archive} />
+              <img src={archive} alt="게시글 등록" />
               게시글 등록
             </span>
           </Link>
@@ -87,7 +113,7 @@ const MobileNav = () => {
             }}
           >
             <span>
-              <img src={user} />
+              <img src={user} alt="마이 페이지" />
               마이 페이지
             </span>
           </Link>
