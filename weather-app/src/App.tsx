@@ -11,6 +11,7 @@ import Signup from './pages/signup/Signup';
 import MyPage from './pages/users/MyPage';
 import EditPost from './pages/editpost/EditPost';
 import WeatherInfo from './pages/Main/WeatherInfo';
+import SevenWeatherForecast from './pages/Main/SevenWeatherForecast';
 
 const App: React.FC = () => {
 	return (
@@ -89,6 +90,8 @@ const App: React.FC = () => {
 					/>
 					<Route path="*" element={<NotFound />} />
 					<Route path="/weatherinfo" element={<WeatherInfo />} />
+					<Route path="/sevendayweather" element={<SevenWeatherForecast />} />
+					{/* 날씨api 테스트용 페이지 */}
 				</Routes>
 			</Router>
 		</div>
