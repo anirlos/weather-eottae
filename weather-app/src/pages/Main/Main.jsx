@@ -1,7 +1,52 @@
 import React, { useState, useEffect } from "react";
+
+import styled from "styled-components";
+import DayWaether from "../../components/main/DayWeather";
+import DayClothes from "../../components/main/DayClothes";
+import WeatherDays from "../../components/main/WeatherDays";
+import Footer from "../../components/footer/Footer";
+import Header from "../../components/header/Header";
+import { coordinates } from "../../api/coordinatesApi";
 import axios from "axios";
 
-const WeatherInfo = () => {
+const Main = () => {
+  // const [location, setLocation] = useState({
+  //   coordinate: { lat: 0, lng: 0 },
+  //   error: "",
+  // });
+
+  // const onError = (error: { code?: number; message: any }) => {
+  //   setLocation({
+  //     coordinate: { lat: 0, lng: 0 },
+  //     error: error.message, // 에러 메시지 저장
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   if (!("geolocation" in navigator)) {
+  //     onError({
+  //       code: 0,
+  //       message: "Geolocation not supported",
+  //     });
+  //   } else {
+  //     navigator.geolocation.getCurrentPosition(function (pos) {
+  //       console.log(pos);
+  //       const latitude = pos.coords.latitude;
+  //       const longitude = pos.coords.longitude;
+  //       console.log("현재 위치는 : " + latitude + ", " + longitude);
+  //       setLocation({
+  //         coordinate: { lat: latitude, lng: longitude },
+  //         error: "",
+  //       });
+  //       console.log(location);
+  //     });
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   coordinates(location);
+  //   console.log(location);
+  // }, []);
   const [weatherData, setWeatherData] = useState({
     locationName: "",
     minTemp: null,
@@ -83,7 +128,6 @@ const WeatherInfo = () => {
     }
   };
 
-  console.log(weatherData);
   useEffect(() => {
     const loadWeatherData = async () => {
       try {
@@ -103,21 +147,30 @@ const WeatherInfo = () => {
   }
 
   return (
-    <div>
-      <h2>오늘의 날씨 정보</h2>
-      {weatherData.locationName && <p>위치: {weatherData.locationName}</p>}
-      <p>
-        최저 기온:{" "}
-        {weatherData.minTemp ? weatherData.minTemp.toFixed(1) : "N/A"}°C
-      </p>
-      <p>
-        최고 기온:{" "}
-        {weatherData.maxTemp ? weatherData.maxTemp.toFixed(1) : "N/A"}°C
-      </p>
-      <p>강수량: {weatherData.precipitation}mm</p>
-      <p>자외선 지수: {weatherData.uvIndex}</p>
-    </div>
+    <>
+      <Header />
+      <StMain>
+        <div className="daywaether">
+          <DayWaether weatherData={weatherData} />
+          <DayClothes />
+        </div>
+
+        <WeatherDays />
+      </StMain>
+    </>
   );
 };
 
-export default WeatherInfo;
+export default Main;
+
+const StMain = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  height: 830px;
+
+  .daywaether {
+    display: flex;
+    justify-content: center;
+    gap: 4%;
+  }
+`;

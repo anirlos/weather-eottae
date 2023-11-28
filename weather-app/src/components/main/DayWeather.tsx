@@ -8,13 +8,25 @@ import axios from "axios";
 import { CurrentWeather } from "../../types/weatherType";
 import { currentweather } from "../../api/currentWeatherApi";
 
-const DayWaether = () => {
+interface propsType {
+  weatherData: {
+    locationName: string;
+    minTemp: number;
+    maxTemp: number;
+    precipitation: number;
+    uvIndex: number;
+  };
+}
+
+const DayWaether = (props: propsType) => {
   //   const [weather, setWeather] = useState<CurrentWeather[]>([]);
 
   // useEffect(()=>{
   //   const getWeather
   // })
 
+  console.log(props);
+  console.log(props.weatherData.minTemp);
   return (
     <DayWaetherWarp>
       <h2 className="title">오늘의 날씨</h2>
@@ -22,9 +34,16 @@ const DayWaether = () => {
       <TodayWrap>
         <img src={비} />
         <HighLowTemperatures>
-          <div id="high">16</div>
+          {props.weatherData.locationName && (
+            <p>위치: {props.weatherData.locationName}</p>
+          )}
+          <div id="high">
+            {props.weatherData.maxTemp ? props.weatherData.maxTemp : "N/A"}
+          </div>
           <div>--</div>
-          <div id="low">12</div>
+          <div id="low">
+            {props.weatherData.minTemp ? props.weatherData.minTemp : "N/A"}
+          </div>
         </HighLowTemperatures>
 
         <div className="today-weather">14°C</div>
@@ -36,14 +55,16 @@ const DayWaether = () => {
           <p className="weather__info--value">14°C</p>
         </div>
         <div className="weather__info--box">
-          <p className="weather__info--title">강수확률</p>
+          <p className="weather__info--title">자외선</p>
           <img src={자외선} />
-          <p className="weather__info--value">20%</p>
+          <p className="weather__info--value">{props.weatherData.uvIndex}</p>
         </div>
         <div className="weather__info--box">
           <p className="weather__info--title">강수확률</p>
           <img src={강수확률} />
-          <p className="weather__info--value">높음</p>
+          <p className="weather__info--value">
+            {props.weatherData.precipitation}
+          </p>
         </div>
       </div>
     </DayWaetherWarp>
