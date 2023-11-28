@@ -11,6 +11,8 @@ import { currentweather } from "../../api/currentWeatherApi";
 interface propsType {
   weatherData: {
     locationName: string;
+    temp: number;
+    weather: string;
     minTemp: number;
     maxTemp: number;
     precipitation: number;
@@ -27,6 +29,12 @@ const DayWaether = (props: propsType) => {
 
   console.log(props);
   console.log(props.weatherData.minTemp);
+
+  const minTemp = props.weatherData.minTemp;
+  const maxTemp = props.weatherData.maxTemp;
+
+  const avergeTemp = (minTemp + maxTemp) / 2;
+
   return (
     <DayWaetherWarp>
       <h2 className="title">오늘의 날씨</h2>
@@ -34,25 +42,26 @@ const DayWaether = (props: propsType) => {
       <TodayWrap>
         <img src={비} />
         <HighLowTemperatures>
-          {props.weatherData.locationName && (
-            <p>위치: {props.weatherData.locationName}</p>
-          )}
           <div id="high">
-            {props.weatherData.maxTemp ? props.weatherData.maxTemp : "N/A"}
+            {props.weatherData.maxTemp
+              ? props.weatherData.maxTemp.toFixed()
+              : "N/A"}
           </div>
           <div>--</div>
           <div id="low">
-            {props.weatherData.minTemp ? props.weatherData.minTemp : "N/A"}
+            {props.weatherData.minTemp
+              ? props.weatherData.minTemp.toFixed()
+              : "N/A"}
           </div>
         </HighLowTemperatures>
 
-        <div className="today-weather">14°C</div>
+        <div className="today-weather">{props.weatherData.temp}</div>
       </TodayWrap>
       <div className="weather__infos">
         <div className="weather__info--box">
           <p className="weather__info--title">평균기온</p>
           <img src={평균기온} />
-          <p className="weather__info--value">14°C</p>
+          <p className="weather__info--value">{avergeTemp}</p>
         </div>
         <div className="weather__info--box">
           <p className="weather__info--title">자외선</p>

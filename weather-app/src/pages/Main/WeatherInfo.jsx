@@ -4,6 +4,8 @@ import axios from "axios";
 const WeatherInfo = () => {
   const [weatherData, setWeatherData] = useState({
     locationName: "",
+    temp: null,
+    weather: "",
     minTemp: null,
     maxTemp: null,
     precipitation: null,
@@ -60,7 +62,7 @@ const WeatherInfo = () => {
         params: {
           lat: lat,
           lon: lon,
-          exclude: "current,minutely,hourly,alerts", // 필요하지 않은 데이터 제외
+          exclude: "minutely,hourly,alerts", // 필요하지 않은 데이터 제외
           appid: OPEN_WEATHER_MAP_API_KEY,
           units: "metric",
           lang: "kr",
@@ -71,6 +73,8 @@ const WeatherInfo = () => {
 
       setWeatherData({
         locationName,
+        temp: dailyData.temp.day,
+        weather: dailyData.weather.main,
         minTemp: dailyData.temp.min,
         maxTemp: dailyData.temp.max,
         precipitation: dailyData.rain ? dailyData.rain["1h"] : 0, // 강수량이 없는 경우 0으로 설정
@@ -83,7 +87,6 @@ const WeatherInfo = () => {
     }
   };
 
-  console.log(weatherData);
   useEffect(() => {
     const loadWeatherData = async () => {
       try {
