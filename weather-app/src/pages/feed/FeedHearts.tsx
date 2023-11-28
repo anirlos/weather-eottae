@@ -31,7 +31,6 @@ const FeedHearts: FC<FeedHeartsProps> = ({
 
   const handleLike = async () => {
     if (!localStorage.getItem("access_token")) {
-      // document.body.style.overflowY = "hidden";
       setShowErrorModal(true);
       return;
     }
@@ -59,7 +58,6 @@ const FeedHearts: FC<FeedHeartsProps> = ({
 
   const openModal = async () => {
     if (heartCount > 0) {
-      // document.body.style.overflowY = "hidden";
       const users = await fetchHeartUsers(postId);
       setHeartUsers(users);
       setShowHeartsModal(true);
@@ -67,7 +65,6 @@ const FeedHearts: FC<FeedHeartsProps> = ({
   };
 
   const closeModal = (modalType: string) => {
-    // document.body.style.overflowY = "auto";
     if (modalType === "error") {
       setShowErrorModal(false);
     } else if (modalType === "hearts") {

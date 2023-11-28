@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { FC, useEffect, useMemo, useState } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { useInfinite } from "../../hooks/useInfinite";
 import useIntersect from "./../../hooks/useIntersect";
@@ -7,7 +7,9 @@ import FeedList from "./FeedList";
 import Loading from "../../components/loading/Loading";
 
 const Feed: FC = () => {
-  const { userEmail, tag } = useParams<{ userEmail?: string; tag?: string }>();
+  const location = useLocation();
+
+  const { nickName, tag } = useParams<{ nickName?: string; tag?: string }>();
 
   const [userProfile, setUserProfile] = useState({
     imageUrl: "",
@@ -17,11 +19,17 @@ const Feed: FC = () => {
   const {
     isPending,
     error,
+    refetch,
     data,
     isFetchingPreviousPage,
     fetchNextPage,
     hasNextPage,
-  } = useInfinite(userEmail, tag);
+  } = useInfinite(nickName, tag);
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // 스크롤 맨 위로
+    refetch(); // 데이터 재로딩
+  }, [location.key, refetch]);
 
   const onIntersect = (
     entry: IntersectionObserverEntry,
@@ -35,14 +43,20 @@ const Feed: FC = () => {
   const ref = useIntersect(onIntersect);
 
   useEffect(() => {
-    if (userEmail && data?.pages[0]?.memberId) {
+    if (nickName && data?.pages[0]?.memberId) {
       const userData = data.pages[0];
       setUserProfile({
         imageUrl: userData.imageUrl,
         nickName: userData.nickName,
       });
     }
-  }, [data, userEmail]);
+  }, [data, nickName]);
+
+  const posts = useMemo(() => {
+    return nickName
+      ? data?.pages.flatMap((page) => page.postResponseDtos) || []
+      : data?.pages.flatMap((page) => page.content) || [];
+  }, [data, nickName]);
 
   if (isPending) return <Loading />;
   if (error)
@@ -52,21 +66,12 @@ const Feed: FC = () => {
       </ErrorContent>
     );
 
-  const posts = userEmail
-    ? data?.pages.flatMap((page) => page.postResponseDtos) || []
-    : data?.pages.flatMap((page) => page.content) || [];
-
-  console.log("posts:", posts);
-
   return (
     <Container>
       <FilteredContent>
-        {userEmail && (
+        {nickName && (
           <UserContainer>
-            <img
-              src={userProfile.imageUrl}
-              alt={`${userEmail} 프로필 이미지`}
-            />
+            <img src={userProfile.imageUrl} alt={`${nickName} 프로필 이미지`} />
             <p>{userProfile.nickName}</p>
           </UserContainer>
         )}

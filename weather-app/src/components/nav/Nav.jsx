@@ -10,16 +10,16 @@ import logout from "../../assets/img/nav/logout.png";
 import login from "../../assets/img/nav/login.png";
 import { Link } from "react-router-dom";
 import MobileNav from "./MobileNav";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 
 const Nav = () => {
   const [isLoggin, setIsLoggin] = useState(false);
 
-  useEffect(()=>{
-    const accessToken=localStorage.getItem("access_token");
-    const refreshToken=localStorage.getItem("refresh_token"); 
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    const refreshToken = localStorage.getItem("refresh_token");
     setIsLoggin(accessToken && refreshToken);
-  },[])
+  }, []);
 
   const onLogOut = () => {
     console.log("로그아웃 버튼 클릭");
@@ -27,7 +27,7 @@ const Nav = () => {
     localStorage.removeItem("refresh_token");
     setIsLoggin(false);
   };
-  
+
   return (
     <>
       <StyledMobileNav>
@@ -83,14 +83,14 @@ const Nav = () => {
         </NavWrap>
         {isLoggin && (
           <button onClick={onLogOut}>
-            <img src={logout} />
+            <img src={logout} alt="로그아웃" />
           </button>
         )}
 
         {!isLoggin && (
           <Link to="login">
             <button>
-              <img src={login} />
+              <img src={login} alt="로그인" />
             </button>
           </Link>
         )}
