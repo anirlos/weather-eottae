@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ScrollTop from "./hooks/useScrollTop";
 import ChatView from './pages/Chat/ChatView';
 import Main from './pages/Main/Main';
 import Layout from './components/layout/Layout';
@@ -10,38 +11,40 @@ import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import MyPage from './pages/users/MyPage';
 import EditPost from './pages/editpost/EditPost';
+import {LogOutAction} from './components/login/Logout';
 
 const App: React.FC = () => {
-	return (
-		<div className="App">
-			<Router>
-				<Routes>
-					<Route
-						path="/"
-						element={
-							<Layout>
-								<Main />
-							</Layout>
-						}
-					/>
-					<Route path="/login" element={<Login />} />
-					<Route path="/signup" element={<Signup />} />
-					<Route
-						path="/archive"
-						element={
-							<Layout>
-								<NewPost />
-							</Layout>
-						}
-					/>
-					<Route
-						path="/editpost"
-						element={
-							<Layout>
-								<EditPost />
-							</Layout>
-						}
-					/>
+  return (
+    <div className="App">
+      <Router>
+        <ScrollTop />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Main />
+              </Layout>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/archive"
+            element={
+              <Layout>
+                <NewPost />
+              </Layout>
+            }
+          />
+          <Route
+            path="/editpost"
+            element={
+              <Layout>
+                <EditPost />
+              </Layout>
+            }
+          />
 
 					{/* 피드 페이지: 전체 피드 조회 */}
 					<Route
@@ -85,6 +88,12 @@ const App: React.FC = () => {
 								<MyPage />
 							</Layout>
 						}
+					/>
+					<Route
+						path="/logout"
+						element={
+						<LogOutAction />
+					}
 					/>
 					<Route path="*" element={<NotFound />} />
 				</Routes>
