@@ -29,9 +29,11 @@ const createPostAPI = async (
 	if (hashtags && typeof hashtags === 'string') {
 		// 해시태그를 정규 표현식을 사용하여 추출
 		const hashtagsArray = hashtags.match(/#[\p{L}]+/gu);
-
-		// 추출된 해시태그 배열을 JSON 문자열로 변환하여 formData에 추가
-		formData.append('hashtags', JSON.stringify(hashtagsArray));
+		if (hashtagsArray) {
+			// 각 해시태그에서 '#'을 제거하고 공백으로 구분된 하나의 문자열로 합침
+			const hashtagsStr = hashtagsArray.map((tag) => tag.slice(1));
+			formData.append('hashtags', hashtagsStr);
+		}
 	}
 
 	try {

@@ -63,11 +63,12 @@ const WeatherComponent = ({ onWeatherUpdate }) => {
 			// API 응답에서 온도 정보 추출
 			const items = response.data.response.body.items.item;
 			const temperatureItem = items.find((item) => item.category === 'T1H'); // 온도 정보 카테고리
-			const temperature = temperatureItem ? temperatureItem.obsrValue : -9999.0; // 온도 정보가 없을 경우 -9999.0 반환
+			const temperature = temperatureItem ? temperatureItem.obsrValue : -9999.0;
+
 			return temperature;
 		} catch (error) {
 			console.error('Error fetching weather info:', error);
-			return -9999.0; // 에러 발생 시 -9999.0 반환
+			return -9999.0;
 		}
 	};
 
@@ -75,6 +76,7 @@ const WeatherComponent = ({ onWeatherUpdate }) => {
 		const { latitude, longitude } = position.coords;
 		const state = await getState(latitude, longitude);
 		const temperature = await getWeatherInfo(latitude, longitude);
+
 		setLocation({
 			loaded: true,
 			coordinates: { lat: latitude, lng: longitude },
@@ -83,6 +85,7 @@ const WeatherComponent = ({ onWeatherUpdate }) => {
 		});
 		onWeatherUpdate(temperature);
 	};
+
 	const onError = (error) => {
 		setLocation({ loaded: true, error });
 		onWeatherUpdate(-9999.0); // 에러 발생 시 -9999.0 전달
