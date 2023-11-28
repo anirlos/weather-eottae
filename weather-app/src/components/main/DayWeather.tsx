@@ -8,14 +8,12 @@ import axios from "axios";
 import { CurrentWeather } from "../../types/weatherType";
 import { currentweather } from "../../api/currentWeatherApi";
 
-
 const DayWaether = () => {
-  const [weather, setWeather] = useState<CurrentWeather[]>([]);
+  //   const [weather, setWeather] = useState<CurrentWeather[]>([]);
 
-
-useEffect(()=>{
-  const getWeather
-})
+  // useEffect(()=>{
+  //   const getWeather
+  // })
 
   return (
     <DayWaetherWarp>

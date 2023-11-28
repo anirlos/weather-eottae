@@ -10,44 +10,43 @@ import { coordinates } from "../../api/coordinatesApi";
 import axios from "axios";
 
 const Main = () => {
-  const [location, setLocation] = useState({
-    coordinate: { lat: 0, lng: 0 },
-    error: "",
-  });
+  // const [location, setLocation] = useState({
+  //   coordinate: { lat: 0, lng: 0 },
+  //   error: "",
+  // });
 
-  const onError = (error: { code?: number; message: any }) => {
-    setLocation({
-      coordinate: { lat: 0, lng: 0 },
-      error: error.message, // 에러 메시지 저장
-    });
-  };
+  // const onError = (error: { code?: number; message: any }) => {
+  //   setLocation({
+  //     coordinate: { lat: 0, lng: 0 },
+  //     error: error.message, // 에러 메시지 저장
+  //   });
+  // };
 
-  useEffect(() => {
-    if (!("geolocation" in navigator)) {
-      onError({
-        code: 0,
-        message: "Geolocation not supported",
-      });
-    } else {
-      navigator.geolocation.getCurrentPosition(function (pos) {
-        console.log(pos);
-        const latitude = pos.coords.latitude;
-        const longitude = pos.coords.longitude;
-        console.log("현재 위치는 : " + latitude + ", " + longitude);
-        setLocation({
-          coordinate: { lat: latitude, lng: longitude },
-          error: "",
-        });
-        console.log(location);
-      });
-    }
-  }, []);
-  
+  // useEffect(() => {
+  //   if (!("geolocation" in navigator)) {
+  //     onError({
+  //       code: 0,
+  //       message: "Geolocation not supported",
+  //     });
+  //   } else {
+  //     navigator.geolocation.getCurrentPosition(function (pos) {
+  //       console.log(pos);
+  //       const latitude = pos.coords.latitude;
+  //       const longitude = pos.coords.longitude;
+  //       console.log("현재 위치는 : " + latitude + ", " + longitude);
+  //       setLocation({
+  //         coordinate: { lat: latitude, lng: longitude },
+  //         error: "",
+  //       });
+  //       console.log(location);
+  //     });
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    coordinates(location);
-    console.log(location);
-  }, []);
+  // useEffect(() => {
+  //   coordinates(location);
+  //   console.log(location);
+  // }, []);
 
   return (
     <>
