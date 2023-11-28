@@ -5,11 +5,11 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 const MAX_FILES = 3;
 
 const isVideo = (file) => {
-	return file && file.type.split('/')[0] === 'video';
+	return file && file.type && file.type.split('/')[0] === 'video'; // 파일 유형이 정의되어 있는지 확인
 };
 
-const ImageWrap = ({ onFilesChange }) => {
-	const [files, setFiles] = useState([]);
+const ImageWrap = ({ initialFiles, onFilesChange }) => {
+	const [files, setFiles] = useState(initialFiles || []);
 	const [currentFileIndex, setCurrentFileIndex] = useState(0);
 
 	const handleFileChange = (event) => {
@@ -18,11 +18,11 @@ const ImageWrap = ({ onFilesChange }) => {
 				0,
 				MAX_FILES - files.length
 			);
-
 			setFiles((prevFiles) => {
 				const updatedFiles = [...prevFiles, ...filesArray];
 				setCurrentFileIndex(prevFiles.length > 0 ? currentFileIndex : 0);
 				onFilesChange(updatedFiles); // 상위 컴포넌트에 파일 목록 전달
+
 				return updatedFiles;
 			});
 		}
@@ -43,7 +43,7 @@ const ImageWrap = ({ onFilesChange }) => {
 		return () => {
 			files.forEach((file) => {
 				if (file instanceof File) {
-					URL.revokeObjectURL(file);
+					URL.revokeObjectURL(file); // URL 해제
 				}
 			});
 		};
@@ -111,7 +111,6 @@ export default ImageWrap;
 const Container = styled.div`
 	max-width: 600px;
 	margin: 20px auto;
-
 	border-radius: 15px;
 `;
 

@@ -11,6 +11,9 @@ import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
 import MyPage from "./pages/users/MyPage";
 import EditPost from "./pages/editpost/EditPost";
+import { LogOutAction } from "./components/login/Logout";
+import WeatherInfo from "./pages/Main/WeatherInfo";
+import SevenWeatherForecast from "./pages/Main/SevenWeatherForecast";
 
 const App: React.FC = () => {
   return (
@@ -37,7 +40,7 @@ const App: React.FC = () => {
             }
           />
           <Route
-            path="/editpost"
+            path="/editpost/:postId"
             element={
               <Layout>
                 <EditPost />
@@ -72,6 +75,7 @@ const App: React.FC = () => {
               </Layout>
             }
           />
+
           <Route
             path="/chat"
             element={
@@ -89,7 +93,12 @@ const App: React.FC = () => {
             }
           />
 
+          <Route path="/logout" element={<LogOutAction />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/weatherinfo" element={<WeatherInfo />} />
+          <Route path="/sevendayweather" element={<SevenWeatherForecast />} />
+          {/* 날씨api 테스트용 페이지 */}
         </Routes>
       </Router>
     </div>

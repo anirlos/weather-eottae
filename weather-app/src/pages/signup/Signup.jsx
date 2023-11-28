@@ -56,7 +56,7 @@ const Signup = () => {
     try {
       const formData = new FormData();
 
-      const jsonData = {
+       const jsonData = {
         userName: userInfo.userName,
         password: userInfo.password,
         nickName: userInfo.nickName,
@@ -66,18 +66,18 @@ const Signup = () => {
       };
 
       // JSON 데이터를 Blob으로 변환
+      
       const jsonBlob = new Blob([JSON.stringify(jsonData)], {
         type: "application/json",
       });
 
       // FormData에 Blob 추가
-      formData.append("request", jsonBlob);
-
+      formData.append("request", jsonBlob); 
       formData.append("file", file, file.name);
 
       const headers = {
         "Content-Type": "multipart/form-data",
-        accept: "application/json",
+         accept: "application/json",
       };
 
       const response = await axios.post(

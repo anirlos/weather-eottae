@@ -5,21 +5,22 @@ import styled from "styled-components";
 import Footer from "../footer/Footer";
 
 interface LayoutProps {
-  children?: ReactNode;
+	children?: ReactNode;
+	
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
-  return (
-    <>
-      <Container>
-        <NavWrap>
-          <Nav />
-        </NavWrap>
-        <Wrap>{children}</Wrap>
-      </Container>
-      <Footer />
-    </>
-  );
+const Layout: React.FC<LayoutProps> = ({ children}) => {
+	return (
+		<>
+			<Container>
+				<NavWrap>
+					<Nav />
+				</NavWrap>
+				<Wrap>{children}</Wrap>
+			</Container>
+			<Footer />
+		</>
+	);
 };
 
 export default Layout;

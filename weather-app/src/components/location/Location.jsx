@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const LocationComponent = () => {
+const LocationComponent = ({ onLocationUpdate }) => {
 	const [location, setLocation] = useState({
 		loaded: false,
 		coordinates: { lat: '', lng: '' },
@@ -29,7 +29,7 @@ const LocationComponent = () => {
 			return state;
 		} catch (error) {
 			console.error('Error fetching state:', error);
-			return '시/도를 불러오는데 실패했습니다';
+			return 'error';
 		}
 	};
 
@@ -43,8 +43,11 @@ const LocationComponent = () => {
 				lat: latitude,
 				lng: longitude,
 			},
-			state,
+			state: state || '없음',
 		});
+		if (onLocationUpdate) {
+			onLocationUpdate(state || '없음');
+		}
 	};
 
 	const onError = (error) => {
@@ -52,6 +55,9 @@ const LocationComponent = () => {
 			loaded: true,
 			error,
 		});
+		if (onLocationUpdate) {
+			onLocationUpdate('없음'); // 또는 적절한 기본값
+		}
 	};
 
 	useEffect(() => {
