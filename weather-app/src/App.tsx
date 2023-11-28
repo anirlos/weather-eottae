@@ -13,20 +13,6 @@ import EditPost from './pages/editpost/EditPost';
 import WeatherInfo from './pages/Main/WeatherInfo';
 
 const App: React.FC = () => {
-	const [location, setLocation] = useState({
-		coordinates: { lat: '', lng: '' },
-	});
-
-	// 이 함수를 사용하여 현재 위치 정보를 업데이트합니다.
-	const handleLocationUpdate = (newLocation: GeolocationCoordinates) => {
-		setLocation({
-			coordinates: {
-				lat: newLocation.latitude.toString(),
-				lng: newLocation.longitude.toString(),
-			},
-		});
-	};
-
 	return (
 		<div className="App">
 			<Router>
@@ -50,7 +36,7 @@ const App: React.FC = () => {
 						}
 					/>
 					<Route
-						path="/editpost"
+						path="/editpost/:postId"
 						element={
 							<Layout>
 								<EditPost />
