@@ -10,6 +10,7 @@ import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import MyPage from './pages/users/MyPage';
 import EditPost from './pages/editpost/EditPost';
+import {LogOutAction} from './components/login/Logout';
 
 const App: React.FC = () => {
 	return (
@@ -85,6 +86,12 @@ const App: React.FC = () => {
 								<MyPage />
 							</Layout>
 						}
+					/>
+					<Route
+						path="/logout"
+						element={
+						<LogOutAction />
+					}
 					/>
 					<Route path="*" element={<NotFound />} />
 				</Routes>

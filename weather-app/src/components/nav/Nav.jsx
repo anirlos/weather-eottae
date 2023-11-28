@@ -7,10 +7,27 @@ import chat from "../../assets/img/nav/chat-square-text.png";
 import clothing from "../../assets/img/nav/window-stack.png";
 import user from "../../assets/img/nav/person-vcard.png";
 import logout from "../../assets/img/nav/logout.png";
-import { Link } from "react-router-dom";
+import login from "../../assets/img/nav/login.png";
+import { Link, NavLink } from "react-router-dom";
 import MobileNav from "./MobileNav";
+import { useState , useEffect} from "react";
 
 const Nav = () => {
+  const [isLoggin, setIsLoggin] = useState(false);
+
+  useEffect(()=>{
+    const accessToken=localStorage.getItem("access_token");
+    const refreshToken=localStorage.getItem("refresh_token"); 
+    setIsLoggin(accessToken && refreshToken);
+  },[])
+
+  const onLogOut = () => {
+    console.log("로그아웃 버튼 클릭");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    setIsLoggin(false);
+  };
+  
   return (
     <>
       <StyledMobileNav>
@@ -64,9 +81,19 @@ const Nav = () => {
             </Link>
           </li>
         </NavWrap>
-        <button>
-          <img src={logout} />
-        </button>
+        {isLoggin && (
+          <button onClick={onLogOut}>
+            <img src={logout} />
+          </button>
+        )}
+
+        {!isLoggin && (
+          <Link to="login">
+            <button>
+              <img src={login} />
+            </button>
+          </Link>
+        )}
       </Container>
     </>
   );
