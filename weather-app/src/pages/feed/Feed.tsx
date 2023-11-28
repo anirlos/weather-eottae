@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { FC, useEffect, useMemo, useState } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { useInfinite } from "../../hooks/useInfinite";
 import useIntersect from "./../../hooks/useIntersect";
@@ -7,6 +7,8 @@ import FeedList from "./FeedList";
 import Loading from "../../components/loading/Loading";
 
 const Feed: FC = () => {
+  const location = useLocation();
+
   const { nickName, tag } = useParams<{ nickName?: string; tag?: string }>();
 
   const [userProfile, setUserProfile] = useState({
@@ -17,11 +19,17 @@ const Feed: FC = () => {
   const {
     isPending,
     error,
+    refetch,
     data,
     isFetchingPreviousPage,
     fetchNextPage,
     hasNextPage,
   } = useInfinite(nickName, tag);
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // 스크롤 맨 위로
+    refetch(); // 데이터 재로딩
+  }, [location.key, refetch]);
 
   const onIntersect = (
     entry: IntersectionObserverEntry,
@@ -44,6 +52,12 @@ const Feed: FC = () => {
     }
   }, [data, nickName]);
 
+  const posts = useMemo(() => {
+    return nickName
+      ? data?.pages.flatMap((page) => page.postResponseDtos) || []
+      : data?.pages.flatMap((page) => page.content) || [];
+  }, [data, nickName]);
+
   if (isPending) return <Loading />;
   if (error)
     return (
@@ -51,12 +65,6 @@ const Feed: FC = () => {
         <p>게시물을 불러오던 중 오류가 발생했습니다</p>
       </ErrorContent>
     );
-
-  const posts = nickName
-    ? data?.pages.flatMap((page) => page.postResponseDtos) || []
-    : data?.pages.flatMap((page) => page.content) || [];
-
-  console.log("posts:", posts);
 
   return (
     <Container>
