@@ -6,7 +6,7 @@ import ImageWrap from '../newpost/ImageWrap';
 import ContentWrap from '../newpost/ContentWrap';
 import ButtonWrap from '../newpost/ButtonWrap';
 import Modal from '../newpost/Modal';
-import { fetchPost } from '../../api/fetchPostApi';
+import fetchPost from '../../api/fetchPostApi';
 import { updatePost } from '../../api/updatePostApi';
 import { deletePost } from '../../api/deletePostApi';
 
@@ -18,35 +18,37 @@ const EditPost = () => {
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [content, setContent] = useState('');
-	const [files, setFiles] = useState([]); // 이미지 파일들
-	const [hashtags, setHashtags] = useState('');
 	const [temperature, setTemperature] = useState(''); // 온도
 	const [location, setLocation] = useState(''); // 위치
+	const [mediaFiles, setMediaFiles] = useState([]);
+	const [hashtags, setHashtags] = useState('');
+	const [date, setDate] = useState(''); // 날짜
 
 	useEffect(() => {
 		const loadPost = async () => {
 			try {
-				// URL 경로의 파라미터로부터 postId를 가져옵니다.
+				// postId를 사용하여 게시물 정보를 가져옵니다.
 				const postData = await fetchPost(postId);
+
+				// 게시물 정보를 상태 변수에 설정합니다.
 				setContent(postData.content);
-				setFiles(postData.files);
-				setHashtags(postData.hashtags);
-				setTemperature(postData.temperature);
-				setLocation(postData.location);
+				setHashtags(postData.hashtagNames.join('#')); // 해시태그를 공백으로 구분하여 문자열로 설정
+				setTemperature(postData.temperature || ''); // 온도
+				setLocation(postData.location || ''); // 위치
+				setDate(postData.date || ''); // 날짜 설정
+
+				// 이미지 파일 URL을 mediaFiles 상태 변수에 설정합니다.
+				const mediaUrls = postData.mediaUrls || [];
+				setMediaFiles(mediaUrls);
 			} catch (error) {
 				console.error('Failed to fetch post:', error);
 			}
 		};
-
 		loadPost();
 	}, [postId]);
 
 	const handleContentChange = (e) => setContent(e.target.value);
 	const handleHashtagsChange = (e) => setHashtags(e.target.value);
-	const handleFilesChange = (newFiles) => setFiles(newFiles);
-	const handleLocationChange = (newLocation) => setLocation(newLocation);
-	const handleWeatherUpdate = (newTemperature) =>
-		setTemperature(newTemperature);
 
 	const handleSave = () => setShowModal(true);
 	const handleCancelSave = () => setShowModal(false);
@@ -55,17 +57,19 @@ const EditPost = () => {
 	const handleConfirmSave = async () => {
 		try {
 			const token = localStorage.getItem('access_token');
+			const safeFiles = mediaFiles || [];
 			await updatePost(
 				postId,
 				{
 					content,
 					temperature,
 					location,
-					files,
+					mediaFiles: safeFiles, // 파일 업로드 관련 수정
 					hashtags,
+					date,
 				},
 				token
-			); // token을 별도의 매개변수로 전달
+			);
 			setShowModal(false);
 			navigate('/feed');
 		} catch (error) {
@@ -88,15 +92,34 @@ const EditPost = () => {
 		setShowDeleteModal(false);
 	};
 
+	const handleImageRemove = (index) => {
+		const updatedMediaFiles = [...mediaFiles];
+		updatedMediaFiles.splice(index, 1);
+		setMediaFiles(updatedMediaFiles);
+	};
+
 	return (
 		<Container>
-			<TopWrap
-				onLocationUpdate={handleLocationChange}
-				onTemperatureChange={handleWeatherUpdate}
+			<TopWrap />
+			<ImageWrap
+				initialFiles={mediaFiles}
+				mediaFiles={setMediaFiles}
+				onFilesChange={(newFiles) => setMediaFiles(newFiles)}
 			/>
-			<ImageWrap onFilesChange={handleFilesChange} />
+			{/* 이미지 미리보기 */}
+			<ImagePreviewContainer>
+				{mediaFiles.map((imageUrl, index) => (
+					<ImagePreviewWrapper key={index}>
+						<img src={imageUrl} alt={`Image ${index + 1}`} />
+						<RemoveImageButton onClick={() => handleImageRemove(index)}>
+							Remove
+						</RemoveImageButton>
+					</ImagePreviewWrapper>
+				))}
+			</ImagePreviewContainer>
 			<ContentWrap
 				content={content}
+				hashtags={hashtags}
 				onContentChange={handleContentChange}
 				onHashtagsChange={handleHashtagsChange}
 			/>
@@ -136,4 +159,35 @@ const Container = styled.div`
 	background: #fff;
 	border-radius: 10px;
 	box-shadow: 2px 4px 10px 0 #dcdbdb;
+`;
+const ImagePreviewContainer = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-top: 20px;
+`;
+
+const ImagePreviewWrapper = styled.div`
+	position: relative;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	width: 600px;
+	height: 40vh;
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+`;
+
+const RemoveImageButton = styled.button`
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background-color: #ff0000;
+	color: #fff;
+	border: none;
+	border-radius: 50%;
+	padding: 5px;
+	cursor: pointer;
 `;
