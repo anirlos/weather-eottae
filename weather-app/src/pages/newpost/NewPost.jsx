@@ -76,7 +76,7 @@ const NewPost = () => {
 			<Container>
 				<TopWrap
 					onLocationUpdate={handleLocationChange}
-					onTemperatureChange={handleWeatherUpdate}
+					onWeatherUpdate={handleWeatherUpdate}
 				/>
 				<ImageWrap onFilesChange={handleFilesChange} />
 				<ContentWrap

@@ -11,22 +11,9 @@ import Signup from "./pages/signup/Signup";
 import MyPage from "./pages/users/MyPage";
 import EditPost from "./pages/editpost/EditPost";
 import WeatherInfo from "./pages/Main/WeatherInfo";
+import SevenWeatherForecast from "./pages/Main/SevenWeatherForecast";
 
 const App: React.FC = () => {
-  const [location, setLocation] = useState({
-    coordinates: { lat: "", lng: "" },
-  });
-
-  // 이 함수를 사용하여 현재 위치 정보를 업데이트합니다.
-  const handleLocationUpdate = (newLocation: GeolocationCoordinates) => {
-    setLocation({
-      coordinates: {
-        lat: newLocation.latitude.toString(),
-        lng: newLocation.longitude.toString(),
-      },
-    });
-  };
-
   return (
     <div className="App">
       <Router>
@@ -50,7 +37,7 @@ const App: React.FC = () => {
             }
           />
           <Route
-            path="/editpost"
+            path="/editpost/:postId"
             element={
               <Layout>
                 <EditPost />
@@ -103,6 +90,8 @@ const App: React.FC = () => {
           />
           <Route path="*" element={<NotFound />} />
           <Route path="/weatherinfo" element={<WeatherInfo />} />
+          <Route path="/sevendayweather" element={<SevenWeatherForecast />} />
+          {/* 날씨api 테스트용 페이지 */}
         </Routes>
       </Router>
     </div>
