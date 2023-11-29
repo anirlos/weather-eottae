@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import 비 from "../../assets/img/main/비.png";
 import 평균기온 from "../../assets/img/main/온도.png";
 import 자외선 from "../../assets/img/main/자외선.png";
 import 강수확률 from "../../assets/img/main/강수.png";
 import axios from "axios";
-import { CurrentWeather } from "../../types/weatherType";
-import { currentweather } from "../../api/currentWeatherApi";
+import 해 from "../../assets/img/main/weatherIcon/해icon.png";
+import 눈 from "../../assets/img/main/weatherIcon/눈icon.png";
+import 번개 from "../../assets/img/main/weatherIcon/번개icon.png";
+import 비내림 from "../../assets/img/main/weatherIcon/비icon.png";
+import 약간흐림 from "../../assets/img/main/weatherIcon/약간흐림icon.png";
+import 흐림 from "../../assets/img/main/weatherIcon/흐림icon.png";
 
-interface propsType {
+export interface propsType {
   weatherData: {
     locationName: string;
-    temp: number;
-    weather: string;
+    currentTemp: number;
+    weatherDescription: string;
     minTemp: number;
     maxTemp: number;
     precipitation: number;
@@ -26,6 +30,7 @@ const DayWaether = (props: propsType) => {
   // useEffect(()=>{
   //   const getWeather
   // })
+  const [icon, setIcon] = useState("");
 
   console.log(props);
   console.log(props.weatherData.minTemp);
@@ -35,33 +40,60 @@ const DayWaether = (props: propsType) => {
 
   const avergeTemp = (minTemp + maxTemp) / 2;
 
+  const weatherDescription = props.weatherData.weatherDescription;
+
+  const weatherIcon = () => {
+    if (weatherDescription.includes("sky")) {
+      return <img src={해} />;
+    } else if (weatherDescription.includes("few")) {
+      return <img src={약간흐림} />;
+    } else if (weatherDescription.includes("clouds")) {
+      return <img src={흐림} />;
+    } else if (weatherDescription.includes("rain")) {
+      return <img src={비내림} />;
+    } else if (weatherDescription.includes("thunderstorm")) {
+      return <img src={번개} />;
+    } else if (weatherDescription.includes("snow")) {
+      return <img src={눈} />;
+    } else {
+      return <img src={해} />;
+    }
+  };
+
+  console.log(icon);
   return (
     <DayWaetherWarp>
       <h2 className="title">오늘의 날씨</h2>
+      {/* {props.weatherData.weatherDescription} */}
 
       <TodayWrap>
-        <img src={비} />
+        <div className="weather-icon">{weatherIcon()}</div>
         <HighLowTemperatures>
           <div id="high">
             {props.weatherData.maxTemp
               ? props.weatherData.maxTemp.toFixed()
               : "N/A"}
+            °
           </div>
-          <div>--</div>
+          <div>━</div>
           <div id="low">
             {props.weatherData.minTemp
               ? props.weatherData.minTemp.toFixed()
               : "N/A"}
+            °
           </div>
         </HighLowTemperatures>
 
-        <div className="today-weather">{props.weatherData.temp}</div>
+        <div className="today-weather">
+          {props.weatherData.currentTemp.toFixed()}°
+        </div>
       </TodayWrap>
       <div className="weather__infos">
         <div className="weather__info--box">
           <p className="weather__info--title">평균기온</p>
           <img src={평균기온} />
-          <p className="weather__info--value">{avergeTemp}</p>
+
+          <p className="weather__info--value">{avergeTemp.toFixed()}°C</p>
         </div>
         <div className="weather__info--box">
           <p className="weather__info--title">자외선</p>
@@ -69,10 +101,10 @@ const DayWaether = (props: propsType) => {
           <p className="weather__info--value">{props.weatherData.uvIndex}</p>
         </div>
         <div className="weather__info--box">
-          <p className="weather__info--title">강수확률</p>
+          <p className="weather__info--title">강수량</p>
           <img src={강수확률} />
           <p className="weather__info--value">
-            {props.weatherData.precipitation}
+            {props.weatherData.precipitation}mm
           </p>
         </div>
       </div>
@@ -121,32 +153,37 @@ const DayWaetherWarp = styled.div`
 `;
 
 const TodayWrap = styled.div`
-  display: flex;
-
-  height: 230px;
-  img {
+  .weather-icon {
     margin-left: 20px;
     width: 240px;
     height: 170px;
   }
+  display: flex;
+
+  height: 230px;
+
   .today-weather {
     line-height: 150px;
     font-size: 64px;
-    margin-left: 20px;
+    margin-left: 50px;
+    padding-top: 5%;
   }
 `;
 
 const HighLowTemperatures = styled.div`
   height: 230px;
-  padding-top: 10%;
+  padding-top: 15%;
   font-size: 10px;
 
   #high {
     color: #ff0000;
-    font-size: 20px;
+    font-size: 25px;
+    /* border-bottom: 1px solid #dbdada; */
+    padding-bottom: 5px;
   }
   #low {
     color: #5d6dbe;
-    font-size: 20px;
+    font-size: 25px;
+    padding-top: 10px;
   }
 `;

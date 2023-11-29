@@ -63,7 +63,7 @@ const WeatherInfo = () => {
           exclude: "current,minutely,hourly,alerts",
           appid: OPEN_WEATHER_MAP_API_KEY,
           units: "metric",
-          lang: "kr",
+          lang: "Kr",
         },
       });
 
