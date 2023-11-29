@@ -6,8 +6,7 @@ interface ChatRoomListBtnProps {
 }
 
 export const StyledChatRoom = styled.div`
-  padding: 20px;
-  height: calc(100vh - 120px);
+  padding: 10px;
   overflow-y: auto;
 `;
 
