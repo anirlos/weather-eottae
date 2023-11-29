@@ -45,7 +45,6 @@ const DayClothes = () => {
       setClothesPtag("반팔, 얇은 셔츠, 반바지, 면바지");
     } else {
       setClothesPtag("민소매, 반팔, 반바지, 린넨 옷");
-      <p></p>;
     }
   }
 

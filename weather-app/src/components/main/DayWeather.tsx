@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import 비 from "../../assets/img/main/비.png";
 import 평균기온 from "../../assets/img/main/온도.png";
@@ -11,8 +11,8 @@ import { currentweather } from "../../api/currentWeatherApi";
 interface propsType {
   weatherData: {
     locationName: string;
-    temp: number;
-    weather: string;
+    currentTemp: number;
+    weatherDescription: string;
     minTemp: number;
     maxTemp: number;
     precipitation: number;
@@ -55,12 +55,13 @@ const DayWaether = (props: propsType) => {
           </div>
         </HighLowTemperatures>
 
-        <div className="today-weather">{props.weatherData.temp}</div>
+        <div className="today-weather">{props.weatherData.currentTemp}</div>
       </TodayWrap>
       <div className="weather__infos">
         <div className="weather__info--box">
           <p className="weather__info--title">평균기온</p>
           <img src={평균기온} />
+          {props.weatherData.weatherDescription}
           <p className="weather__info--value">{avergeTemp}</p>
         </div>
         <div className="weather__info--box">

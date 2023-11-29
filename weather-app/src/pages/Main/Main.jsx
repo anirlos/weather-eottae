@@ -8,6 +8,7 @@ import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import { coordinates } from "../../api/coordinatesApi";
 import axios from "axios";
+import { number } from "yargs";
 
 const Main = () => {
   // const [location, setLocation] = useState({
@@ -49,6 +50,8 @@ const Main = () => {
   // }, []);
   const [weatherData, setWeatherData] = useState({
     locationName: "",
+    currentTemp: null,
+    weatherDescription: "",
     minTemp: null,
     maxTemp: null,
     precipitation: null,
@@ -99,6 +102,8 @@ const Main = () => {
       });
 
       const locationName = response.data.name; // 도시 이름
+      const currentTemp = response.data.main.temp;
+      const weatherDescription = response.data.weather[0].description;
 
       // One Call API로부터 날씨 데이터를 가져오는 API 호출
       const oneCallResponse = await axios.get(ONE_CALL_API_ENDPOINT, {
@@ -116,6 +121,8 @@ const Main = () => {
 
       setWeatherData({
         locationName,
+        currentTemp,
+        weatherDescription,
         minTemp: dailyData.temp.min,
         maxTemp: dailyData.temp.max,
         precipitation: dailyData.rain ? dailyData.rain["1h"] : 0, // 강수량이 없는 경우 0으로 설정
