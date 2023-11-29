@@ -12,7 +12,8 @@ interface ChatRoomProps {
 }
 
 export const ChatRoom: React.FC<ChatRoomProps> = ({ currentUserNick }) => {
-  const [selectedRoom, setSelectedRoom] = useState("서울");
+  const [currentRoom, setCurrentRoom] = useState("서울");
+  const [previousRoom, setPreviousRoom] = useState("");
 
   const rooms = [
     "서울",
@@ -25,38 +26,40 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ currentUserNick }) => {
     "제주",
   ];
 
+  // 방 변경 감지
   useEffect(() => {
-    // 컴포넌트 마운트시 서울 서버에 자동 접속
-    handleRoomSelection("서울");
-  }, []); // 빈 배열 전달, 컴포넌트가 처음 마운트될 때만 실행
+    if (previousRoom && previousRoom !== currentRoom) {
+      socket.emit("leave", previousRoom);
+    }
 
-  // 방 선택하기
-  const handleRoomSelection = (room: string) => {
-    setSelectedRoom(room); // 선택된 방 상태 업데이트
-    socket.emit("join", room);
+    if (currentRoom !== previousRoom) {
+      socket.emit("join", currentRoom);
+      setPreviousRoom(currentRoom);
+    }
+  }, [currentRoom, previousRoom]);
+
+  const selectRoom = (room: string) => {
+    setCurrentRoom(room);
   };
 
   return (
     <StyledChatRoom>
-      {/* 채팅방 리스트를 나열 로직 */}
       <ChatRoomListContainer>
         {rooms.map((room, index) => (
-          // key는 각 요소를 구별하는 데 사용, 예)데이터 ID
           <ChatRoomListBtn
             key={index}
             type="button"
-            onClick={() => handleRoomSelection(room)}
-            isActive={selectedRoom === room}
+            onClick={() => selectRoom(room)}
+            isActive={currentRoom === room}
           >
             {room}
           </ChatRoomListBtn>
         ))}
-      </ChatRoomListContainer>{" "}
+      </ChatRoomListContainer>
       <ChatMessage
         currentUserNick={currentUserNick}
-        currentRoom={selectedRoom}
+        currentRoom={currentRoom}
       />
-      {/* currentUserNick prop을 전달 */}
     </StyledChatRoom>
   );
 };
