@@ -196,7 +196,7 @@ const FeedBottom = styled.div`
   }
 `;
 
-const Tag = styled.a`
+const Tag = styled.span`
   color: #5d6dbe;
   margin-right: 7px;
   cursor: pointer;
