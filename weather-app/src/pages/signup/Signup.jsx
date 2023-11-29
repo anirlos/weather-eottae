@@ -27,7 +27,41 @@ const Signup = () => {
 
   const [passwordError, setPasswordError] = useState("");
 
-  const handleChange = (e) => {
+  //닉네임 중복체크 
+  const [isNickname, setIsNickname] = useState(false);
+  const [loading,setIsloading]= useState(false);
+  const [empty,setEmpty] = useState(false);
+
+  const doubleCheck = async() =>{
+    const { nickName } = userInfo;
+  
+      try{
+        setIsloading(true);
+        setEmpty(true);
+        const response = await axios.post(`http://43.200.188.52:8080/api/user/${nickName}`,
+        {nickName}
+        );
+
+        console.log('중복체크의 서버로부터의 응답:',response);
+
+        if (response.status === 200) {
+          setIsNickname(true);
+        } else if (response.status === 409){
+          // 닉네임이 사용 불가능한 경우(409)
+          setIsNickname(false);
+        }
+      } catch (error) {
+        // 통신실패 
+        console.error("닉네임 중복체크 오류", error);
+        setIsNickname(false)
+        
+      } finally {
+        setIsloading(false);
+      }
+    };
+
+
+  const handleChange =  (e) => {
     const { name, value } = e.target;
     setUserInfo((prevUserInfo) => ({ ...prevUserInfo, [name]: value }));
 
@@ -106,6 +140,8 @@ const Signup = () => {
     key: file.name,
   });
 
+
+
   return (
     <Container>
       <div className="cover-img">
@@ -126,6 +162,9 @@ const Signup = () => {
             />
 
             <label htmlFor="userName">닉네임</label>
+            
+            
+            <Label>
             <input
               type="text"
               value={userInfo.nickName}
@@ -133,7 +172,15 @@ const Signup = () => {
               id="nickName"
               onChange={handleChange}
             />
-
+           
+              <button onClick={doubleCheck}>중복검사
+              </button>
+            </Label>
+            
+            {/*{!loading && <p>닉네임 중복검사를 해주세요.</p>}*/}
+            {/*{loading && <p>사용할 수 있는지 닉네임인지 확인중</p>}*/}
+            {!loading && !isNickname && empty && (<p style={{color: "orange"}}>사용할 수 없는 닉네임입니다.</p>)}
+            {!loading && isNickname && <p>닉네임을 사용할 수 있습니다.</p>}
             <label htmlFor="email">email</label>
             <input
               type="text"
@@ -205,6 +252,7 @@ const Signup = () => {
     </Container>
   );
 };
+
 
 export default Signup;
 
@@ -288,8 +336,13 @@ const Container = styled.div`
     width: 110px;
     height: 20px;
     border: 1px solid black;
-    border-radius: none;
+    border-radius: 5px;
     font-size: 12px;
+    &:hover {
+      color: black;
+      background-color: white;
+      transition: 0.2s;
+    }
   }
 
   .custom-two {
@@ -300,6 +353,11 @@ const Container = styled.div`
     border: 1px solid black;
     border-radius: none;
     font-size: 12px;
+    &:hover {
+      color: black;
+      background-color: white;
+      transition: 0.2s;
+    }
   }
   .message-margin {
     margin-top: 8px;
@@ -332,4 +390,39 @@ const Container = styled.div`
       display: none;
     }
   }
+`;
+
+const Label = styled.label`
+  position: relative;
+
+  input {
+    border: none;
+    padding: 0;
+    height: 40px;
+    width: 200px;
+    margin-bottom:5px;
+  }
+  button {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    margin-top: 10px;
+    background-color: black;
+    color: white;
+    width: 80px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 12px;
+  
+  
+  &:hover {
+    color: black;
+    background-color: white;
+    transition: 0.2s;
+  }
+
+}
+
+}
 `;
