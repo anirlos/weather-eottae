@@ -4,9 +4,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Container } from "./ChatNotice.styled";
-import noticeBanner0 from "../../assets/img/noticeBanner0.png";
-import noticeBanner1 from "../../assets/img/noticeBanner1.png";
-import noticeBanner2 from "../../assets/img/noticeBanner2.png";
+import noticeBanner0 from "../../assets/img/chat/noticeBanner0.png";
+import noticeBanner1 from "../../assets/img/chat/noticeBanner1.png";
+import noticeBanner2 from "../../assets/img/chat/noticeBanner2.png";
 
 register();
 

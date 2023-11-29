@@ -14,6 +14,13 @@ export const StyledChatMessage = styled.div`
   max-height: 400px; // 메시지 목록의 최대 높이 제한
   margin-bottom: 20px; // 하단 여백 추가
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none; // Firefox 설정
+  -ms-overflow-style: none; // IE, Edge 설정
+
   &:last-child {
     border-bottom: none;
   }

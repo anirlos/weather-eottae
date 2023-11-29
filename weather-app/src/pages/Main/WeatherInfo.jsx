@@ -11,7 +11,7 @@ const WeatherInfo = () => {
     precipitation: null,
     uvIndex: null,
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // isLoading 상태와 설정 함수
 
   const OPEN_WEATHER_MAP_API_KEY = "dcd4cc7754eeecc0a0b7ba1260ac6f25";
   const WEATHER_API_ENDPOINT =
@@ -19,6 +19,7 @@ const WeatherInfo = () => {
   const ONE_CALL_API_ENDPOINT =
     "https://api.openweathermap.org/data/2.5/onecall";
 
+  // 현재 위치 정보 가져오기
   const getCurrentLocation = () => {
     return new Promise((resolve, reject) => {
       if ("geolocation" in navigator) {
