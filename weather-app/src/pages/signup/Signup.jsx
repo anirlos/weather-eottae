@@ -162,6 +162,9 @@ const Signup = () => {
             />
 
             <label htmlFor="userName">닉네임</label>
+            
+            
+            <Label>
             <input
               type="text"
               value={userInfo.nickName}
@@ -169,7 +172,11 @@ const Signup = () => {
               id="nickName"
               onChange={handleChange}
             />
-            <button onClick={doubleCheck}>중복검사</button>
+           
+              <button onClick={doubleCheck}>중복검사
+              </button>
+            </Label>
+            
             {/*{!loading && <p>닉네임 중복검사를 해주세요.</p>}*/}
             {/*{loading && <p>사용할 수 있는지 닉네임인지 확인중</p>}*/}
             {!loading && !isNickname && empty && (<p style={{color: "orange"}}>사용할 수 없는 닉네임입니다.</p>)}
@@ -329,8 +336,13 @@ const Container = styled.div`
     width: 110px;
     height: 20px;
     border: 1px solid black;
-    border-radius: none;
+    border-radius: 5px;
     font-size: 12px;
+    &:hover {
+      color: black;
+      background-color: white;
+      transition: 0.2s;
+    }
   }
 
   .custom-two {
@@ -341,6 +353,11 @@ const Container = styled.div`
     border: 1px solid black;
     border-radius: none;
     font-size: 12px;
+    &:hover {
+      color: black;
+      background-color: white;
+      transition: 0.2s;
+    }
   }
   .message-margin {
     margin-top: 8px;
@@ -373,4 +390,39 @@ const Container = styled.div`
       display: none;
     }
   }
+`;
+
+const Label = styled.label`
+  position: relative;
+
+  input {
+    border: none;
+    padding: 0;
+    height: 40px;
+    width: 200px;
+    margin-bottom:5px;
+  }
+  button {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    margin-top: 10px;
+    background-color: black;
+    color: white;
+    width: 80px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 12px;
+  
+  
+  &:hover {
+    color: black;
+    background-color: white;
+    transition: 0.2s;
+  }
+
+}
+
+}
 `;
