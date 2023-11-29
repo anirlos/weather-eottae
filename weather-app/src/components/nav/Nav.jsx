@@ -88,7 +88,7 @@ const Nav = () => {
         )}
 
         {!isLoggin && (
-          <Link to="login">
+          <Link to={"/login"}>
             <button>
               <img src={login} alt="로그인" />
             </button>
