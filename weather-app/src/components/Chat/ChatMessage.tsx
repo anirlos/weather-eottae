@@ -37,6 +37,9 @@ export const ChatMessage = ({
 
     socket.on("message", handleNewMessage);
 
+    // 채팅방 변경시 메시지 배열을 초기화
+    setMessages([]);
+
     return () => {
       socket.off("message", handleNewMessage); // 리스너 제거
     };
