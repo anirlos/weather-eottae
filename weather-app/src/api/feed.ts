@@ -36,10 +36,10 @@ const fetchHeartUsers = async (postId: number) => {
 };
 
 const getUserPosts = async (
-  userEmail: string,
+  nickName: string,
   { page, size }: GetPostsParams
 ) => {
-  const response = await axios.get(`${BASE_URL}/posts/user/${userEmail}`, {
+  const response = await axios.get(`${BASE_URL}/posts/user/${nickName}`, {
     params: { page, size },
     headers: {
       Authorization: `${localStorage.getItem("access_token")}`,

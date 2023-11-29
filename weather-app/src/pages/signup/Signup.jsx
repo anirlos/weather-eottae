@@ -27,7 +27,41 @@ const Signup = () => {
 
   const [passwordError, setPasswordError] = useState("");
 
-  const handleChange = (e) => {
+  //닉네임 중복체크 
+  const [isNickname, setIsNickname] = useState(false);
+  const [loading,setIsloading]= useState(false);
+  const [empty,setEmpty] = useState(false);
+
+  const doubleCheck = async() =>{
+    const { nickName } = userInfo;
+  
+      try{
+        setIsloading(true);
+        setEmpty(true);
+        const response = await axios.post(`http://43.200.188.52:8080/api/user/${nickName}`,
+        {nickName}
+        );
+
+        console.log('중복체크의 서버로부터의 응답:',response);
+
+        if (response.status === 200) {
+          setIsNickname(true);
+        } else if (response.status === 409){
+          // 닉네임이 사용 불가능한 경우(409)
+          setIsNickname(false);
+        }
+      } catch (error) {
+        // 통신실패 
+        console.error("닉네임 중복체크 오류", error);
+        setIsNickname(false)
+        
+      } finally {
+        setIsloading(false);
+      }
+    };
+
+
+  const handleChange =  (e) => {
     const { name, value } = e.target;
     setUserInfo((prevUserInfo) => ({ ...prevUserInfo, [name]: value }));
 
@@ -106,6 +140,8 @@ const Signup = () => {
     key: file.name,
   });
 
+
+
   return (
     <Container>
       <div className="cover-img">
@@ -133,7 +169,11 @@ const Signup = () => {
               id="nickName"
               onChange={handleChange}
             />
-
+            <button onClick={doubleCheck}>중복검사</button>
+            {/*{!loading && <p>닉네임 중복검사를 해주세요.</p>}*/}
+            {/*{loading && <p>사용할 수 있는지 닉네임인지 확인중</p>}*/}
+            {!loading && !isNickname && empty && (<p style={{color: "orange"}}>사용할 수 없는 닉네임입니다.</p>)}
+            {!loading && isNickname && <p>닉네임을 사용할 수 있습니다.</p>}
             <label htmlFor="email">email</label>
             <input
               type="text"
@@ -205,6 +245,7 @@ const Signup = () => {
     </Container>
   );
 };
+
 
 export default Signup;
 

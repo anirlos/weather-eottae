@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ScrollTop from "./hooks/useScrollTop";
 import ChatView from "./pages/Chat/ChatView";
 import Main from "./pages/Main/Main";
 import Layout from "./components/layout/Layout";
@@ -10,6 +11,7 @@ import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
 import MyPage from "./pages/users/MyPage";
 import EditPost from "./pages/editpost/EditPost";
+import { LogOutAction } from "./components/login/Logout";
 import WeatherInfo from "./pages/Main/WeatherInfo";
 import SevenWeatherForecast from "./pages/Main/SevenWeatherForecast";
 
@@ -17,6 +19,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Router>
+        <ScrollTop />
         <Routes>
           <Route
             path="/"
@@ -56,7 +59,7 @@ const App: React.FC = () => {
           />
           {/* 특정 유저 피드 조회 */}
           <Route
-            path="/feed/:userId"
+            path="/feed/:nickName"
             element={
               <Layout>
                 <Feed />
@@ -88,6 +91,9 @@ const App: React.FC = () => {
               </Layout>
             }
           />
+
+          <Route path="/logout" element={<LogOutAction />} />
+          <Route path="*" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/weatherinfo" element={<WeatherInfo />} />
           <Route path="/sevendayweather" element={<SevenWeatherForecast />} />

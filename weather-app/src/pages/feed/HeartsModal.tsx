@@ -13,8 +13,8 @@ interface HeartsModalProps {
 const HeartsModal: FC<HeartsModalProps> = ({ heartUsers, onClose }) => {
   const navigate = useNavigate();
 
-  const handleUserClick = (userEmail: string) => {
-    navigate(`/feed/${userEmail}`);
+  const handleUserClick = (nickName: string) => {
+    navigate(`/feed/${nickName}`);
   };
 
   return (
