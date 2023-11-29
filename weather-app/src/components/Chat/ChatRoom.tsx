@@ -57,6 +57,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ currentUserNick }) => {
         ))}
       </ChatRoomListContainer>
       <ChatMessage
+        key={currentRoom}
         currentUserNick={currentUserNick}
         currentRoom={currentRoom}
       />
