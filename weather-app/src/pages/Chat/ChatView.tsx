@@ -18,7 +18,7 @@ const ChatView = () => {
         setUserNick(userName);
       } catch (error) {
         console.error("유저 이름을 가져오지 못했습니다:", error);
-        setUserNick("에러 발생");
+        setUserNick("익명");
       }
     };
 
