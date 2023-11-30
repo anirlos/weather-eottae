@@ -42,7 +42,7 @@ export const ChatMessage = ({
       setMessages([]);
       socket.off("message", handleNewMessage); // 리스너 제거
     };
-  }, []); // 방이 변경될 때마다 실행
+  }, [currentRoom]); // 방이 변경될 때마다 실행
 
   return (
     <StyledChatMessage>

@@ -25,12 +25,15 @@ export const MessageInput = ({
   // '보내기' 버튼 클릭 시 서버로 메시지 전송
   const handleSendMessage = () => {
     if (message.trim()) {
+      console.log("Sending message: ", message); // 유저가 보낸 메세지
+
       // 메시지 객체 생성
       const messageData = {
         nick, // 사용자 닉네임
         msg: message, // 메시지 내용
         timestamp: new Date().toISOString(), // 메시지 전송 시 타임스탬프 추가
       };
+      console.log(`Emitting message event: `, messageData); // 실제 서버에 전달되는 로그
       // 'Message' 이벤트와 함께 메시지 객체 전송
       socket.emit("message", messageData);
       setMessage("");
