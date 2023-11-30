@@ -13,7 +13,8 @@ const WeatherInfo = ({ onWeatherUpdate }) => {
 	});
 	const [isLoading, setIsLoading] = useState(true);
 
-	const OPEN_WEATHER_MAP_API_KEY = 'dcd4cc7754eeecc0a0b7ba1260ac6f25';
+	const OPEN_WEATHER_MAP_API_KEY =
+		process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY;
 	const WEATHER_API_ENDPOINT =
 		'https://api.openweathermap.org/data/2.5/weather';
 	const ONE_CALL_API_ENDPOINT =
