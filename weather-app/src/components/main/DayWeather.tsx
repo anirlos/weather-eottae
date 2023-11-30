@@ -25,13 +25,6 @@ export interface propsType {
 }
 
 const DayWaether = (props: propsType) => {
-  //   const [weather, setWeather] = useState<CurrentWeather[]>([]);
-
-  // useEffect(()=>{
-  //   const getWeather
-  // })
-  const [icon, setIcon] = useState("");
-
   console.log(props);
   console.log(props.weatherData.minTemp);
 
@@ -60,7 +53,6 @@ const DayWaether = (props: propsType) => {
     }
   };
 
-  console.log(icon);
   return (
     <DayWaetherWarp>
       <h2 className="title">오늘의 날씨</h2>
@@ -131,8 +123,9 @@ const DayWaetherWarp = styled.div`
     justify-content: space-around;
     align-items: center;
     img {
-      width: 4.6rem;
+      width: 4.8rem;
       height: 4.6rem;
+      margin: 10px 0 7px;
     }
   }
   .title {
@@ -146,6 +139,11 @@ const DayWaetherWarp = styled.div`
     height: 160px;
     box-shadow: 2px 4px 10px 0 #dcdbdb;
     border-radius: 10px;
+
+    &:hover {
+      background-color: #5d6dbe;
+      color: white;
+    }
   }
   .weather__info--value {
     margin: 5px;

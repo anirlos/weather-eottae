@@ -1,24 +1,21 @@
 import React from "react";
-import 구름 from "../../assets/img/main/weatherIcon/흐림icon.png";
-import 눈 from "../../assets/img/main/weatherIcon/눈icon.png";
-import 해 from "../../assets/img/main/weatherIcon/해icon.png";
+
 import styled from "styled-components";
+import 해 from "../../assets/img/main/weatherIcon/해쨍쨍icon.png";
+import 눈 from "../../assets/img/main/weatherIcon/눈icon.png";
+import 번개 from "../../assets/img/main/weatherIcon/번개icon.png";
+import 비내림 from "../../assets/img/main/weatherIcon/비icon.png";
+import 약간흐림 from "../../assets/img/main/weatherIcon/약간흐림icon.png";
+import 흐림 from "../../assets/img/main/weatherIcon/흐림icon.png";
+import WeatherDaysCard from "./WeatherDaysCard";
 
 const WeatherDays = (props) => {
   console.log(props);
+
   return (
     <WeatherDaysWrap>
       {props.forecastData &&
-        props.forecastData.map((item) => (
-          <div className="forecast-data">
-            {item.date && <p>{item.date.substr(5, 6)}</p>}
-            <img src={구름} />
-            <DaysTemperatures>
-              <div className="high">{item.minTemp.toFixed()}°C </div>
-              <div className="low">{item.maxTemp.toFixed()}°C</div>
-            </DaysTemperatures>
-          </div>
-        ))}
+        props.forecastData.map((item) => <WeatherDaysCard {...item} />)}
     </WeatherDaysWrap>
   );
 };
@@ -40,25 +37,13 @@ const WeatherDaysWrap = styled.div`
   font-size: 20px;
   p {
     margin: 10px;
+    font-size: 1.4rem;
+    color: #363535;
   }
   img {
-    width: 140px;
+    width: 100px;
+    margin: 10px 0;
   }
   .forecast-data {
-  }
-`;
-const DaysTemperatures = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-
-  .high {
-    color: #ff0000;
-    padding-right: 5px;
-    /* border-right: 1px solid #d3d3d3; */
-  }
-  .low {
-    color: #5d6dbe;
-    padding-left: 5px;
   }
 `;

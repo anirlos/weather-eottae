@@ -40,14 +40,16 @@ const SevenWeatherForecast = () => {
           exclude: "current,minutely,hourly,alerts",
           appid: OPEN_WEATHER_MAP_API_KEY,
           units: "metric",
-          lang: "kr",
+          lang: "En",
         },
       });
 
-      const dailyData = response.data.daily.slice(0, 6); // 7일간의 데이터
+      const dailyData = response.data.daily.slice(1, 7); // 7일간의 데이터
       setForecastData(
         dailyData.map((day) => ({
           date: new Date(day.dt * 1000).toLocaleDateString(), // 날짜
+          weatherDescription: day.weather[0].description,
+
           minTemp: day.temp.min, // 최저 기온
           maxTemp: day.temp.max, // 최고 기온
         }))

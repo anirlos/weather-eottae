@@ -15,11 +15,11 @@ const DayClothes = (props) => {
 
   let winter = currentTemp <= 4;
   let earlyWinter = currentTemp >= 5 && currentTemp < 9;
-  let beginWinter = currentTemp >= 10 && currentTemp < 9;
-  let fall = currentTemp >= 5 && currentTemp < 9;
-  let earlyFall = currentTemp >= 5 && currentTemp < 9;
-  let earlySummer = currentTemp >= 5 && currentTemp < 9;
-  let beginSummer = currentTemp >= 5 && currentTemp < 9;
+  let beginWinter = currentTemp >= 9 && currentTemp < 12;
+  let fall = currentTemp >= 12 && currentTemp < 17;
+  let earlyFall = currentTemp >= 17 && currentTemp < 19;
+  let earlySummer = currentTemp >= 20 && currentTemp < 23;
+  let beginSummer = currentTemp >= 23 && currentTemp < 27;
   let summer = currentTemp >= 28;
 
   function todayClothes() {
