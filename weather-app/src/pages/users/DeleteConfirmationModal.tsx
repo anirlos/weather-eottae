@@ -2,6 +2,7 @@
 
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 interface DeleteConfirmationModalProps {
   isOpen: boolean;
@@ -14,10 +15,19 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const handleConfirmDelete = () => {
-    console.log("회원 탈퇴 처리 로직");
-    // 여기에 실제 회원 탈퇴 로직을 구현
-    onClose();
+  const handleConfirmDelete = async () => {
+    const token = localStorage.getItem("access_token");
+    try {
+      const response = await axios.delete("/api/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("회원 탈퇴 성공:", response.data);
+      onClose();
+    } catch (error) {
+      console.error("회원 탈퇴 실패:", error);
+    }
   };
 
   const ModalContainer = styled.div`
