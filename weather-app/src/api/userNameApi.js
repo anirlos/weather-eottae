@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://43.200.188.52:8080/api";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const getAuthToken = () => localStorage.getItem("access_token");
 
