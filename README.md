@@ -11,10 +11,9 @@
 ## 📜 Overview 
 1. [Demo](#id-section1)
 2. [개발 기간](#id-section2)
-3. [ERD](#id-section3)
-4. [주요 기능](#id-section4)
-5. [Tech Stacks](#id-section5)
-6. [Team Members](#id-section6)
+3. [주요 기능](#id-section4)
+4. [Tech Stacks](#id-section5)
+5. [Team Members](#id-section6)
 
 <br>
 
@@ -30,11 +29,7 @@
 * 23.10.23일 - 23.12.02일
 
 
-<br>
-<div id='id-section3'/>
 
-## 🎨 ERD
-![image](https://github.com/anirlos/weather-eottae/assets/130023446/6044a8e6-dbb4-4087-9bba-e2981786c91e)
 
 <br>
 <div id='id-section4'/>
@@ -59,6 +54,7 @@
 - Redux Toolkit
 - styled-components
 - axios
+- WebSocket
 
 <br>
 
