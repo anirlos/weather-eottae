@@ -25,8 +25,8 @@ export interface propsType {
 }
 
 const DayWaether = (props: propsType) => {
-  console.log(props);
-  console.log(props.weatherData.minTemp);
+  // console.log(props);
+  // console.log(props.weatherData.minTemp);
 
   const minTemp = props.weatherData.minTemp;
   const maxTemp = props.weatherData.maxTemp;

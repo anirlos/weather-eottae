@@ -10,7 +10,7 @@ import 흐림 from "../../assets/img/main/weatherIcon/흐림icon.png";
 import WeatherDaysCard from "./WeatherDaysCard";
 
 const WeatherDays = (props) => {
-  console.log(props);
+  // console.log(props);
 
   return (
     <WeatherDaysWrap>
