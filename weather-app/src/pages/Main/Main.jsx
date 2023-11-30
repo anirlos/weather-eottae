@@ -8,46 +8,10 @@ import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import { coordinates } from "../../api/coordinatesApi";
 import axios from "axios";
-import { number } from "yargs";
+import Loading from "../../components/loading/Loading";
+import SevenWeatherForecast from "./SevenWeatherForecast";
 
 const Main = () => {
-  // const [location, setLocation] = useState({
-  //   coordinate: { lat: 0, lng: 0 },
-  //   error: "",
-  // });
-
-  // const onError = (error: { code?: number; message: any }) => {
-  //   setLocation({
-  //     coordinate: { lat: 0, lng: 0 },
-  //     error: error.message, // 에러 메시지 저장
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   if (!("geolocation" in navigator)) {
-  //     onError({
-  //       code: 0,
-  //       message: "Geolocation not supported",
-  //     });
-  //   } else {
-  //     navigator.geolocation.getCurrentPosition(function (pos) {
-  //       console.log(pos);
-  //       const latitude = pos.coords.latitude;
-  //       const longitude = pos.coords.longitude;
-  //       console.log("현재 위치는 : " + latitude + ", " + longitude);
-  //       setLocation({
-  //         coordinate: { lat: latitude, lng: longitude },
-  //         error: "",
-  //       });
-  //       console.log(location);
-  //     });
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   coordinates(location);
-  //   console.log(location);
-  // }, []);
   const [weatherData, setWeatherData] = useState({
     locationName: "",
     currentTemp: null,
@@ -57,7 +21,9 @@ const Main = () => {
     precipitation: null,
     uvIndex: null,
   });
-  const [isLoading, setIsLoading] = useState(true); // isLoading 상태와 설정 함수
+  // const [forecastData, setForecastData] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const OPEN_WEATHER_MAP_API_KEY = "dcd4cc7754eeecc0a0b7ba1260ac6f25";
   const WEATHER_API_ENDPOINT =
@@ -65,7 +31,6 @@ const Main = () => {
   const ONE_CALL_API_ENDPOINT =
     "https://api.openweathermap.org/data/2.5/onecall";
 
-  // 현재 위치 정보 가져오기
   const getCurrentLocation = () => {
     return new Promise((resolve, reject) => {
       if ("geolocation" in navigator) {
@@ -86,38 +51,35 @@ const Main = () => {
     });
   };
 
-  // 날씨 데이터 가져오기
   const fetchWeatherData = async (lat, lon) => {
     setIsLoading(true);
     try {
-      // 위치명을 가져오는 API 호출
       const response = await axios.get(WEATHER_API_ENDPOINT, {
         params: {
           lat: lat,
           lon: lon,
           appid: OPEN_WEATHER_MAP_API_KEY,
           units: "metric",
-          lang: "kr",
+          lang: "En",
         },
       });
 
-      const locationName = response.data.name; // 도시 이름
+      const locationName = response.data.name;
       const currentTemp = response.data.main.temp;
       const weatherDescription = response.data.weather[0].description;
 
-      // One Call API로부터 날씨 데이터를 가져오는 API 호출
       const oneCallResponse = await axios.get(ONE_CALL_API_ENDPOINT, {
         params: {
           lat: lat,
           lon: lon,
-          exclude: "current,minutely,hourly,alerts", // 필요하지 않은 데이터 제외
+          exclude: "current,minutely,hourly,alerts",
           appid: OPEN_WEATHER_MAP_API_KEY,
           units: "metric",
           lang: "kr",
         },
       });
 
-      const dailyData = oneCallResponse.data.daily[0]; // 현재 날짜에 대한 데이터
+      const dailyData = oneCallResponse.data.daily[0];
 
       setWeatherData({
         locationName,
@@ -125,7 +87,7 @@ const Main = () => {
         weatherDescription,
         minTemp: dailyData.temp.min,
         maxTemp: dailyData.temp.max,
-        precipitation: dailyData.rain ? dailyData.rain["1h"] : 0, // 강수량이 없는 경우 0으로 설정
+        precipitation: dailyData.rain ? dailyData.rain["1h"] : 0,
         uvIndex: dailyData.uvi,
       });
     } catch (error) {
@@ -150,7 +112,7 @@ const Main = () => {
   }, []);
 
   if (isLoading) {
-    return <div>날씨 데이터를 불러오는 중입니다...</div>;
+    return <Loading />;
   }
 
   return (
@@ -159,9 +121,9 @@ const Main = () => {
       <StMain>
         <div className="daywaether">
           <DayWaether weatherData={weatherData} />
-          <DayClothes />
+          <DayClothes weatherData={weatherData} />
         </div>
-
+        <SevenWeatherForecast />
         <WeatherDays />
       </StMain>
     </>
@@ -174,7 +136,7 @@ const StMain = styled.div`
   width: 100%;
   margin: 0 auto;
   height: 830px;
-
+  overflow-y: hidden;
   .daywaether {
     display: flex;
     justify-content: center;

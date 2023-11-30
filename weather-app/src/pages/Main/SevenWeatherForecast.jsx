@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import WeatherDays from "../../components/main/WeatherDays";
 
 const SevenWeatherForecast = () => {
   const [forecastData, setForecastData] = useState([]);
@@ -39,14 +40,16 @@ const SevenWeatherForecast = () => {
           exclude: "current,minutely,hourly,alerts",
           appid: OPEN_WEATHER_MAP_API_KEY,
           units: "metric",
-          lang: "kr",
+          lang: "En",
         },
       });
 
-      const dailyData = response.data.daily.slice(0, 7); // 7일간의 데이터
+      const dailyData = response.data.daily.slice(1, 7); // 7일간의 데이터
       setForecastData(
         dailyData.map((day) => ({
           date: new Date(day.dt * 1000).toLocaleDateString(), // 날짜
+          weatherDescription: day.weather[0].description,
+
           minTemp: day.temp.min, // 최저 기온
           maxTemp: day.temp.max, // 최고 기온
         }))
@@ -78,16 +81,17 @@ const SevenWeatherForecast = () => {
 
   return (
     <div>
-      <h2>7일간의 날씨 예보</h2>
+      {/* <h2>7일간의 날씨 예보</h2> */}
       <ul>
-        {forecastData.map((day, index) => (
+        {/* {forecastData.map((day, index) => (
           <li key={index}>
             <p>날짜: {day.date}</p>
             <p>최저 기온: {day.minTemp.toFixed(1)}°C</p>
             <p>최고 기온: {day.maxTemp.toFixed(1)}°C</p>
           </li>
-        ))}
+        ))} */}
       </ul>
+      <WeatherDays forecastData={forecastData} />
     </div>
   );
 };
