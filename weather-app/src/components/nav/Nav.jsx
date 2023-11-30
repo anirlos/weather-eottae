@@ -11,10 +11,14 @@ import login from "../../assets/img/nav/login.png";
 import { Link } from "react-router-dom";
 import MobileNav from "./MobileNav";
 import { useState, useEffect } from "react";
+//import LoginModal from "../modal/LoginModal";
+
 
 const Nav = () => {
   const [isLoggin, setIsLoggin] = useState(false);
+  //const [isModalOpen, setIsModalOpen] = useState(false);
 
+ 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
     const refreshToken = localStorage.getItem("refresh_token");
@@ -28,8 +32,29 @@ const Nav = () => {
     setIsLoggin(false);
   };
 
+/*
+  const openLoginModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeLoginModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleRestrictedLink = () => {
+    if (!isLoggin) {
+      openLoginModal();
+      console.log('모달을 열어야 합니다.')
+    } else if(isLoggin) {
+      closeLoginModal();
+      console.log('모달이 아닌 경로로 이동해야함')
+    }
+  };
+*/
+
   return (
     <>
+      {/*{isModalOpen && <LoginModal/>}*/}
       <StyledMobileNav>
         <MobileNav />
       </StyledMobileNav>
@@ -49,7 +74,7 @@ const Nav = () => {
             </Link>
           </li>
           <li>
-            <Link to={"/chat"}>
+            <Link to={"/chat"} >
               <span>
                 <img src={chat} alt="지역 톡" />
                 지역 톡
@@ -94,7 +119,7 @@ const Nav = () => {
             </button>
           </Link>
         )}
-      </Container>
+    </Container>
     </>
   );
 };

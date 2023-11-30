@@ -15,6 +15,7 @@ import { LogOutAction } from "./components/login/Logout";
 import WeatherInfo from "./pages/Main/WeatherInfo";
 import SevenWeatherForecast from "./pages/Main/SevenWeatherForecast";
 
+
 const App: React.FC = () => {
   return (
     <div className="App">
@@ -91,7 +92,6 @@ const App: React.FC = () => {
               </Layout>
             }
           />
-
           <Route path="/logout" element={<LogOutAction />} />
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />

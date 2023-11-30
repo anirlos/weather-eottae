@@ -18,6 +18,7 @@ import {
   RecentPagesWrapper,
 } from "./MyPageStyles";
 
+
 const MyPage = () => {
   const [isUserInfoModalOpen, setUserInfoModalOpen] = useState(false);
   const [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
