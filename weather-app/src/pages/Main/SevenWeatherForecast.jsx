@@ -76,7 +76,7 @@ const SevenWeatherForecast = () => {
   }, []);
 
   if (isLoading) {
-    return <div>날씨 데이터를 불러오는 중입니다...</div>;
+    return <div> </div>;
   }
 
   return (
