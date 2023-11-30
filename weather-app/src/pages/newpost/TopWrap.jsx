@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { HiArrowLeft } from 'react-icons/hi';
 import { MdPlace } from 'react-icons/md';
-import LocationComponent from '../../components/location/Location';
-import WeatherComponent from '../../components/weather/Weather';
+import LocationInfo from '../../components/location/Location';
+import WeatherInfo from '../../components/weather/Weather';
 
 const TopWrap = ({ onTemperatureChange, onLocationUpdate }) => {
 	const navigate = useNavigate();
@@ -14,11 +14,16 @@ const TopWrap = ({ onTemperatureChange, onLocationUpdate }) => {
 	};
 
 	const handleWeatherUpdate = (temperature) => {
-		onTemperatureChange(temperature); // 날씨 데이터를 NewPost로 전달
+		// 온도가 null이면 기본값으로 설정
+		const tempValue = temperature !== null ? temperature : -999;
+
+		console.log(tempValue); // 현재는 콘솔에 로깅
+		onTemperatureChange(tempValue); // 상위 컴포넌트에 온도 데이터 전달
 	};
 
-	const handleLocationUpdate = (locationData) => {
-		onLocationUpdate(locationData);
+	const handleLocationUpdate = (location) => {
+		console.log(location); // 현재는 콘솔에 로깅, 필요에 따라 다른 동작 수행
+		onLocationUpdate(location); // 상위 컴포넌트에 위치 데이터 전달
 	};
 
 	const date = new Date();
@@ -39,9 +44,9 @@ const TopWrap = ({ onTemperatureChange, onLocationUpdate }) => {
 			<Bottom>
 				<Place>
 					<MdPlace color="#5d6dbe" />
-					<LocationComponent onLocationUpdate={handleLocationUpdate} />
+					<LocationInfo onLocationUpdate={handleLocationUpdate} />
 					&nbsp;
-					<WeatherComponent onWeatherUpdate={handleWeatherUpdate} />
+					<WeatherInfo onWeatherUpdate={handleWeatherUpdate} />
 				</Place>
 				{/* <Temperature>19°C</Temperature> */}
 				<DateInfo>

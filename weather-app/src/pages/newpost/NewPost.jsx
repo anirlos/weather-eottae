@@ -35,12 +35,12 @@ const NewPost = () => {
 		setFiles(newFiles);
 	};
 
-	const handleLocationChange = (location) => {
-		setLocation(location); // 위치 상태 업데이트
+	const handleLocationChange = (newLocation) => {
+		setLocation(newLocation); // 위치 상태 업데이트
 	};
 
-	const handleWeatherUpdate = (temperature) => {
-		setTemperature(temperature);
+	const handleTemperatureChange = (newTemperature) => {
+		setTemperature(newTemperature);
 	};
 
 	const handleSave = () => {
@@ -76,7 +76,7 @@ const NewPost = () => {
 			<Container>
 				<TopWrap
 					onLocationUpdate={handleLocationChange}
-					onWeatherUpdate={handleWeatherUpdate}
+					onTemperatureChange={handleTemperatureChange}
 				/>
 				<ImageWrap onFilesChange={handleFilesChange} />
 				<ContentWrap

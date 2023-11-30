@@ -30,15 +30,14 @@ const EditPost = () => {
 			try {
 				const postData = await fetchPost(postId);
 				setContent(postData.content);
-				setHashtags(postData.hashtagNames.join('#'));
+				const formattedHashtags = postData.hashtagNames
+					.map((tag, index) => (index === 0 ? `#${tag}` : tag))
+					.join('#');
+				setHashtags(formattedHashtags);
 				setTemperature(postData.temperature || '');
 				setLocation(postData.location || '');
 				setDate(postData.date || ''); // 날짜 설정
 				setMediaFiles(postData.mediaUrls || []);
-
-				console.log('Temperature:', temperature);
-				console.log('Location:', location);
-				console.log('Date:', date);
 			} catch (error) {
 				console.error('Failed to fetch post:', error);
 			} finally {
@@ -57,6 +56,7 @@ const EditPost = () => {
 			if (isDelete) {
 				// 게시물 삭제
 				await deletePost(postId);
+				navigate('/user');
 			} else {
 				// 게시물 업데이트
 				const token = getTokenFromLocalStorage();
@@ -72,7 +72,7 @@ const EditPost = () => {
 				);
 			}
 			// 처리 완료 후 피드 페이지로 이동
-			navigate('/feed');
+			navigate('/user');
 		} catch (error) {
 			console.error(`Failed to ${isDelete ? 'delete' : 'update'} post:`, error);
 		} finally {
@@ -91,7 +91,14 @@ const EditPost = () => {
 	};
 
 	const handleHashtagsChange = (e) => {
-		setHashtags(e.target.value);
+		let inputHashtags = e.target.value;
+
+		// 첫 번째 문자가 '#'이 아니라면 '#'을 앞에 추가
+		if (inputHashtags && inputHashtags.charAt(0) !== '#') {
+			inputHashtags = '#' + inputHashtags;
+		}
+
+		setHashtags(inputHashtags);
 	};
 
 	const handleFileChange = (event) => {

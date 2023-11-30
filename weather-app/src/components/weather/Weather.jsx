@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const WeatherInfo = () => {
+const WeatherInfo = ({ onWeatherUpdate }) => {
 	const [weatherData, setWeatherData] = useState({
 		locationName: '',
-		currentTemp: null,
+		temperature: null, // 'currentTemp' 대신 'temperature' 사용
 		weatherDescription: '',
 		minTemp: null,
 		maxTemp: null,
@@ -19,6 +19,7 @@ const WeatherInfo = () => {
 	const ONE_CALL_API_ENDPOINT =
 		'https://api.openweathermap.org/data/2.5/onecall';
 
+	// 현재 위치 가져오기
 	const getCurrentLocation = () => {
 		return new Promise((resolve, reject) => {
 			if ('geolocation' in navigator) {
@@ -39,6 +40,7 @@ const WeatherInfo = () => {
 		});
 	};
 
+	// 날씨 데이터 가져오기
 	const fetchWeatherData = async (lat, lon) => {
 		setIsLoading(true);
 		try {
@@ -53,7 +55,7 @@ const WeatherInfo = () => {
 			});
 
 			const locationName = response.data.name;
-			const currentTemp = response.data.main.temp;
+			const temperature = response.data.main.temp; // 온도
 			const weatherDescription = response.data.weather[0].description;
 
 			const oneCallResponse = await axios.get(ONE_CALL_API_ENDPOINT, {
@@ -71,13 +73,16 @@ const WeatherInfo = () => {
 
 			setWeatherData({
 				locationName,
-				currentTemp,
+				temperature, // 'currentTemp' 대신 'temperature' 사용
 				weatherDescription,
 				minTemp: dailyData.temp.min,
 				maxTemp: dailyData.temp.max,
 				precipitation: dailyData.rain ? dailyData.rain['1h'] : 0,
 				uvIndex: dailyData.uvi,
 			});
+
+			// 외부 컴포넌트에 현재 온도 전달
+			onWeatherUpdate(temperature);
 		} catch (error) {
 			console.error('Error fetching weather data:', error);
 		} finally {
@@ -106,7 +111,7 @@ const WeatherInfo = () => {
 	return (
 		<div>
 			<p>
-				{weatherData.currentTemp ? weatherData.currentTemp.toFixed(1) : 'N/A'}°C
+				{weatherData.temperature ? weatherData.temperature.toFixed(1) : 'N/A'}°C
 			</p>
 		</div>
 	);
