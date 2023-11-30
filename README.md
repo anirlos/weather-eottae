@@ -34,8 +34,7 @@
 <div id='id-section3'/>
 
 ## 🎨 ERD
-![캡처 PNG]([https://ibb.co/wykpL3n])
-
+![image](https://github.com/anirlos/weather-eottae/assets/130023446/6044a8e6-dbb4-4087-9bba-e2981786c91e)
 
 <br>
 <div id='id-section4'/>
