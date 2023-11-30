@@ -20,6 +20,7 @@
 <div id='id-section1'/>
 
 ## 📀 Demo
+(완성시 웹 화면 녹화 영상으로 변경 예정!)
 ![image](https://github.com/anirlos/weather-eottae/assets/130023446/58804b9a-b012-4833-ba0d-b143b9b3fb7b)
 <br>
 
