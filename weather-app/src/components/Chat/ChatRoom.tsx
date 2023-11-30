@@ -29,10 +29,12 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ currentUserNick }) => {
   // 방 변경 감지
   useEffect(() => {
     if (previousRoom && previousRoom !== currentRoom) {
+      console.log(`Leaving room: ${previousRoom}`); // 채팅방 퇴장
       socket.emit("leave", previousRoom);
     }
 
     if (currentRoom !== previousRoom) {
+      console.log(`Joining room: ${currentRoom}`); // 채팅방 입장
       socket.emit("join", currentRoom);
       setPreviousRoom(currentRoom);
     }
