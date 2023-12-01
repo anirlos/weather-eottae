@@ -16,8 +16,10 @@ const NewPost = () => {
 	const [hashtags, setHashtags] = useState('');
 	const [temperature, setTemperature] = useState(''); // 온도를 저장할 상태 변수
 	const [location, setLocation] = useState(''); // 위치를 저장할 상태 변수
-
+	const [showAlertModal, setShowAlertModal] = useState(false);
+	const [alertMessage, setAlertMessage] = useState('');
 	const [showModal, setShowModal] = useState(false);
+	const [showCancelModal, setShowCancelModal] = useState(false);
 	const navigate = useNavigate();
 
 	const getTokenFromLocalStorage = () => {
@@ -44,7 +46,21 @@ const NewPost = () => {
 	};
 
 	const handleSave = () => {
-		setShowModal(true); // 모달을 보여줌 (필요한 경우)
+		// 내용과 이미지가 모두 입력되었는지 검사
+		if (!content.trim() || files.length === 0) {
+			setAlertMessage('내용과 이미지를 모두 입력해주세요.');
+			setShowAlertModal(true);
+			return;
+		}
+		setShowModal(true); // 모든 조건이 충족됐을 때만 저장 확인 모달 표시
+	};
+
+	const handleCancel = () => {
+		setShowCancelModal(true); // 취소 모달 표시
+	};
+
+	const handleConfirmCancel = () => {
+		navigate('/'); // 메인 페이지로 리디렉션
 	};
 
 	const handleConfirmSave = async () => {
@@ -68,6 +84,7 @@ const NewPost = () => {
 	};
 
 	const handleCancelSave = () => {
+		navigate('/feed');
 		setShowModal(false);
 	};
 
@@ -85,12 +102,26 @@ const NewPost = () => {
 					onContentChange={handleContentChange}
 					onHashtagsChange={handleHashtagsChange}
 				/>
-				<ButtonWrap onSave={handleSave} />
+				<ButtonWrap onSave={handleSave} onCancel={handleCancel} />
 				{showModal && (
 					<Modal
 						message="저장하시겠습니까?"
 						onConfirm={handleConfirmSave}
 						onCancel={handleCancelSave}
+					/>
+				)}
+				{showAlertModal && (
+					<Modal
+						message={alertMessage}
+						onConfirm={() => setShowAlertModal(false)}
+						// 취소 버튼 없이 '확인' 버튼만 표시
+					/>
+				)}
+				{showCancelModal && (
+					<Modal
+						message="작성을 취소하시겠습니까?"
+						onConfirm={handleConfirmCancel}
+						onCancel={() => setShowCancelModal(false)}
 					/>
 				)}
 			</Container>
