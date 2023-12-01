@@ -25,13 +25,20 @@ export interface propsType {
 }
 
 const DayWaether = (props: propsType) => {
-	// console.log(props);
-	// console.log(props.weatherData.minTemp);
+	const roundTemperature = (temp: number | null) => {
+		return temp !== null ? Math.round(temp) : 'N/A';
+	};
 
-	const minTemp = props.weatherData.minTemp;
-	const maxTemp = props.weatherData.maxTemp;
+	const currentTemp = roundTemperature(props.weatherData.currentTemp);
+	const minTemp = roundTemperature(props.weatherData.minTemp);
+	const maxTemp = roundTemperature(props.weatherData.maxTemp);
+	let averageTemp;
 
-	const avergeTemp = (minTemp + maxTemp) / 2;
+	if (typeof minTemp === 'number' && typeof maxTemp === 'number') {
+		averageTemp = roundTemperature((minTemp + maxTemp) / 2);
+	} else {
+		averageTemp = 'N/A';
+	}
 
 	const weatherDescription = props.weatherData.weatherDescription;
 
@@ -56,45 +63,29 @@ const DayWaether = (props: propsType) => {
 	return (
 		<DayWaetherWarp>
 			<h2 className="title">오늘의 날씨</h2>
-			{/* {props.weatherData.weatherDescription} */}
-
 			<TodayWrap>
 				<div className="weather-icon">{weatherIcon()}</div>
 				<HighLowTemperatures>
-					<div id="high">
-						{props.weatherData.maxTemp
-							? props.weatherData.maxTemp.toFixed()
-							: 'N/A'}
-						°
-					</div>
+					<div id="high">{maxTemp}°</div>
 					<div>━</div>
-					<div id="low">
-						{props.weatherData.minTemp
-							? props.weatherData.minTemp.toFixed()
-							: 'N/A'}
-						°
-					</div>
+					<div id="low">{minTemp}°</div>
 				</HighLowTemperatures>
-
-				<div className="today-weather">
-					{props.weatherData.currentTemp.toFixed()}°
-				</div>
+				<div className="today-weather">{currentTemp}°</div>
 			</TodayWrap>
 			<div className="weather__infos">
 				<div className="weather__info--box">
 					<p className="weather__info--title">평균기온</p>
-					<img src={평균기온} />
-
-					<p className="weather__info--value">{avergeTemp.toFixed()}°C</p>
+					<img src={평균기온} alt="평균기온" />
+					<p className="weather__info--value">{averageTemp}°C</p>
 				</div>
 				<div className="weather__info--box">
 					<p className="weather__info--title">자외선</p>
-					<img src={자외선} />
+					<img src={자외선} alt="자외선" />
 					<p className="weather__info--value">{props.weatherData.uvIndex}</p>
 				</div>
 				<div className="weather__info--box">
 					<p className="weather__info--title">강수량</p>
-					<img src={강수확률} />
+					<img src={강수확률} alt="강수량" />
 					<p className="weather__info--value">
 						{props.weatherData.precipitation}mm
 					</p>
