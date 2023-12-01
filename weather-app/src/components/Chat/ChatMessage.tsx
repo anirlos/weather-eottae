@@ -16,11 +16,19 @@ interface ChatMessageProps {
 }
 
 const formatTimeAgo = (timestamp: string | number | Date) => {
-  const result = formatDistanceToNow(new Date(timestamp), {
+  const messageTime = new Date(timestamp);
+  const currentTime = new Date();
+
+  if (messageTime > currentTime) {
+    // 메시지 시간이 현재 시간보다 미래인 경우
+    return "방금 전";
+  }
+
+  const result = formatDistanceToNow(messageTime, {
     addSuffix: true,
     locale: ko,
   });
-  // '1분 미만 전'-> '1분 전'으로 변경
+
   return result.replace("1분 미만", "방금");
 };
 

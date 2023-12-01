@@ -28,6 +28,9 @@ const ChatView = () => {
 
     if (localStorage.getItem("access_token")) {
       fetchAndSetUserName();
+    } else {
+      setUserNick("익명");
+      setIsLoading(false);
     }
 
     // URL에서 쿼리 파라미터 추출 및 방 입장 로직

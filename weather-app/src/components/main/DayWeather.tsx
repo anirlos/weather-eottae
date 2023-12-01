@@ -12,35 +12,36 @@ import 비내림 from '../../assets/img/main/weatherIcon/비icon.png';
 import 약간흐림 from '../../assets/img/main/weatherIcon/약간흐림icon.png';
 import 흐림 from '../../assets/img/main/weatherIcon/흐림icon.png';
 
-export interface propsType {
-	weatherData: {
-		locationName: string;
-		currentTemp: number;
-		weatherDescription: string;
-		minTemp: number;
-		maxTemp: number;
-		precipitation: number;
-		uvIndex: number;
-	};
+interface WeatherData {
+	locationName: string;
+	currentTemp: number | null;
+	weatherDescription: string;
+	minTemp: number | null;
+	maxTemp: number | null;
+	precipitation: number;
+	uvIndex: number;
 }
 
-const DayWaether = (props: propsType) => {
-	const roundTemperature = (temp: number | null) => {
-		return temp !== null ? Math.round(temp) : 'N/A';
-	};
+interface DayWeatherProps {
+	weatherData: WeatherData;
+}
 
-	const currentTemp = roundTemperature(props.weatherData.currentTemp);
-	const minTemp = roundTemperature(props.weatherData.minTemp);
-	const maxTemp = roundTemperature(props.weatherData.maxTemp);
-	let averageTemp;
+const DayWaether: React.FC<DayWeatherProps> = ({ weatherData }) => {
+	const minTemp =
+		weatherData.minTemp !== null && !isNaN(weatherData.minTemp)
+			? weatherData.minTemp
+			: -9999.0;
+	const maxTemp =
+		weatherData.maxTemp !== null && !isNaN(weatherData.maxTemp)
+			? weatherData.maxTemp
+			: -9999.0;
+	const currentTemp =
+		weatherData.currentTemp !== null && !isNaN(weatherData.currentTemp)
+			? weatherData.currentTemp
+			: -9999.0;
+	const averageTemp = (minTemp + maxTemp) / 2;
 
-	if (typeof minTemp === 'number' && typeof maxTemp === 'number') {
-		averageTemp = roundTemperature((minTemp + maxTemp) / 2);
-	} else {
-		averageTemp = 'N/A';
-	}
-
-	const weatherDescription = props.weatherData.weatherDescription;
+	const weatherDescription = weatherData.weatherDescription;
 
 	const weatherIcon = () => {
 		if (weatherDescription.includes('sky')) {
@@ -66,29 +67,33 @@ const DayWaether = (props: propsType) => {
 			<TodayWrap>
 				<div className="weather-icon">{weatherIcon()}</div>
 				<HighLowTemperatures>
-					<div id="high">{maxTemp}°</div>
+					<div id="high">
+						{maxTemp !== -9999.0 ? maxTemp.toFixed() : 'N/A'}°
+					</div>
 					<div>━</div>
-					<div id="low">{minTemp}°</div>
+					<div id="low">{minTemp !== -9999.0 ? minTemp.toFixed() : 'N/A'}°</div>
 				</HighLowTemperatures>
-				<div className="today-weather">{currentTemp}°</div>
+				<div className="today-weather">
+					{currentTemp !== -9999.0 ? currentTemp.toFixed() : 'N/A'}°
+				</div>
 			</TodayWrap>
 			<div className="weather__infos">
 				<div className="weather__info--box">
 					<p className="weather__info--title">평균기온</p>
-					<img src={평균기온} alt="평균기온" />
-					<p className="weather__info--value">{averageTemp}°C</p>
+					<img src={평균기온} />
+					<p className="weather__info--value">
+						{averageTemp !== -9999.0 ? averageTemp.toFixed() : 'N/A'}°C
+					</p>
 				</div>
 				<div className="weather__info--box">
 					<p className="weather__info--title">자외선</p>
 					<img src={자외선} alt="자외선" />
-					<p className="weather__info--value">{props.weatherData.uvIndex}</p>
+					<p className="weather__info--value">{weatherData.uvIndex}</p>
 				</div>
 				<div className="weather__info--box">
 					<p className="weather__info--title">강수량</p>
 					<img src={강수확률} alt="강수량" />
-					<p className="weather__info--value">
-						{props.weatherData.precipitation}mm
-					</p>
+					<p className="weather__info--value">{weatherData.precipitation}mm</p>
 				</div>
 			</div>
 		</DayWaetherWarp>

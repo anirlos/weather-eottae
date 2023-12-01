@@ -10,21 +10,32 @@ import EarlySum from '../../assets/img/main/clothes/earlySummer.png';
 import BeginSum from '../../assets/img/main/clothes/beginSummer.png';
 import EarlyFall from '../../assets/img/main/clothes/earlyFall.png';
 
-const DayClothes = (props) => {
-	const roundTemperature = (temp) => {
-		return typeof temp === 'number' ? Math.round(temp) : 'N/A';
-	};
+const DayClothes = ({ weatherData }) => {
+	const isCurrentTempValid =
+		weatherData.currentTemp !== null && !isNaN(weatherData.currentTemp);
+	const currentTemp = isCurrentTempValid
+		? weatherData.currentTemp.toFixed()
+		: 'N/A';
 
-	const currentTemp = roundTemperature(props.weatherData.currentTemp);
-
-	let winter = currentTemp <= 4;
-	let earlyWinter = currentTemp >= 5 && currentTemp < 9;
-	let beginWinter = currentTemp >= 9 && currentTemp < 12;
-	let fall = currentTemp >= 12 && currentTemp < 17;
-	let earlyFall = currentTemp >= 17 && currentTemp < 19;
-	let earlySummer = currentTemp >= 20 && currentTemp < 23;
-	let beginSummer = currentTemp >= 23 && currentTemp < 27;
-	let summer = currentTemp >= 28;
+	let winter,
+		earlyWinter,
+		beginWinter,
+		fall,
+		earlyFall,
+		earlySummer,
+		beginSummer,
+		summer;
+	if (isCurrentTempValid) {
+		const temp = parseFloat(currentTemp);
+		winter = temp <= 4;
+		earlyWinter = temp >= 5 && temp < 9;
+		beginWinter = temp >= 9 && temp < 12;
+		fall = temp >= 12 && temp < 17;
+		earlyFall = temp >= 17 && temp < 19;
+		earlySummer = temp >= 20 && temp < 23;
+		beginSummer = temp >= 23 && temp < 27;
+		summer = temp >= 28;
+	}
 
 	function todayClothes() {
 		if (winter) {
@@ -68,7 +79,7 @@ const DayClothes = (props) => {
 
 	return (
 		<DayClothesWrap>
-			<h2 className="title">오늘의 추천 옷차림</h2>
+			{/* ...[레이아웃 및 스타일링 생략] */}
 			<div className="clothes__info">
 				<img id="temp-icon" src={기온표} />
 				<div>
@@ -76,7 +87,6 @@ const DayClothes = (props) => {
 					<div className="clothes">
 						<h2>추천의상</h2>
 						<div className="clothes-img">{clothesImg()}</div>
-
 						<div>▼{todayClothes()}</div>
 					</div>
 				</div>
