@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Main from '../../components/main/MainLayout';
@@ -10,6 +10,8 @@ import Modal from './Modal';
 import createPostAPI from '../../api/createPostApi';
 
 const NewPost = () => {
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+
 	const [content, setContent] = useState('');
 	const [files, setFiles] = useState([]); // 이미지 파일들
 
@@ -18,6 +20,7 @@ const NewPost = () => {
 	const [location, setLocation] = useState(''); // 위치를 저장할 상태 변수
 	const [showAlertModal, setShowAlertModal] = useState(false);
 	const [alertMessage, setAlertMessage] = useState('');
+	const [showLoginModal, setShowLoginModal] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [showCancelModal, setShowCancelModal] = useState(false);
 	const navigate = useNavigate();
@@ -87,6 +90,29 @@ const NewPost = () => {
 		navigate('/feed');
 		setShowModal(false);
 	};
+
+	useEffect(() => {
+		const token = getTokenFromLocalStorage();
+		if (!token) {
+			setShowLoginModal(true); // 로그인 모달 표시
+		} else {
+			setIsAuthenticated(true);
+		}
+	}, [navigate]);
+
+	const handleConfirmLogin = () => {
+		navigate('/login'); // 로그인 페이지로 이동
+	};
+
+	if (showLoginModal) {
+		return (
+			<Modal message="로그인이 필요합니다." onConfirm={handleConfirmLogin} />
+		);
+	}
+
+	if (!isAuthenticated) {
+		return null;
+	}
 
 	return (
 		<Main>
