@@ -8,7 +8,7 @@ const Modal = ({ message, onConfirm, onCancel }) => {
 				<ModalMessage>{message}</ModalMessage>
 				<ModalActions>
 					<Button onClick={onConfirm}>확인</Button>
-					<Button onClick={onCancel}>취소</Button>
+					{onCancel && <Button onClick={onCancel}>취소</Button>}
 				</ModalActions>
 			</ModalContainer>
 		</ModalBackground>
@@ -44,7 +44,7 @@ const ModalMessage = styled.p`
 
 const ModalActions = styled.div`
 	display: flex;
-	justify-content: flex-end;
+	justify-content: center;
 `;
 
 const Button = styled.button`
