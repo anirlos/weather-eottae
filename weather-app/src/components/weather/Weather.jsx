@@ -112,7 +112,10 @@ const WeatherInfo = ({ onWeatherUpdate }) => {
 	return (
 		<div>
 			<p>
-				{weatherData.temperature ? weatherData.temperature.toFixed(1) : 'N/A'}°C
+				{typeof weatherData.temperature === 'number'
+					? weatherData.temperature.toFixed(1)
+					: 'N/A'}
+				°C
 			</p>
 		</div>
 	);
