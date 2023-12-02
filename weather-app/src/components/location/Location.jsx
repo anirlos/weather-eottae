@@ -5,8 +5,7 @@ const LocationInfo = ({ onLocationUpdate }) => {
 	const [location, setLocation] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 
-	const OPEN_WEATHER_MAP_API_KEY =
-		process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY;
+	const OPEN_WEATHER_MAP_API_KEY = 'd1aaa3d185e5c01495cec131c6f5c82c';
 	const WEATHER_API_ENDPOINT =
 		'https://api.openweathermap.org/data/2.5/weather';
 
