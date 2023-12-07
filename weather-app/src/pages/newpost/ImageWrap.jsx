@@ -12,6 +12,12 @@ const ImageWrap = ({ initialFiles, onFilesChange }) => {
 	const [files, setFiles] = useState(initialFiles || []);
 	const [currentFileIndex, setCurrentFileIndex] = useState(0);
 
+	const handleFileDeletion = (index) => {
+		const updatedFiles = files.filter((_, fileIndex) => fileIndex !== index);
+		setFiles(updatedFiles);
+		setCurrentFileIndex(0); // Reset to the first slide after deletion
+	};
+
 	const handleFileChange = (event) => {
 		if (event.target.files) {
 			const filesArray = Array.from(event.target.files).slice(
@@ -101,6 +107,9 @@ const ImageWrap = ({ initialFiles, onFilesChange }) => {
 						: '업로드 제한 도달'}
 				</UploadButton>
 				<UploadText>업로드된 파일 수: {files.length}</UploadText>
+				<DeleteButton onClick={() => handleFileDeletion(currentFileIndex)}>
+					Delete
+				</DeleteButton>
 			</UploadWrap>
 		</Container>
 	);
@@ -218,4 +227,24 @@ const PrevButton = styled(ImageNavigationButton)`
 
 const NextButton = styled(ImageNavigationButton)`
 	right: 5%;
+`;
+
+const DeleteButton = styled.button`
+	width: 80px;
+	border: none;
+	padding: 8px;
+	border-radius: 15px;
+	margin-left: 10px;
+	background-color: #adadad;
+	color: #fff;
+	font-family: 'jua', sans-serif;
+	&:hover {
+		background-color: #8c8c8c; // 호버 시 배경색 변경
+	}
+	&:last-child {
+		background-color: #5d6dbe;
+		&:hover {
+			background-color: #4c5ca7; // 호버 시 배경색 변경
+		}
+	}
 `;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import login from "../../assets/img/login/login.png";
@@ -6,12 +6,14 @@ import devicon_google from "../../assets/img/login/devicon_google.png";
 import kakao from "../../assets/img/login/kakao.png";
 import axios from "axios";
 
-const Login = () => {
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
+interface LoginProps {}
+
+const Login: React.FC<LoginProps> = () => {
+  const [userId, setUserId] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "email") {
       setUserId(e.target.value);
     } else if (e.target.name === "password") {
@@ -19,7 +21,7 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
@@ -27,15 +29,14 @@ const Login = () => {
         email: userId,
         password: password,
       });
+
       const accessToken = response.headers["authorization_access_token"];
       const refreshToken = response.headers["authorization_refresh_token"];
 
       if (accessToken && refreshToken) {
         localStorage.setItem("access_token", accessToken);
         localStorage.setItem("refresh_token", refreshToken);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${accessToken}`;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         navigate("/");
       } else {
         console.log("토큰이 없습니다.");
@@ -44,7 +45,6 @@ const Login = () => {
       console.error("로그인 에러:", error);
     }
   };
-
   return (
     <Container>
       <div className="cover-img">

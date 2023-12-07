@@ -1,21 +1,65 @@
+import axios from 'axios';
+
 const BASE_URL = 'http://43.200.188.52:8080';
 
-export const updatePost = async (postId, postData, token) => {
+const updatePost = async (
+	content,
+	temperature,
+	location,
+	postId,
+	mediaFiles,
+	hashtags,
+	token
+) => {
 	try {
-		const response = await fetch(`${BASE_URL}/api/posts/${postId}`, {
-			method: 'put', // PUT 메서드로 변경
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
-			},
-			body: JSON.stringify({ postData }), // 업데이트할 내용을 JSON 형식으로 변환
-		});
-		if (!response.ok) {
-			throw new Error('Network response was not ok');
+		const token = localStorage.getItem('access_token');
+		const formData = new FormData();
+
+		// 기본적인 필드를 FormData에 추가
+		formData.append('content', content);
+		formData.append('location', location);
+		formData.append('temperature', temperature);
+
+		// authorities 처리 (배열로 가정)
+
+		// 해시태그 처리
+
+		if (hashtags && typeof hashtags === 'string') {
+			// 해시태그를 정규 표현식을 사용하여 추출
+			const hashtagsArray = hashtags.match(/#[\p{L}]+/gu);
+			if (hashtagsArray) {
+				// 각 해시태그에서 '#'을 제거하고 공백으로 구분된 하나의 문자열로 합침
+				const hashtagsStr = hashtagsArray.map((tag) => tag.slice(1));
+				formData.append('hashtags', hashtagsStr);
+			}
 		}
-		return await response.json(); // 업데이트 후의 응답 반환
+
+		mediaFiles.forEach((file) => {
+			if (file instanceof File) {
+				// 새로운 이미지 파일이라고 가정
+				formData.append('newPostImages', file);
+			} else if (typeof file === 'string') {
+				// 기존 이미지 URL이라고 가정
+				formData.append('originalImages', file);
+			}
+		});
+
+		const response = await axios.put(
+			`${BASE_URL}/api/post/${postId}`,
+			formData,
+			{
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: ` ${token}`,
+				},
+			}
+		);
+
+		return response.data;
 	} catch (error) {
-		console.error('Error:', error);
-		throw error; // 오류를 상위 컴포넌트나 호출자에게 전파
+		console.error('Error in updatePost:', error);
+		throw error;
 	}
 };
+
+export default updatePost;

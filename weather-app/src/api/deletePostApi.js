@@ -2,11 +2,12 @@ import axios from 'axios';
 
 const BASE_URL = 'http://43.200.188.52:8080'; // 실제 API 서버 주소
 
-export const deletePost = async (postId, token) => {
+export const deletePost = async (postId) => {
+	const token = localStorage.getItem('access_token');
 	try {
-		const response = await axios.delete(`${BASE_URL}/api/posts/${postId}`, {
+		const response = await axios.delete(`${BASE_URL}/api/post/${postId}`, {
 			headers: {
-				Authorization: `Bearer ${token}`, // 인증 토큰을 헤더에 추가
+				Authorization: ` ${token}`, // 인증 토큰을 헤더에 추가
 			},
 		});
 
