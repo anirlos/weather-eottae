@@ -20,8 +20,11 @@ const updatePost = async (
 		formData.append('location', location);
 		formData.append('temperature', temperature);
 
+<<<<<<< HEAD
 		// authorities 처리 (배열로 가정)
 
+=======
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
 		// 해시태그 처리
 
 		if (hashtags && typeof hashtags === 'string') {

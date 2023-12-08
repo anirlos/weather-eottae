@@ -18,7 +18,10 @@ import {
   RecentPagesWrapper,
 } from "./MyPageStyles";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 
+=======
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
 
 const MyPage = () => {
   const navigate = useNavigate();

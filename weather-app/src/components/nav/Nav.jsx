@@ -11,14 +11,16 @@ import login from "../../assets/img/nav/login.png";
 import { Link } from "react-router-dom";
 import MobileNav from "./MobileNav";
 import { useState, useEffect } from "react";
-//import LoginModal from "../modal/LoginModal";
+import LoginModal from "../modal/LoginModal";
+
 
 
 const Nav = () => {
   const [isLoggin, setIsLoggin] = useState(false);
-  //const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  
 
- 
+
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
     const refreshToken = localStorage.getItem("refresh_token");
@@ -32,29 +34,18 @@ const Nav = () => {
     setIsLoggin(false);
   };
 
-/*
-  const openLoginModal = () => {
-    setIsModalOpen(true);
-  };
+  const handleLinkClick = (e) => {
+    const accessToken = localStorage.getItem("access_token");
+    const refreshToken = localStorage.getItem("refresh_token");
 
-  const closeLoginModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleRestrictedLink = () => {
-    if (!isLoggin) {
-      openLoginModal();
-      console.log('모달을 열어야 합니다.')
-    } else if(isLoggin) {
-      closeLoginModal();
-      console.log('모달이 아닌 경로로 이동해야함')
-    }
-  };
-*/
+    if (!accessToken || !refreshToken) {
+      e.preventDefault(); 
+      setShowLoginModal(true);
+  }
+};
 
   return (
     <>
-      {/*{isModalOpen && <LoginModal/>}*/}
       <StyledMobileNav>
         <MobileNav />
       </StyledMobileNav>
@@ -74,7 +65,7 @@ const Nav = () => {
             </Link>
           </li>
           <li>
-            <Link to={"/chat"} >
+            <Link to={"/chat"} onClick={handleLinkClick}>
               <span>
                 <img src={chat} alt="지역 톡" />
                 지역 톡
@@ -82,7 +73,7 @@ const Nav = () => {
             </Link>
           </li>
           <li>
-            <Link to={"/feed"}>
+            <Link to={"/feed"} onClick={handleLinkClick}>
               <span>
                 <img src={clothing} alt="오늘 뭐 입지" />
                 오늘 뭐 입지
@@ -90,7 +81,7 @@ const Nav = () => {
             </Link>
           </li>
           <li>
-            <Link to={"/archive"}>
+            <Link to={"/archive"} onClick={handleLinkClick}>
               <span>
                 <img src={archive} alt="게시글 등록" />
                 게시글 등록
@@ -98,7 +89,7 @@ const Nav = () => {
             </Link>
           </li>
           <li>
-            <Link to={"/user"}>
+            <Link to={"/user"} onClick={handleLinkClick}>
               <span>
                 <img src={user} alt="마이 페이지" />
                 마이 페이지
@@ -119,7 +110,8 @@ const Nav = () => {
             </button>
           </Link>
         )}
-    </Container>
+      </Container>
+      {showLoginModal && <LoginModal />}
     </>
   );
 };

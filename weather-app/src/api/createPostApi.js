@@ -4,8 +4,8 @@ const BASE_URL = 'http://43.200.188.52:8080';
 
 const createPostAPI = async (
 	content,
-	temperature = '', // 기본값 설정
-	location = '', // 기본값 설정
+	temperature, // 기본값 설정
+	location, // 기본값 설정
 	mediaFiles,
 	hashtags,
 	access_token

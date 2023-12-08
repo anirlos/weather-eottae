@@ -5,25 +5,32 @@ import { ChatViewContainer } from "./ChaView.styled";
 import ChatNotice from "../../components/Chat/ChatNotice";
 import socket from "../../api/socket";
 import { getUserName } from "../../api/userNameApi";
+import Loading from "../../components/loading/Loading";
 
 const ChatView = () => {
   const [userNick, setUserNick] = useState("");
   const [roomCode, setRoomCode] = useState("");
   const [roomName, setRoomName] = useState("");
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
 
   useEffect(() => {
     const fetchAndSetUserName = async () => {
       try {
         const userName = await getUserName();
         setUserNick(userName);
+        setIsLoading(false); // 사용자 이름 로딩 완료 후 로딩 상태 업데이트
       } catch (error) {
         console.error("유저 이름을 가져오지 못했습니다:", error);
-        setUserNick("에러 발생");
+        setUserNick("익명");
+        setIsLoading(false); // 에러 발생시에도 로딩 상태 업데이트
       }
     };
 
     if (localStorage.getItem("access_token")) {
       fetchAndSetUserName();
+    } else {
+      setUserNick("익명");
+      setIsLoading(false);
     }
 
     // URL에서 쿼리 파라미터 추출 및 방 입장 로직
@@ -42,6 +49,10 @@ const ChatView = () => {
       setRoomName(newRoomName);
     }
   }, []); // 의존성 배열을 비워 컴포넌트 마운트 시에만 실행
+
+  if (isLoading) {
+    return <Loading />; // 로딩 중이면 로딩 컴포넌트 렌더링
+  }
 
   return (
     <ChatViewContainer>

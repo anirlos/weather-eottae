@@ -4,6 +4,10 @@ import styled from "styled-components";
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
 import axios from "axios";
+<<<<<<< HEAD
+=======
+import EditPost from "../editpost/EditPost";
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
 
 //npm install jwt-decode
 //npm install @types/jwt-decode --save-dev 설치필요
@@ -114,7 +118,12 @@ const RecentPages = () => {
   return (
     <GridContainer>
       {images.map((img) => (
+<<<<<<< HEAD
         <Link key={img.postId} to={`/feed/${img.postId}`}>
+=======
+        // <Link key={img.postId} to={`/feed/${img.postId}`}>
+        <Link key={img.postId} to={`/editpost/${img.postId}`}>
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
           <Image src={img.mediaUrl} alt={`Post ${img.postId}`} />
         </Link>
       ))}

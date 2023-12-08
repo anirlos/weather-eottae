@@ -92,6 +92,10 @@ const App: React.FC = () => {
               </Layout>
             }
           />
+<<<<<<< HEAD
+=======
+          <Route path="/editpost/:postId" element={<EditPost />} />
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
           <Route path="/logout" element={<LogOutAction />} />
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />

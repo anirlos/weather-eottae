@@ -30,15 +30,25 @@ const EditPost = () => {
 			try {
 				const postData = await fetchPost(postId);
 				setContent(postData.content);
+<<<<<<< HEAD
 				setHashtags(postData.hashtagNames.join('#'));
+=======
+				const formattedHashtags = postData.hashtagNames
+					.map((tag, index) => (index === 0 ? `#${tag}` : tag))
+					.join('#');
+				setHashtags(formattedHashtags);
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
 				setTemperature(postData.temperature || '');
 				setLocation(postData.location || '');
 				setDate(postData.date || ''); // 날짜 설정
 				setMediaFiles(postData.mediaUrls || []);
+<<<<<<< HEAD
 
 				console.log('Temperature:', temperature);
 				console.log('Location:', location);
 				console.log('Date:', date);
+=======
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
 			} catch (error) {
 				console.error('Failed to fetch post:', error);
 			} finally {
@@ -57,6 +67,10 @@ const EditPost = () => {
 			if (isDelete) {
 				// 게시물 삭제
 				await deletePost(postId);
+<<<<<<< HEAD
+=======
+				navigate('/user');
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
 			} else {
 				// 게시물 업데이트
 				const token = getTokenFromLocalStorage();
@@ -72,7 +86,11 @@ const EditPost = () => {
 				);
 			}
 			// 처리 완료 후 피드 페이지로 이동
+<<<<<<< HEAD
 			navigate('/feed');
+=======
+			navigate('/user');
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
 		} catch (error) {
 			console.error(`Failed to ${isDelete ? 'delete' : 'update'} post:`, error);
 		} finally {
@@ -84,6 +102,7 @@ const EditPost = () => {
 	const handleModalOpen = (deleteMode) => {
 		setIsDelete(deleteMode);
 		setShowModal(true);
+<<<<<<< HEAD
 	};
 
 	const handleContentChange = (e) => {
@@ -98,6 +117,29 @@ const EditPost = () => {
 		setMediaFiles([...event.target.files]);
 	};
 
+=======
+	};
+
+	const handleContentChange = (e) => {
+		setContent(e.target.value);
+	};
+
+	const handleHashtagsChange = (e) => {
+		let inputHashtags = e.target.value;
+
+		// 첫 번째 문자가 '#'이 아니라면 '#'을 앞에 추가
+		if (inputHashtags && inputHashtags.charAt(0) !== '#') {
+			inputHashtags = '#' + inputHashtags;
+		}
+
+		setHashtags(inputHashtags);
+	};
+
+	const handleFileChange = (event) => {
+		setMediaFiles([...event.target.files]);
+	};
+
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
 	const handleCancel = () => {
 		// Redirect the user to the desired route, e.g., '/feed'
 		navigate('/feed');
