@@ -27,7 +27,7 @@ const HeartsModal: FC<HeartsModalProps> = ({ heartUsers, onClose }) => {
         <UserList>
           {heartUsers.map((user, index) => (
             <UserItem key={index}>
-              <div onClick={() => handleUserClick(user.email)}>
+              <div onClick={() => handleUserClick(user.nickName)}>
                 <UserInfo>
                   <img
                     src={user.imageUrl}
