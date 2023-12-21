@@ -13,12 +13,6 @@ const WeatherInfo = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  const OPEN_WEATHER_MAP_API_KEY = "dcd4cc7754eeecc0a0b7ba1260ac6f25";
-  const WEATHER_API_ENDPOINT =
-    "https://api.openweathermap.org/data/2.5/weather";
-  const ONE_CALL_API_ENDPOINT =
-    "https://api.openweathermap.org/data/2.5/onecall";
-
   const getCurrentLocation = () => {
     return new Promise((resolve, reject) => {
       if ("geolocation" in navigator) {
@@ -42,11 +36,11 @@ const WeatherInfo = () => {
   const fetchWeatherData = async (lat, lon) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(WEATHER_API_ENDPOINT, {
+      const response = await axios.get(process.env.WEATHER_API_ENDPOINT, {
         params: {
           lat: lat,
           lon: lon,
-          appid: OPEN_WEATHER_MAP_API_KEY,
+          appid: process.env.OPEN_WEATHER_MAP_API_KEY,
           units: "metric",
           lang: "kr",
         },
@@ -56,16 +50,19 @@ const WeatherInfo = () => {
       const currentTemp = response.data.main.temp;
       const weatherDescription = response.data.weather[0].description;
 
-      const oneCallResponse = await axios.get(ONE_CALL_API_ENDPOINT, {
-        params: {
-          lat: lat,
-          lon: lon,
-          exclude: "current,minutely,hourly,alerts",
-          appid: OPEN_WEATHER_MAP_API_KEY,
-          units: "metric",
-          lang: "Kr",
-        },
-      });
+      const oneCallResponse = await axios.get(
+        process.env.ONE_CALL_API_ENDPOINT,
+        {
+          params: {
+            lat: lat,
+            lon: lon,
+            exclude: "current,minutely,hourly,alerts",
+            appid: process.env.OPEN_WEATHER_MAP_API_KEY,
+            units: "metric",
+            lang: "Kr",
+          },
+        }
+      );
 
       const dailyData = oneCallResponse.data.daily[0];
 
