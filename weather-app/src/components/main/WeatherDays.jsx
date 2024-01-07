@@ -22,7 +22,7 @@ const WeatherDays = (props) => {
 export default WeatherDays;
 
 const WeatherDaysWrap = styled.div`
-	width: 1000px;
+	width: 1050px;
 	height: 250px;
 	background-color: white;
 	margin: auto;

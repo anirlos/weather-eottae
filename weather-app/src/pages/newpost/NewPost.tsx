@@ -1,51 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import Main from '../../components/main/MainLayout';
-import TopWrap from './TopWrap';
-import ImageWrap from './ImageWrap';
-import ContentWrap from './ContentWrap';
-import ButtonWrap from './ButtonWrap';
+import { Container } from './NewPostStyles';
+import Layout from '../../components/layout/Layout';
+import PostImage from './PostImage';
+import PostContent from './PostContent';
+import PostButtonWrap from './PostButtonWrap';
 import Modal from './Modal';
 import createPostAPI from '../../api/createPostApi';
+import PostTopWrap from './PostTopWrap';
 
-const NewPost = () => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-	const [content, setContent] = useState('');
-	const [files, setFiles] = useState([]); // 이미지 파일들
-
-	const [hashtags, setHashtags] = useState('');
-	const [temperature, setTemperature] = useState(''); // 온도를 저장할 상태 변수
-	const [location, setLocation] = useState(''); // 위치를 저장할 상태 변수
-	const [showAlertModal, setShowAlertModal] = useState(false);
-	const [alertMessage, setAlertMessage] = useState('');
-	const [showLoginModal, setShowLoginModal] = useState(false);
-	const [showModal, setShowModal] = useState(false);
-	const [showCancelModal, setShowCancelModal] = useState(false);
+const NewPost: React.FC = () => {
+	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+	const [content, setContent] = useState<string>('');
+	const [files, setFiles] = useState<File[]>([]);
+	const [hashtags, setHashtags] = useState<string>('');
+	const [temperature, setTemperature] = useState<string>('');
+	const [location, setLocation] = useState<string>('');
+	const [showAlertModal, setShowAlertModal] = useState<boolean>(false);
+	const [alertMessage, setAlertMessage] = useState<string>('');
+	const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+	const [showModal, setShowModal] = useState<boolean>(false);
+	const [showCancelModal, setShowCancelModal] = useState<boolean>(false);
 	const navigate = useNavigate();
 
-	const getTokenFromLocalStorage = () => {
+	const getTokenFromLocalStorage = (): string | null => {
 		return localStorage.getItem('access_token');
 	};
 
-	const handleContentChange = (newContent) => {
+	const handleContentChange = (newContent: string) => {
 		setContent(newContent);
 	};
 
-	const handleHashtagsChange = (newHashtags) => {
+	const handleHashtagsChange = (newHashtags: string) => {
 		setHashtags(newHashtags);
 	};
-	const handleFilesChange = (newFiles) => {
+
+	const handleFilesChange = (newFiles: File[]) => {
 		setFiles(newFiles);
 	};
 
-	const handleLocationChange = (newLocation) => {
+	const handleLocationChange = (newLocation: string) => {
 		setLocation(newLocation); // 위치 상태 업데이트
 	};
 
-	const handleTemperatureChange = (newTemperature) => {
-		setTemperature(newTemperature);
+	const handleTemperatureChange = (newTemperature: number) => {
+		setTemperature(newTemperature.toString()); // 숫자를 문자열로 변환
 	};
 
 	const handleSave = () => {
@@ -71,21 +70,25 @@ const NewPost = () => {
 			const safeFiles = files || [];
 			const token = getTokenFromLocalStorage();
 
-			await createPostAPI(
-				content, // 분리되지 않은 내용 사용
-				temperature,
-				location,
-				safeFiles,
-				hashtags,
-				token
-			);
-			setShowModal(false);
-			navigate('/feed');
+			if (token) {
+				// token이 null이 아닌 경우에만 API 호출
+				await createPostAPI(
+					content,
+					temperature, // 문자열을 숫자로 변환
+					location,
+					safeFiles,
+					hashtags,
+					token
+				);
+				setShowModal(false);
+				navigate('/feed');
+			} else {
+				// 적절한 오류 처리
+			}
 		} catch (error) {
 			console.error('Failed to create post:', error);
 		}
 	};
-
 	const handleCancelSave = () => {
 		navigate('/feed');
 		setShowModal(false);
@@ -106,7 +109,11 @@ const NewPost = () => {
 
 	if (showLoginModal) {
 		return (
-			<Modal message="로그인이 필요합니다." onConfirm={handleConfirmLogin} />
+			<Modal
+				message="로그인이 필요합니다."
+				onConfirm={handleConfirmLogin}
+				onCancel={undefined}
+			/>
 		);
 	}
 
@@ -115,32 +122,40 @@ const NewPost = () => {
 	}
 
 	return (
-		<Main>
+		<Layout>
 			<Container>
-				<TopWrap
+				<PostTopWrap
 					onLocationUpdate={handleLocationChange}
 					onTemperatureChange={handleTemperatureChange}
 				/>
-				<ImageWrap onFilesChange={handleFilesChange} />
-				<ContentWrap
+				<PostImage
+					onFilesChange={
+						handleFilesChange as (files: (string | File)[]) => void
+					}
+				/>
+				<PostContent
 					content={content}
 					hashtags={hashtags}
 					onContentChange={handleContentChange}
 					onHashtagsChange={handleHashtagsChange}
 				/>
-				<ButtonWrap onSave={handleSave} onCancel={handleCancel} />
+				<PostButtonWrap
+					onSave={handleSave}
+					onCancel={handleCancel}
+					isEditing={false}
+				/>
 				{showModal && (
 					<Modal
 						message="저장하시겠습니까?"
 						onConfirm={handleConfirmSave}
-						onCancel={handleCancelSave}
+						onCancel={handleCancelSave} // onCancel prop 추가
 					/>
 				)}
 				{showAlertModal && (
 					<Modal
 						message={alertMessage}
 						onConfirm={() => setShowAlertModal(false)}
-						// 취소 버튼 없이 '확인' 버튼만 표시
+						onCancel={handleCancelSave} // 취소 버튼 없이 '확인' 버튼만 표시
 					/>
 				)}
 				{showCancelModal && (
@@ -151,19 +166,8 @@ const NewPost = () => {
 					/>
 				)}
 			</Container>
-		</Main>
+		</Layout>
 	);
 };
 
 export default NewPost;
-
-const Container = styled.div`
-	width: 100%;
-	height: 100%;
-	max-width: 700px;
-	margin: 30px auto;
-	padding: 30px 0;
-	background: #fff;
-	border-radius: 10px;
-	box-shadow: 2px 4px 10px 0 #dcdbdb;
-`;

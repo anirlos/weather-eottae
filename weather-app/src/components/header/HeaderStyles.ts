@@ -1,44 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
-import profile from '../../assets/img/header/profile.png';
-import dateicon from '../../assets/img/header/date.png';
-import region from '../../assets/img/header/region.png';
-import LocationComponent from '../location/Location';
 
-const Header = () => {
-	const date = new Date();
-	const currentDate = `${date.getFullYear()}-${String(
-		date.getMonth() + 1
-	).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-
-	return (
-		<Container>
-			<CurrentInfo>
-				<RegionInfo>
-					<span>
-						<img src={region} />
-						<LocationComponent />
-					</span>
-				</RegionInfo>
-				<DateInfo>
-					<span>
-						<img src={dateicon} /> {currentDate}
-					</span>
-				</DateInfo>
-			</CurrentInfo>
-			<ProfileWrap>
-				<a href="#">
-					<img src={profile} />
-				</a>
-			</ProfileWrap>
-		</Container>
-	);
-};
-
-export default Header;
-
-const Container = styled.div`
-	width: 86%;
+export const Container = styled.div`
+	width: 90%;
 	margin: 0 auto;
 	height: 80px;
 	align-items: center;
@@ -54,7 +17,7 @@ const Container = styled.div`
 	}
 `;
 
-const CurrentInfo = styled.div`
+export const CurrentInfo = styled.div`
 	width: 40%;
 	display: flex;
 	justify-content: flex-start;
@@ -73,7 +36,7 @@ const CurrentInfo = styled.div`
 	}
 `;
 
-const RegionInfo = styled.div`
+export const RegionInfo = styled.div`
 	margin-right: 20px;
 	span {
 		display: flex;
@@ -89,7 +52,7 @@ const RegionInfo = styled.div`
 	}
 `;
 
-const DateInfo = styled.div`
+export const DateInfo = styled.div`
 	span {
 		display: flex;
 		align-items: center;
@@ -115,7 +78,7 @@ const DateInfo = styled.div`
 	}
 `;
 
-const ProfileWrap = styled.div`
+export const ProfileWrap = styled.div`
 	img {
 		width: 35px;
 		height: 35px;
