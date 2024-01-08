@@ -79,7 +79,7 @@ const DayClothes = ({ weatherData }) => {
 
 	return (
 		<DayClothesWrap>
-			{/* ...[레이아웃 및 스타일링 생략] */}
+			<h2 className="title">오늘의 추천 옷차림</h2>
 			<div className="clothes__info">
 				<img id="temp-icon" src={기온표} />
 				<div>
