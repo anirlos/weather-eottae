@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import EditPost from '../editpost/EditPost';
 
 //npm install jwt-decode
 //npm install @types/jwt-decode --save-dev 설치필요
@@ -79,7 +78,7 @@ const fetchUserPosts = async (nickName: string): Promise<ImageData[]> => {
 		`http://43.202.97.83:8080/api/posts/user/${nickName}`,
 		{
 			headers: {
-				Authorization: `Bearer ${token}`,
+				Authorization: ` ${token}`,
 			},
 		}
 	);

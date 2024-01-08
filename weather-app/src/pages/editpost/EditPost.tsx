@@ -9,7 +9,7 @@ import EditContent from './EditContent';
 import EditImage from './EditImage';
 import EditTopWrap from './EditTopWrap';
 import Layout from '../../components/layout/Layout';
-import fetchPost from '../../api/fetchPostApi';
+import fetchPostApi from '../../api/fetchPostApi';
 
 const MAX_FILES = 3;
 
@@ -42,7 +42,7 @@ const EditPost: React.FC = () => {
 			setIsLoading(true);
 			try {
 				if (postId) {
-					const postData = await fetchPost(postId);
+					const postData = await fetchPostApi(postId);
 					setContent(postData.content);
 					const formattedHashtags = postData.hashtagNames
 						.map((tag, index) => (index === 0 ? `#${tag}` : tag))
