@@ -1,15 +1,15 @@
 import axios, { AxiosInstance } from 'axios';
 
 const axiosClient: AxiosInstance = axios.create({
-	baseURL: process.env.REACT_APP_BASE_URL,
+	baseURL: 'http://43.202.97.83:8080/api',
 });
 
 axiosClient.interceptors.response.use(
 	(response) => {
 		if (response.headers['Authorization']) {
-			let access_Token = response.headers['Authorization'];
+			let access_token = response.headers['Authorization'];
 
-			localStorage.setItem('access_Token', access_Token);
+			localStorage.setItem('access_token', access_token);
 		}
 		return response;
 	},
@@ -20,10 +20,10 @@ axiosClient.interceptors.response.use(
 
 axiosClient.interceptors.request.use(
 	(config) => {
-		const token = localStorage.getItem('access_Token');
+		const token = localStorage.getItem('access_token');
 
 		if (token) {
-			config.headers['Authorization'] = `Bearer ${token}`;
+			config.headers['Authorization'] = `${token}`;
 		}
 
 		return config;

@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import axiosClient from './axiosClient';
 
 const createPostAPI = async (
 	content: string,
@@ -31,12 +29,12 @@ const createPostAPI = async (
 	}
 
 	try {
-		const response = await axios.post(`${BASE_URL}/post`, formData, {
+		const response = await axiosClient.post(`/post`, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
-				Authorization: ` ${access_token}`,
 			},
 		});
+
 		return response.data;
 	} catch (error) {
 		console.error('Error in createPostAPI:', error);

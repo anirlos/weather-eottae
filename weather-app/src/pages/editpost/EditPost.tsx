@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container } from '../newpost/NewPostStyles';
-import ButtonWrap from '../newpost/PostButtonWrap';
+import PostButtonWrap from '../newpost/PostButtonWrap';
 import Modal from '../newpost/Modal';
-import fetchPost from '../../api/fetchPostApi';
 import updatePost from '../../api/updatePostApi';
 import { deletePost } from '../../api/deletePostApi';
 import EditContent from './EditContent';
 import EditImage from './EditImage';
 import EditTopWrap from './EditTopWrap';
 import Layout from '../../components/layout/Layout';
+import fetchPost from '../../api/fetchPostApi';
 
 const MAX_FILES = 3;
 
@@ -65,9 +65,10 @@ const EditPost: React.FC = () => {
 		loadPost();
 	}, [postId, navigate]);
 
-	// const getTokenFromLocalStorage = (): string | null => {
-	// 	return localStorage.getItem('access_token');
-	// };
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const getTokenFromLocalStorage = (): string | null => {
+		return localStorage.getItem('access_token');
+	};
 
 	const handleSaveDelete = async (deleteFlag: boolean) => {
 		try {
@@ -159,7 +160,7 @@ const EditPost: React.FC = () => {
 					hashtags={hashtags}
 					setHashtags={setHashtags}
 				/>
-				<ButtonWrap
+				<PostButtonWrap
 					onSave={() => handleModalOpen(false)}
 					onDelete={() => handleModalOpen(true)}
 					onCancel={handleCancel}
