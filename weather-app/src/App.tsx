@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ScrollTop from "./hooks/useScrollTop";
 import ChatView from "./pages/Chat/ChatView";
@@ -93,11 +93,11 @@ const App: React.FC = () => {
           />
           <Route path="/editpost/:postId" element={<EditPost />} />
           <Route path="/logout" element={<LogOutAction />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="*" element={<NotFound />} />
           <Route path="/weatherinfo" element={<WeatherInfo />} />
           <Route path="/sevendayweather" element={<SevenWeatherForecast />} />
           {/* 날씨api 테스트용 페이지 */}
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </div>
