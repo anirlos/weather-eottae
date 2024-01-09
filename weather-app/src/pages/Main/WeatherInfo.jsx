@@ -13,6 +13,40 @@ const WeatherInfo = () => {
 	});
 	const [isLoading, setIsLoading] = useState(true);
 
+<<<<<<< HEAD
+  const getCurrentLocation = () => {
+    return new Promise((resolve, reject) => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            resolve({
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+            });
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      } else {
+        reject(new Error("Geolocation is not supported by this browser."));
+      }
+    });
+  };
+
+  const fetchWeatherData = async (lat, lon) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(process.env.WEATHER_API_ENDPOINT, {
+        params: {
+          lat: lat,
+          lon: lon,
+          appid: process.env.OPEN_WEATHER_MAP_API_KEY,
+          units: "metric",
+          lang: "kr",
+        },
+      });
+=======
 	const OPEN_WEATHER_MAP_API_KEY = 'dc8279082d6f0784f2c760463fcb7f60';
 	const WEATHER_API_ENDPOINT =
 		'https://api.openweathermap.org/data/2.5/weather';
@@ -51,11 +85,27 @@ const WeatherInfo = () => {
 					lang: 'kr',
 				},
 			});
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
 
 			const locationName = response.data.name;
 			const currentTemp = response.data.main.temp;
 			const weatherDescription = response.data.weather[0].description;
 
+<<<<<<< HEAD
+      const oneCallResponse = await axios.get(
+        process.env.ONE_CALL_API_ENDPOINT,
+        {
+          params: {
+            lat: lat,
+            lon: lon,
+            exclude: "current,minutely,hourly,alerts",
+            appid: process.env.OPEN_WEATHER_MAP_API_KEY,
+            units: "metric",
+            lang: "Kr",
+          },
+        }
+      );
+=======
 			const oneCallResponse = await axios.get(ONE_CALL_API_ENDPOINT, {
 				params: {
 					lat: lat,
@@ -66,6 +116,7 @@ const WeatherInfo = () => {
 					lang: 'Kr',
 				},
 			});
+>>>>>>> ff5c887a2e467301253c0f1a62649f665450fe2d
 
 			const dailyData = oneCallResponse.data.daily[0];
 
