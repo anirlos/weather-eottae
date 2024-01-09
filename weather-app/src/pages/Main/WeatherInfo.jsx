@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const WeatherInfo = () => {
@@ -42,11 +42,11 @@ const WeatherInfo = () => {
 	const fetchWeatherData = async (lat, lon) => {
 		setIsLoading(true);
 		try {
-			const response = await axios.get(WEATHER_API_ENDPOINT, {
+			const response = await axios.get(process.env.WEATHER_API_ENDPOINT, {
 				params: {
 					lat: lat,
 					lon: lon,
-					appid: OPEN_WEATHER_MAP_API_KEY,
+					appid: process.env.OPEN_WEATHER_MAP_API_KEY,
 					units: 'metric',
 					lang: 'kr',
 				},

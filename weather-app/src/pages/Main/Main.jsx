@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import DayWaether from '../../components/main/DayWeather';
 import DayClothes from '../../components/main/DayClothes';
+// eslint-disable-next-line no-unused-vars
 import WeatherDays from '../../components/main/WeatherDays';
 import Header from '../../components/header/Header';
 import axios from 'axios';
