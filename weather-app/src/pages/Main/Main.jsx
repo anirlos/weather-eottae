@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import styled from "styled-components";
 import DayWaether from "../../components/main/DayWeather";
 import DayClothes from "../../components/main/DayClothes";
@@ -7,16 +8,7 @@ import Header from "../../components/header/Header";
 import axios from "axios";
 import Loading from "../../components/loading/Loading";
 import SevenWeatherForecast from "./SevenWeatherForecast";
-// dev
-// import styled from 'styled-components';
-// import DayWaether from '../../components/main/DayWeather';
-// import DayClothes from '../../components/main/DayClothes';
-// import WeatherDays from '../../components/main/WeatherDays';
-// import Header from '../../components/header/Header';
-// import axios from 'axios';
-// import Loading from '../../components/loading/Loading';
-// import SevenWeatherForecast from './SevenWeatherForecast';
-// import Layout from '../../components/layout/Layout';
+import Layout from "../../components/layout/Layout";
 
 const Main = () => {
   const [weatherData, setWeatherData] = useState({
@@ -31,6 +23,12 @@ const Main = () => {
   // const [forecastData, setForecastData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const OPEN_WEATHER_MAP_API_KEY = "dc8279082d6f0784f2c760463fcb7f60";
+  const WEATHER_API_ENDPOINT =
+    "https://api.openweathermap.org/data/2.5/weather";
+  const ONE_CALL_API_ENDPOINT =
+    "https://api.openweathermap.org/data/2.5/onecall";
 
   const getCurrentLocation = () => {
     return new Promise((resolve, reject) => {
@@ -55,11 +53,11 @@ const Main = () => {
   const fetchWeatherData = async (lat, lon) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(process.env.WEATHER_API_ENDPOINT, {
+      const response = await axios.get(WEATHER_API_ENDPOINT, {
         params: {
           lat: lat,
           lon: lon,
-          appid: process.env.OPEN_WEATHER_MAP_API_KEY,
+          appid: OPEN_WEATHER_MAP_API_KEY,
           units: "metric",
           lang: "En",
         },
@@ -69,19 +67,16 @@ const Main = () => {
       const currentTemp = response.data.main.temp;
       const weatherDescription = response.data.weather[0].description;
 
-      const oneCallResponse = await axios.get(
-        process.env.ONE_CALL_API_ENDPOINT,
-        {
-          params: {
-            lat: lat,
-            lon: lon,
-            exclude: "current,minutely,hourly,alerts",
-            appid: process.env.OPEN_WEATHER_MAP_API_KEY,
-            units: "metric",
-            lang: "kr",
-          },
-        }
-      );
+      const oneCallResponse = await axios.get(ONE_CALL_API_ENDPOINT, {
+        params: {
+          lat: lat,
+          lon: lon,
+          exclude: "current,minutely,hourly,alerts",
+          appid: OPEN_WEATHER_MAP_API_KEY,
+          units: "metric",
+          lang: "kr",
+        },
+      });
 
       const dailyData = oneCallResponse.data.daily[0];
 
@@ -120,62 +115,31 @@ const Main = () => {
   }
 
   return (
-    <>
+    <Layout>
       <Header />
-      <StMain>
-        <div className="daywaether">
+      <Wrap>
+        <DayWrap>
           <DayWaether weatherData={weatherData} />
           <DayClothes weatherData={weatherData} />
-        </div>
-        <SevenWeatherForecast />
-        <WeatherDays />
-      </StMain>
-    </>
+        </DayWrap>
+        <SevenDayWrap>
+          <SevenWeatherForecast />
+        </SevenDayWrap>
+      </Wrap>
+    </Layout>
   );
-
-  // dev
-	// if (isLoading) {
-	// 	return <Loading />;
-	// }
-
-	// return (
-	// 	<Layout>
-	// 		<Header />
-	// 		<Wrap>
-	// 			<DayWrap>
-	// 				<DayWaether weatherData={weatherData} />
-	// 				<DayClothes weatherData={weatherData} />
-	// 			</DayWrap>
-	// 			<SevenDayWrap>
-	// 				<SevenWeatherForecast />
-	// 			</SevenDayWrap>
-	// 		</Wrap>
-	// 	</Layout>
-	// );
 };
 
 export default Main;
 
-const StMain = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  height: 830px;
-  overflow-y: hidden;
-  .daywaether {
-    display: flex;
-    justify-content: center;
-    gap: 4%;
-  }
-  
-  /* dev */
-/* const Wrap = styled.div`
-	display: flex;
-	flex-direction: column;
-`; */
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const DayWrap = styled.div`
-	display: flex;
-	justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 `;
 
 const SevenDayWrap = styled.div``;

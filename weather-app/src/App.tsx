@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ScrollTop from "./hooks/useScrollTop";
 import ChatView from "./pages/Chat/ChatView";
 import Main from "./pages/Main/Main";
-import Layout from "./components/layout/Layout";
 import NewPost from "./pages/newpost/NewPost";
 import NotFound from "./pages/not-found/NotFound";
 import Feed from "./pages/feed/Feed";
