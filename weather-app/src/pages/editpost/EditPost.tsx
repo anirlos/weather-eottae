@@ -13,13 +13,14 @@ import fetchPostApi from '../../api/fetchPostApi';
 
 const MAX_FILES = 3;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface PostData {
 	content: string;
 	temperature: string;
 	location: string;
 	date: string;
 	mediaUrls: string[];
-	hashtagNames: string[];
+	hashtagNames: string;
 	access_token: string; // 이 부분을 추가합니다.
 }
 
@@ -43,21 +44,29 @@ const EditPost: React.FC = () => {
 			try {
 				if (postId) {
 					const postData = await fetchPostApi(postId);
-					setContent(postData.content);
-					const formattedHashtags = postData.hashtagNames
-						.map((tag, index) => (index === 0 ? `#${tag}` : tag))
-						.join(' '); // 여기서 해시태그를 문자열로 변환
-					setHashtags(formattedHashtags);
-					setTemperature(postData.temperature || '');
-					setLocation(postData.location || '');
-					setDate(postData.date || '');
-					setMediaFiles(postData.mediaUrls || []);
+					if (postData) {
+						setContent(postData.content);
+
+						// postData.hashtagNames가 문자열인 경우만 split을 사용합니다.
+						const formattedHashtags = postData.hashtagNames
+							.map((tag: string, index: number) =>
+								index === 0 ? `#${tag}` : ` #${tag}`
+							)
+							.join('');
+						setHashtags(formattedHashtags);
+
+						setTemperature(postData.temperature || '');
+						setLocation(postData.location || '');
+						setDate(postData.date || '');
+						setMediaFiles(postData.mediaUrls || []);
+					} else {
+						console.error('Post data is null');
+					}
 				} else {
 					console.error('Post ID is undefined');
-					navigate('/'); // 적절한 리디렉션 또는 에러 처리
 				}
 			} catch (error) {
-				console.error('Failed to fetch post:', error);
+				console.error('Error loading post:', error);
 			} finally {
 				setIsLoading(false);
 			}

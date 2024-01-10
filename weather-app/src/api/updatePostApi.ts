@@ -1,4 +1,3 @@
-import axios from 'axios';
 import axiosClient from './axiosClient';
 
 export const updatePost = async (
@@ -16,11 +15,14 @@ export const updatePost = async (
 	formData.append('temperature', temperature);
 
 	if (hashtags) {
-		const hashtagsArray = hashtags.match(/#[\p{L}]+/gu);
-		if (hashtagsArray) {
-			const hashtagsStr = hashtagsArray.map((tag) => tag.slice(1)).join(' ');
-			formData.append('hashtags', hashtagsStr);
-		}
+		// 해시태그를 공백으로 분리하고 formData에 추가
+		hashtags.split(' ').forEach((tag) => {
+			if (tag.startsWith('#')) {
+				formData.append('hashtags', tag.slice(1)); // '#' 제거
+			} else {
+				formData.append('hashtags', tag);
+			}
+		});
 	}
 
 	mediaFiles.forEach((file) => {
