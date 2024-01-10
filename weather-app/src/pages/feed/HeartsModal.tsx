@@ -1,16 +1,17 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import ModalPortal from "../../components/modal/ModalPortal";
+import Modal from "../../components/modal/Modal";
 import { User } from "../../types/feedType";
 import { BsArrowRightSquareFill } from "react-icons/bs";
 
 interface HeartsModalProps {
   heartUsers: Array<User>;
+  isOpen: boolean;
   onClose: () => void;
 }
 
-const HeartsModal: FC<HeartsModalProps> = ({ heartUsers, onClose }) => {
+const HeartsModal: FC<HeartsModalProps> = ({ heartUsers, isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const handleUserClick = (nickName: string) => {
@@ -18,7 +19,7 @@ const HeartsModal: FC<HeartsModalProps> = ({ heartUsers, onClose }) => {
   };
 
   return (
-    <ModalPortal onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} useBg>
       <ModalContent>
         <ModalHeader>
           <p>좋아요♡</p>
@@ -41,7 +42,7 @@ const HeartsModal: FC<HeartsModalProps> = ({ heartUsers, onClose }) => {
           ))}
         </UserList>
       </ModalContent>
-    </ModalPortal>
+    </Modal>
   );
 };
 

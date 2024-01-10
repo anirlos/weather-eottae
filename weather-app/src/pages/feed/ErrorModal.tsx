@@ -1,16 +1,17 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import ModalPortal from "../../components/modal/ModalPortal";
+import Modal from "../../components/modal/Modal";
 import { BsHeartFill } from "react-icons/bs";
 
 interface ErrorModalProps {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-const ErrorModal: FC<ErrorModalProps> = ({ onClose }) => {
+const ErrorModal: FC<ErrorModalProps> = ({ isOpen, onClose }) => {
   return (
-    <ModalPortal onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} useBg>
       <ModalContent>
         <CloseButton onClick={onClose}>X</CloseButton>
         <ErrorMessage>
@@ -27,7 +28,7 @@ const ErrorModal: FC<ErrorModalProps> = ({ onClose }) => {
           </button>
         </LinkContainer>
       </ModalContent>
-    </ModalPortal>
+    </Modal>
   );
 };
 
