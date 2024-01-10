@@ -253,7 +253,6 @@ const Signup = () => {
   );
 };
 
-
 export default Signup;
 
 const Container = styled.div`

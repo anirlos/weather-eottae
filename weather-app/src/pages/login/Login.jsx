@@ -130,7 +130,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-
     text-align: center;
     width: 70%;
     row-gap: 20px;
@@ -151,7 +150,6 @@ const Container = styled.div`
   .textfield-container {
     display: flex;
     flex-direction: column;
-
     justify-content: center;
     row-gap: 10px;
   }

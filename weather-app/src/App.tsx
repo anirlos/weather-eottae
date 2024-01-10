@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ScrollTop from "./hooks/useScrollTop";
@@ -102,6 +103,5 @@ const App: React.FC = () => {
       </Router>
     </div>
   );
-};
-
+          }
 export default App;
