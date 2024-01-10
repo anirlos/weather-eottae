@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import styled from "styled-components";
 import DayWaether from "../../components/main/DayWeather";
 import DayClothes from "../../components/main/DayClothes";
@@ -8,6 +7,16 @@ import Header from "../../components/header/Header";
 import axios from "axios";
 import Loading from "../../components/loading/Loading";
 import SevenWeatherForecast from "./SevenWeatherForecast";
+// dev
+// import styled from 'styled-components';
+// import DayWaether from '../../components/main/DayWeather';
+// import DayClothes from '../../components/main/DayClothes';
+// import WeatherDays from '../../components/main/WeatherDays';
+// import Header from '../../components/header/Header';
+// import axios from 'axios';
+// import Loading from '../../components/loading/Loading';
+// import SevenWeatherForecast from './SevenWeatherForecast';
+// import Layout from '../../components/layout/Layout';
 
 const Main = () => {
   const [weatherData, setWeatherData] = useState({
@@ -123,6 +132,26 @@ const Main = () => {
       </StMain>
     </>
   );
+
+  // dev
+	// if (isLoading) {
+	// 	return <Loading />;
+	// }
+
+	// return (
+	// 	<Layout>
+	// 		<Header />
+	// 		<Wrap>
+	// 			<DayWrap>
+	// 				<DayWaether weatherData={weatherData} />
+	// 				<DayClothes weatherData={weatherData} />
+	// 			</DayWrap>
+	// 			<SevenDayWrap>
+	// 				<SevenWeatherForecast />
+	// 			</SevenDayWrap>
+	// 		</Wrap>
+	// 	</Layout>
+	// );
 };
 
 export default Main;
@@ -137,4 +166,16 @@ const StMain = styled.div`
     justify-content: center;
     gap: 4%;
   }
+  
+  /* dev */
+/* const Wrap = styled.div`
+	display: flex;
+	flex-direction: column;
+`; */
+
+const DayWrap = styled.div`
+	display: flex;
+	justify-content: space-around;
 `;
+
+const SevenDayWrap = styled.div``;

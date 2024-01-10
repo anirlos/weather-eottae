@@ -39,7 +39,7 @@ const Signup = () => {
       setIsloading(true);
       setEmpty(true);
       const response = await axios.post(
-        `http://43.200.188.52:8080/api/user/${nickName}`,
+        `http://43.202.97.83:8080/api/user/${nickName}`,
         { nickName }
       );
 
@@ -114,7 +114,7 @@ const Signup = () => {
       };
 
       const response = await axios.post(
-        "http://43.200.188.52:8080/api/signup",
+        "http://43.202.97.83:8080/api/signup",
         formData,
         { headers }
       );
