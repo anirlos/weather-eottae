@@ -38,7 +38,7 @@ const Signup = () => {
       try{
         setIsloading(true);
         setEmpty(true);
-        const response = await axios.post(`http://43.200.188.52:8080/api/user/${nickName}`,
+        const response = await axios.post(`http://43.202.97.83:8080/api/user/${nickName}`,
         {nickName}
         );
 
@@ -115,14 +115,15 @@ const Signup = () => {
       };
 
       const response = await axios.post(
-        "http://43.200.188.52:8080/api/signup",
+        "http://43.202.97.83:8080/api/signup",
         formData,
         { headers }
       );
 
       if (response.status === 200) {
         console.log("통신 성공", response);
-        navigate("/");
+        window.alert ("회원가입에 성공했습니다. 로그인해주세요.")
+        navigate("/login");
       } else {
         console.log("통신 실패", response);
       }

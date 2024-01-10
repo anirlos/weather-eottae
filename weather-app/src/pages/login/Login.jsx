@@ -23,7 +23,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://43.200.188.52:8080/login", {
+      const response = await axios.post("http://43.202.97.83:8080/login", {
         email: userId,
         password: password,
       });
