@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://43.200.188.52:8080';
+const BASE_URL = 'http://43.202.97.83:8080';
 
 export const currentweather = async () => {
 	try {
