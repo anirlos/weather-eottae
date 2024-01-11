@@ -8,7 +8,7 @@ export const sizes = {
   large: "1280px",
   desktop: "1024px",
   tablet: "768px",
-  phone: "430px",
+  phone: "480px",
 };
 
 export const mediaQueries = (key: keyof typeof sizes) => {
