@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import axiosClient from './axiosClient';
 
 export const updatePost = async (
 	content: string,
@@ -12,17 +10,19 @@ export const updatePost = async (
 	access_token: string
 ): Promise<any> => {
 	const formData = new FormData();
-
 	formData.append('content', content);
 	formData.append('location', location);
 	formData.append('temperature', temperature);
 
 	if (hashtags) {
-		const hashtagsArray = hashtags.match(/#[\p{L}]+/gu);
-		if (hashtagsArray) {
-			const hashtagsStr = hashtagsArray.map((tag) => tag.slice(1)).join(' ');
-			formData.append('hashtags', hashtagsStr);
-		}
+		// 해시태그를 공백으로 분리하고 formData에 추가
+		hashtags.split(' ').forEach((tag) => {
+			if (tag.startsWith('#')) {
+				formData.append('hashtags', tag.slice(1)); // '#' 제거
+			} else {
+				formData.append('hashtags', tag);
+			}
+		});
 	}
 
 	mediaFiles.forEach((file) => {
@@ -34,18 +34,21 @@ export const updatePost = async (
 	});
 
 	try {
-		const token = localStorage.getItem('access_token');
-		const response = await axios.put(`${BASE_URL}/post/${postId}`, formData, {
+		const response = await axiosClient.put(`/post/${postId}`, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
-				Authorization: ` ${token}`,
+				Authorization: `Bearer ${access_token}`, // Correctly reference access_token
 			},
 		});
 
 		return response.data;
 	} catch (error) {
 		console.error('Error in updatePost:', error);
-		throw error;
+		if (error instanceof Error) {
+			throw new Error(`Error in updating post: ${error.message}`);
+		} else {
+			throw new Error('Error in updating post');
+		}
 	}
 };
 

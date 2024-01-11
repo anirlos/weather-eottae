@@ -12,16 +12,14 @@ interface PostData {
 }
 
 // postId를 인자로 받아 해당 게시물의 데이터를 불러오는 함수를 정의합니다.
-const fetchPost = async (postId: string): Promise<PostData> => {
+const fetchPostApi = async (postId: string): Promise<PostData | null> => {
 	try {
-		// axiosClient 인스턴스를 사용하여 서버에 GET 요청을 보냅니다.
 		const response = await axiosClient.get<PostData>(`/post/${postId}`);
-
 		return response.data;
-	} catch (error: unknown) {
-		console.error('Error in fetchPost:', error);
-		throw new Error('Failed to fetch post data');
+	} catch (error) {
+		console.error('Error fetching post data:', error);
+		return null; // 오류가 발생했을 때 null 반환
 	}
 };
 
-export default fetchPost;
+export default fetchPostApi;

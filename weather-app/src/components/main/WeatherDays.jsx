@@ -1,7 +1,12 @@
 import React from "react";
 
 import styled from "styled-components";
-
+import 해 from "../../assets/img/main/weatherIcon/해쨍쨍icon.png";
+import 눈 from "../../assets/img/main/눈icon.png";
+import 번개 from "../../assets/img/main/weatherIcon/번개icon.png";
+import 비내림 from "../../assets/img/main/weatherIcon/비icon.png";
+import 약간흐림 from "../../assets/img/main/weatherIcon/약간흐림icon.png";
+import 흐림 from "../../assets/img/main/weatherIcon/흐림icon.png";
 import WeatherDaysCard from "./WeatherDaysCard";
 
 const WeatherDays = (props) => {

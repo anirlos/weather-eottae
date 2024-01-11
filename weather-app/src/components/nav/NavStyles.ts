@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-const sizes = {
+export const sizes = {
 	large: '1280px',
 	desktop: '1024px',
 	tablet: '768px',
 	phone: '430px',
 };
 
-const media = {
+export const media = {
 	large: `(max-width: ${sizes.large})`,
 	desktop: `(max-width: ${sizes.desktop})`,
 	tablet: `(max-width: ${sizes.tablet})`,

@@ -1,6 +1,6 @@
 import axiosClient from './axiosClient';
 
-const createPostAPI = async (
+const createPostApi = async (
 	content: string,
 	temperature: string | undefined, // 기본값 설정
 	location: string | undefined, // 기본값 설정
@@ -20,11 +20,17 @@ const createPostAPI = async (
 		}
 	});
 
-	if (hashtags) {
+	if (hashtags && typeof hashtags === 'string') {
+		// 해시태그를 정규 표현식을 사용하여 추출
 		const hashtagsArray = hashtags.match(/#[\p{L}]+/gu);
 		if (hashtagsArray) {
-			const hashtagsStr = hashtagsArray.map((tag) => tag.slice(1)).join(' ');
-			formData.append('hashtags', hashtagsStr);
+			// 각 해시태그에서 '#'을 제거하고 공백으로 구분된 하나의 문자열로 합침
+			const hashtagsStr = hashtagsArray.map((tag) => tag.slice(1));
+
+			// 배열의 각 요소를 formData에 개별적으로 추가
+			hashtagsStr.forEach((tag) => {
+				formData.append('hashtags', tag);
+			});
 		}
 	}
 
@@ -42,4 +48,4 @@ const createPostAPI = async (
 	}
 };
 
-export default createPostAPI;
+export default createPostApi;
