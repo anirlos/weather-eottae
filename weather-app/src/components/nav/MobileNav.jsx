@@ -191,6 +191,11 @@ const LogoWrap = styled.div`
   @media ${media.phone} {
     margin-left: -30px;
   }
+  img {
+    @media ${media.phone} {
+      width: 8.8rem;
+    }
+  }
 `;
 
 const NavWrap = styled.ul`
@@ -229,7 +234,7 @@ const NavWrap = styled.ul`
       padding: 6px;
     }
     span {
-      font-size: 1.125rem;
+      font-size: 1.4rem;
       color: inherit;
       margin-left: 5px;
       display: flex;

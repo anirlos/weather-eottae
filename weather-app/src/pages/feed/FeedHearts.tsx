@@ -5,6 +5,7 @@ import { toggleLike, fetchHeartUsers } from "../../api/feed";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import ErrorModal from "./ErrorModal";
 import HeartsModal from "./HeartsModal";
+import useModal from "../../hooks/useModal";
 
 interface FeedHeartsProps {
   postId: number;
@@ -20,10 +21,10 @@ const FeedHearts: FC<FeedHeartsProps> = ({
   const [isHeart, setIsHeart] = useState(liked);
   const [heartCount, setHeartCount] = useState(initialHeartCount);
 
-  const [showErrorModal, setShowErrorModal] = useState(false); // 에러 모달 상태
-  const [showHeartsModal, setShowHeartsModal] = useState(false); // 좋아요 유저 모달 상태
-
   const [heartUsers, setHeartUsers] = useState([]);
+
+  const heartErrorModal = useModal();
+  const heartsModal = useModal();
 
   useEffect(() => {
     setIsHeart(liked);
@@ -31,7 +32,7 @@ const FeedHearts: FC<FeedHeartsProps> = ({
 
   const handleLike = async () => {
     if (!localStorage.getItem("access_token")) {
-      setShowErrorModal(true);
+      heartErrorModal.open();
       return;
     }
 
@@ -48,7 +49,7 @@ const FeedHearts: FC<FeedHeartsProps> = ({
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response && error.response.status === 401) {
-          setShowErrorModal(true);
+          heartErrorModal.open();
         } else {
           console.error("Error toggling like:", error);
         }
@@ -56,19 +57,11 @@ const FeedHearts: FC<FeedHeartsProps> = ({
     }
   };
 
-  const openModal = async () => {
+  const openHeartsModal = async () => {
     if (heartCount > 0) {
       const users = await fetchHeartUsers(postId);
       setHeartUsers(users);
-      setShowHeartsModal(true);
-    }
-  };
-
-  const closeModal = (modalType: string) => {
-    if (modalType === "error") {
-      setShowErrorModal(false);
-    } else if (modalType === "hearts") {
-      setShowHeartsModal(false);
+      heartsModal.open();
     }
   };
 
@@ -79,20 +72,22 @@ const FeedHearts: FC<FeedHeartsProps> = ({
       </HeartButton>
 
       {heartCount > 0 ? (
-        <HeartsModalButton onClick={openModal}>
+        <HeartsModalButton onClick={openHeartsModal}>
           좋아요 <span>{heartCount}</span>개
         </HeartsModalButton>
       ) : (
         <p>좋아요</p>
       )}
 
-      {showErrorModal && <ErrorModal onClose={() => closeModal("error")} />}
-      {showHeartsModal && (
-        <HeartsModal
-          heartUsers={heartUsers}
-          onClose={() => closeModal("hearts")}
-        />
-      )}
+      <ErrorModal
+        isOpen={heartErrorModal.isOpen}
+        onClose={heartErrorModal.close}
+      />
+      <HeartsModal
+        heartUsers={heartUsers}
+        isOpen={heartsModal.isOpen}
+        onClose={heartsModal.close}
+      />
     </HeartContainer>
   );
 };

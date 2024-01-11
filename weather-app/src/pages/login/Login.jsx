@@ -26,13 +26,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(authActionCreator(userId,password))
-    console.log("오스액션크리에이터실행")
   };
 
   const googleLogin = () =>{
     signInWithGoogle()
     .then((result)=>{
       console.log('콜백함수가 실행되었다.', result); 
+      window.alert('회원가입/로그인되었습니다')
       navigate('/');
     })
     .catch((e)=>console.e('로그인실패',e)); 

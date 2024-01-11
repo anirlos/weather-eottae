@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
@@ -7,8 +7,17 @@ import devicon_google from "../../assets/img/login/devicon_google.png";
 import kakao from "../../assets/img/login/kakao.png";
 import Postcode from "../../components/login/Postcode";
 
-const Signup = () => {
-  const [userInfo, setUserInfo] = useState({
+interface UserInfo {
+  userName: string;
+  nickName: string;
+  email: string;
+  password: string;
+  address: string;
+  message: string;
+}
+
+const Signup: React.FC = () => {
+  const [userInfo, setUserInfo] = useState<UserInfo>({
     userName: "",
     nickName: "",
     email: "",
@@ -17,33 +26,25 @@ const Signup = () => {
     message: "",
   });
 
-  const [zipCode, setZipcode] = useState("");
-  const [roadAddress, setRoadAddress] = useState("");
-  const [detailAddress, setDetailAddress] = useState("");
+  const [zipCode, setZipcode] = useState<string>("");
+  const [roadAddress, setRoadAddress] = useState<string>("");
+  const [detailAddress, setDetailAddress] = useState<string>("");
 
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState<File | null>(null);
 
   const navigate = useNavigate();
 
-  const [passwordError, setPasswordError] = useState("");
+  const [passwordError, setPasswordError] = useState<string>("");
 
-  //닉네임 중복체크
-  const [isNickname, setIsNickname] = useState(false);
-  const [loading, setIsloading] = useState(false);
-  const [empty, setEmpty] = useState(false);
+  const [isNickname, setIsNickname] = useState<boolean>(false);
+  const [loading, setIsLoading] = useState<boolean>(false);
+  const [empty, setEmpty] = useState<boolean>(false);
 
   const doubleCheck = async () => {
     const { nickName } = userInfo;
-  
-      try{
-        setIsloading(true);
-        setEmpty(true);
-        const response = await axios.post(`http://43.202.97.83:8080/api/user/${nickName}`,
-        {nickName}
-        );
 
     try {
-      setIsloading(true);
+      setIsLoading(true);
       setEmpty(true);
       const response = await axios.post(
         `http://43.202.97.83:8080/api/user/${nickName}`,
@@ -55,24 +56,21 @@ const Signup = () => {
       if (response.status === 200) {
         setIsNickname(true);
       } else if (response.status === 409) {
-        // 닉네임이 사용 불가능한 경우(409)
         setIsNickname(false);
       }
     } catch (error) {
-      // 통신실패
       console.error("닉네임 중복체크 오류", error);
       setIsNickname(false);
     } finally {
-      setIsloading(false);
+      setIsLoading(false);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserInfo((prevUserInfo) => ({ ...prevUserInfo, [name]: value }));
 
     if (name === "password") {
-      // 비밀번호 유효성
       const passwordRegex =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,}$/;
 
@@ -85,12 +83,14 @@ const Signup = () => {
       }
     }
 
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(() => e.target.files[0]);
-    }
+    if (e.target.files && e.target.files[0]) {
+        setFile(() => e.target.files[0]);
+      }
+      
+      
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
@@ -105,15 +105,12 @@ const Signup = () => {
         message: userInfo.message,
       };
 
-      // JSON 데이터를 Blob으로 변환
-
       const jsonBlob = new Blob([JSON.stringify(jsonData)], {
         type: "application/json",
       });
 
-      // FormData에 Blob 추가
       formData.append("request", jsonBlob);
-      formData.append("file", file, file.name);
+      formData.append("file", file as Blob, (file as File).name);
 
       const headers = {
         "Content-Type": "multipart/form-data",
@@ -128,7 +125,7 @@ const Signup = () => {
 
       if (response.status === 200) {
         console.log("통신 성공", response);
-        window.alert ("회원가입에 성공했습니다. 로그인해주세요.")
+        window.alert("회원가입에 성공했습니다. 로그인해주세요.");
         navigate("/login");
       } else {
         console.log("통신 실패", response);
@@ -137,15 +134,6 @@ const Signup = () => {
       console.log("통신 실패", err);
     }
   };
-
-  console.log("useInfo입니다.", {
-    userInfo,
-    zipCode,
-    roadAddress,
-    detailAddress,
-    file,
-    key: file.name,
-  });
 
   return (
     <Container>
@@ -166,7 +154,7 @@ const Signup = () => {
               onChange={handleChange}
             />
 
-            <label htmlFor="userName">닉네임</label>
+            <label htmlFor="nickName">닉네임</label>
 
             <Label>
               <input
@@ -180,8 +168,6 @@ const Signup = () => {
               <button onClick={doubleCheck}>중복검사</button>
             </Label>
 
-            {/*{!loading && <p>닉네임 중복검사를 해주세요.</p>}*/}
-            {/*{loading && <p>사용할 수 있는지 닉네임인지 확인중</p>}*/}
             {!loading && !isNickname && empty && (
               <p style={{ color: "orange" }}>사용할 수 없는 닉네임입니다.</p>
             )}
@@ -212,16 +198,6 @@ const Signup = () => {
               setDetailAddress={setDetailAddress}
             />
 
-            {/*일반주소
-              <label htmlFor="address">주소 입력</label>
-              <input
-                type="text"
-                value={userInfo.address}
-                name="address"
-                id="address"
-                onChange={handleChange}
-               /> */}
-
             <label htmlFor="message" className="message-margin">
               회원들에게 보일 인삿말과 프로필사진을 등록해보세요
             </label>
@@ -235,7 +211,7 @@ const Signup = () => {
             <input
               type="file"
               name="file"
-              multiple="multiple"
+              multiple={false}
               onChange={handleChange}
             ></input>
           </div>
@@ -257,8 +233,6 @@ const Signup = () => {
     </Container>
   );
 };
-}
-
 
 export default Signup;
 
@@ -430,3 +404,4 @@ const Label = styled.label`
 
 }
 `
+

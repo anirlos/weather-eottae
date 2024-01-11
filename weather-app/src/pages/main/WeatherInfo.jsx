@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
-
-import styled from "styled-components";
-import DayWaether from "../../components/main/DayWeather";
-import DayClothes from "../../components/main/DayClothes";
-import WeatherDays from "../../components/main/WeatherDays";
-import Header from "../../components/header/Header";
 import axios from "axios";
-import Loading from "../../components/loading/Loading";
-import SevenWeatherForecast from "./SevenWeatherForecast";
 
-const Main = () => {
+const WeatherInfo = () => {
   const [weatherData, setWeatherData] = useState({
     locationName: "",
     currentTemp: null,
@@ -19,9 +11,13 @@ const Main = () => {
     precipitation: null,
     uvIndex: null,
   });
-  // const [forecastData, setForecastData] = useState([]);
-
   const [isLoading, setIsLoading] = useState(true);
+
+  const OPEN_WEATHER_MAP_API_KEY = "dc8279082d6f0784f2c760463fcb7f60";
+  const WEATHER_API_ENDPOINT =
+    "https://api.openweathermap.org/data/2.5/weather";
+  const ONE_CALL_API_ENDPOINT =
+    "https://api.openweathermap.org/data/2.5/onecall";
 
   const getCurrentLocation = () => {
     return new Promise((resolve, reject) => {
@@ -46,13 +42,13 @@ const Main = () => {
   const fetchWeatherData = async (lat, lon) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(process.env.WEATHER_API_ENDPOINT, {
+      const response = await axios.get(WEATHER_API_ENDPOINT, {
         params: {
           lat: lat,
           lon: lon,
-          appid: process.env.OPEN_WEATHER_MAP_API_KEY,
+          appid: OPEN_WEATHER_MAP_API_KEY,
           units: "metric",
-          lang: "En",
+          lang: "kr",
         },
       });
 
@@ -60,19 +56,16 @@ const Main = () => {
       const currentTemp = response.data.main.temp;
       const weatherDescription = response.data.weather[0].description;
 
-      const oneCallResponse = await axios.get(
-        process.env.ONE_CALL_API_ENDPOINT,
-        {
-          params: {
-            lat: lat,
-            lon: lon,
-            exclude: "current,minutely,hourly,alerts",
-            appid: process.env.OPEN_WEATHER_MAP_API_KEY,
-            units: "metric",
-            lang: "kr",
-          },
-        }
-      );
+      const oneCallResponse = await axios.get(ONE_CALL_API_ENDPOINT, {
+        params: {
+          lat: lat,
+          lon: lon,
+          exclude: "current,minutely,hourly,alerts",
+          appid: OPEN_WEATHER_MAP_API_KEY,
+          units: "metric",
+          lang: "Kr",
+        },
+      });
 
       const dailyData = oneCallResponse.data.daily[0];
 
@@ -107,34 +100,30 @@ const Main = () => {
   }, []);
 
   if (isLoading) {
-    return <Loading />;
+    return <div>날씨 데이터를 불러오는 중입니다...</div>;
   }
 
   return (
-    <>
-      <Header />
-      <StMain>
-        <div className="daywaether">
-          <DayWaether weatherData={weatherData} />
-          <DayClothes weatherData={weatherData} />
-        </div>
-        <SevenWeatherForecast />
-        <WeatherDays />
-      </StMain>
-    </>
+    <div>
+      <h2>오늘의 날씨 정보</h2>
+      {weatherData.locationName && <p>위치: {weatherData.locationName}</p>}
+      <p>
+        현재 기온:{" "}
+        {weatherData.currentTemp ? weatherData.currentTemp.toFixed(1) : "N/A"}°C
+      </p>
+      <p>날씨 상태: {weatherData.weatherDescription}</p>
+      <p>
+        최저 기온:{" "}
+        {weatherData.minTemp ? weatherData.minTemp.toFixed(1) : "N/A"}°C
+      </p>
+      <p>
+        최고 기온:{" "}
+        {weatherData.maxTemp ? weatherData.maxTemp.toFixed(1) : "N/A"}°C
+      </p>
+      <p>강수량: {weatherData.precipitation}mm</p>
+      <p>자외선 지수: {weatherData.uvIndex}</p>
+    </div>
   );
 };
 
-export default Main;
-
-const StMain = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  height: 830px;
-  overflow-y: hidden;
-  .daywaether {
-    display: flex;
-    justify-content: center;
-    gap: 4%;
-  }
-`;
+export default WeatherInfo;
