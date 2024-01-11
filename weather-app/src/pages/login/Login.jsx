@@ -4,12 +4,16 @@ import styled from "styled-components";
 import login from "../../assets/img/login/login.png";
 import devicon_google from "../../assets/img/login/devicon_google.png";
 import kakao from "../../assets/img/login/kakao.png";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { authActionCreator } from "../../redux/thunk/authThunk";
+import { signInWithGoogle } from "../../utils/socialAuthUtil";
+
 
 const Login = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     if (e.target.name === "email") {
@@ -21,29 +25,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post("http://43.202.97.83:8080/login", {
-        email: userId,
-        password: password,
-      });
-      const accessToken = response.headers["authorization_access_token"];
-      const refreshToken = response.headers["authorization_refresh_token"];
-
-      if (accessToken && refreshToken) {
-        localStorage.setItem("access_token", accessToken);
-        localStorage.setItem("refresh_token", refreshToken);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${accessToken}`;
-        navigate("/");
-      } else {
-        console.log("토큰이 없습니다.");
-      }
-    } catch (error) {
-      console.error("로그인 에러:", error);
-    }
+    dispatch(authActionCreator(userId,password))
+    console.log("오스액션크리에이터실행")
   };
+
+  const googleLogin = () =>{
+    signInWithGoogle()
+    .then((result)=>{
+      console.log('콜백함수가 실행되었다.', result); 
+      navigate('/');
+    })
+    .catch((e)=>console.e('로그인실패',e)); 
+}
 
   return (
     <Container>
@@ -92,7 +85,7 @@ const Login = () => {
             <hr className="line" />
           </div>
           <div className="social-login">
-            <img src={devicon_google} alt="google" />
+            <img src={devicon_google} alt="google" onClick={googleLogin} />
             <img src={kakao} alt="kakao" />
           </div>
           <div className="signup-container">

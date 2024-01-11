@@ -16,9 +16,9 @@ const Nav = () => {
   const [isLoggin, setIsLoggin] = useState(false);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("access_token");
-    const refreshToken = localStorage.getItem("refresh_token");
-    setIsLoggin(accessToken && refreshToken);
+      const accessToken = localStorage.getItem("access_token");
+      const refreshToken = localStorage.getItem("refresh_token");
+      setIsLoggin(accessToken || refreshToken);
   }, []);
 
   const onLogOut = () => {
