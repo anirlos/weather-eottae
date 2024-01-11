@@ -143,9 +143,11 @@ const Wrap = styled.div`
 const DayWrap = styled.div`
   display: flex;
   justify-content: space-around;
+
   //미디어 쿼리 모바일은 세로로 바꾸기!
   ${mediaQueries(BREAKPOINT_TABLET)} {
-    display: block;
+    flex-direction: column;
+    justify-content: center;
   }
 `;
 
