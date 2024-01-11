@@ -9,9 +9,9 @@ import axios from "axios";
 import Loading from "../../components/loading/Loading";
 import SevenWeatherForecast from "./SevenWeatherForecast";
 import Layout from "../../components/layout/Layout";
-import { mediaQueries } from "../../styles/MediaStayle";
+import { mediaQueries } from "../../styles/MediaStyle";
 
-import { BREAKPOINT_TABLET, BREAKPOINT_PHONE } from "../../styles/MediaStayle";
+import { BREAKPOINT_TABLET, BREAKPOINT_PHONE } from "../../styles/MediaStyle";
 
 const Main = () => {
   const [weatherData, setWeatherData] = useState({

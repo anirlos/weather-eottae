@@ -11,9 +11,8 @@ import 번개 from "../../assets/img/main/weatherIcon/번개icon.png";
 import 비내림 from "../../assets/img/main/weatherIcon/비icon.png";
 import 약간흐림 from "../../assets/img/main/weatherIcon/약간흐림icon.png";
 import 흐림 from "../../assets/img/main/weatherIcon/흐림icon.png";
-import { mediaQueries } from "../../styles/MediaStayle";
-import { BREAKPOINT_TABLET } from "../../styles/MediaStayle";
-import { BREAKPOINT_PHONE } from "../../styles/MediaStayle";
+import { mediaQueries } from "../../styles/MediaStyle";
+import { BREAKPOINT_TABLET, BREAKPOINT_PHONE } from "../../styles/MediaStyle";
 
 interface WeatherData {
   locationName: string;
