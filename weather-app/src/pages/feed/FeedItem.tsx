@@ -5,6 +5,12 @@ import { Post } from "../../types/feedType";
 import { formatDate } from "../../utils/dateUtil";
 import FeedHearts from "./FeedHearts";
 import FeedSlide from "./FeedSlide";
+import { mediaQueries } from "../../styles/MediaStyle";
+import {
+  BREAKPOINT_DESKTOP,
+  BREAKPOINT_TABLET,
+  BREAKPOINT_PHONE,
+} from "../../styles/MediaStyle";
 
 interface FeedItemProps {
   post: Post;
@@ -120,16 +126,16 @@ const FeedContainer = styled.div`
   border-radius: 5px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   background-color: #fff;
-  @media (max-width: 1024px) {
+  ${mediaQueries(BREAKPOINT_DESKTOP)} {
     width: 400px;
   }
-  @media (max-width: 768px) {
+  ${mediaQueries(BREAKPOINT_TABLET)} {
     width: 80%;
     max-width: 350px;
   }
-  @media (max-width: 430px) {
+  ${mediaQueries(BREAKPOINT_PHONE)} {
     width: calc(100% - 30px);
-    padding: 20px 0;
+    padding: 20px 15px;
     margin: 0 15px;
     border-radius: 0;
     box-shadow: none;
@@ -187,7 +193,6 @@ const FeedBottom = styled.div`
     display: inline-block;
     text-align: left;
     p {
-      /* white-space: pre-wrap; */
       white-space: pre-line;
     }
   }

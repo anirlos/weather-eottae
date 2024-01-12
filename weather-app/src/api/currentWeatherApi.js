@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axios from "axios";
 
-const BASE_URL = 'http://43.202.97.83:8080';
+const BASE_URL = "http://43.202.97.83:8080";
 
 export const currentweather = async () => {
-	try {
-		const response = await axios.get(`${BASE_URL}/api/current/{locationId}`);
-		return response.data;
-	} catch (error) {
-		console.error('Error fetching state:', error);
-		throw error; // 오류를 호출자에게 전파
-	}
+  try {
+    const response = await axios.get(`${BASE_URL}/api/current/{locationId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching state:", error);
+    throw error; // 오류를 호출자에게 전파
+  }
 };
