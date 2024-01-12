@@ -173,6 +173,10 @@ const Wrap = styled.div`
     overflow: hidden;
     background-color: #5d6dbe;
     border-bottom: 2px solid #fff;
+
+    /* position: fixed;
+    top: 80px;
+    left: 10px; */
   }
 `;
 
@@ -200,7 +204,7 @@ const LogoWrap = styled.div`
 
 const NavWrap = styled.ul`
   position: absolute;
-  top: 20%;
+  top: 80px;
   left: 27%;
   height: 50%;
   display: flex;

@@ -12,8 +12,15 @@ import 비내림 from "../../assets/img/main/weatherIcon/비icon.png";
 import 약간흐림 from "../../assets/img/main/weatherIcon/약간흐림icon.png";
 import 흐림 from "../../assets/img/main/weatherIcon/흐림icon.png";
 import { mediaQueries } from "../../styles/MediaStyle";
-import { BREAKPOINT_TABLET, BREAKPOINT_PHONE } from "../../styles/MediaStyle";
-
+import {
+  BREAKPOINT_TABLET,
+  BREAKPOINT_PHONE,
+  BREAKPOINT_DESKTOP,
+} from "../../styles/MediaStyle";
+import {
+  postViewerMaxWidth430px,
+  postViewerMaxWidth768px,
+} from "../../styles/GlobalMadia";
 interface WeatherData {
   locationName: string;
   currentTemp: number | null;
@@ -75,7 +82,7 @@ const DayWaether: React.FC<DayWeatherProps> = ({ weatherData }) => {
           <div>━</div>
           <div id="low">{minTemp !== -9999.0 ? minTemp.toFixed() : "N/A"}°</div>
         </HighLowTemperatures>
-        <div className="today-weather">
+        <div className="now-weather">
           {currentTemp !== -9999.0 ? currentTemp.toFixed() : "N/A"}°
         </div>
       </TodayWrap>
@@ -124,6 +131,16 @@ const DayWaetherWarp = styled.div`
       width: 4.8rem;
       height: 4.6rem;
       margin: 10px 0 7px;
+      ${mediaQueries(BREAKPOINT_PHONE)} {
+        width: 2.8rem;
+        height: 2.6rem;
+        margin: 10px 0 7px;
+      }
+      ${mediaQueries(BREAKPOINT_DESKTOP)} {
+        width: 3.8rem;
+        height: 3.6rem;
+        margin: 5px 0;
+      }
     }
   }
   .title {
@@ -143,33 +160,31 @@ const DayWaetherWarp = styled.div`
       color: white;
     }
 
-    //desktop
     ${mediaQueries(BREAKPOINT_TABLET)} {
-      width: 80px;
-      height: 100px;
+      width: 90px;
+      height: 130px;
+      margin: auto;
     }
-    //tablet
-    ${mediaQueries(BREAKPOINT_TABLET)} {
-      width: 12rem;
-      height: 250px;
-    }
-    //phone
-    ${mediaQueries(BREAKPOINT_TABLET)} {
-      width: 12rem;
-      height: 250px;
+    ${mediaQueries(BREAKPOINT_DESKTOP)} {
+      width: 110px;
+      height: 140px;
+      margin: auto;
     }
   }
   .weather__info--value {
     margin: 5px;
   }
-  ${mediaQueries(BREAKPOINT_TABLET)} {
-    width: 360px;
-    height: 350px;
-  }
   ${mediaQueries(BREAKPOINT_PHONE)} {
-    width: 12rem;
-    height: 250px;
+    width: 90%;
+    margin-top: 6rem;
+    height: 400px;
   }
+  ${mediaQueries(BREAKPOINT_DESKTOP)} {
+    width: 390px;
+    height: 430px;
+  }
+  ${postViewerMaxWidth430px}
+  ${postViewerMaxWidth768px}
 `;
 
 const TodayWrap = styled.div`
@@ -177,16 +192,48 @@ const TodayWrap = styled.div`
     margin-left: 20px;
     width: 240px;
     height: 170px;
+    ${mediaQueries(BREAKPOINT_PHONE)} {
+      width: 140px;
+    }
+    ${mediaQueries(BREAKPOINT_DESKTOP)} {
+      width: 180px;
+    }
+    img {
+      ${mediaQueries(BREAKPOINT_PHONE)} {
+        width: 9.2rem;
+        height: 8.4rem;
+      }
+    }
+    img {
+      ${mediaQueries(BREAKPOINT_DESKTOP)} {
+        width: 10.8rem;
+        height: 10.4rem;
+      }
+    }
   }
   display: flex;
 
   height: 230px;
+  ${mediaQueries(BREAKPOINT_PHONE)} {
+    height: 170px;
+  }
+  ${mediaQueries(BREAKPOINT_DESKTOP)} {
+    height: 200px;
+  }
 
-  .today-weather {
+  .now-weather {
     line-height: 150px;
     font-size: 64px;
     margin-left: 50px;
     padding-top: 5%;
+    ${mediaQueries(BREAKPOINT_PHONE)} {
+      margin-left: 20px;
+      font-size: 54px;
+      padding-top: 0;
+    }
+    ${mediaQueries(BREAKPOINT_DESKTOP)} {
+      margin-left: 20px;
+    }
   }
 `;
 
@@ -200,10 +247,16 @@ const HighLowTemperatures = styled.div`
     font-size: 25px;
     /* border-bottom: 1px solid #dbdada; */
     padding-bottom: 5px;
+    ${mediaQueries(BREAKPOINT_PHONE)} {
+      font-size: 20px;
+    }
   }
   #low {
     color: #5d6dbe;
     font-size: 25px;
     padding-top: 10px;
+    ${mediaQueries(BREAKPOINT_PHONE)} {
+      font-size: 20px;
+    }
   }
 `;
