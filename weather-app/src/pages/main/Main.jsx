@@ -148,7 +148,7 @@ const DayWrap = styled.div`
   ${mediaQueries(BREAKPOINT_TABLET)} {
     flex-direction: column;
     justify-content: center;
-    margin-left: 10%;
+    /* margin-left: 10%; */
     gap: 15px;
   }
 `;
