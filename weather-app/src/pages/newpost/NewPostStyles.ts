@@ -20,11 +20,19 @@ export const Message = styled.div`
 	padding: 80px;
 	border-radius: 10px;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+	display: flex;
+	flex-direction: column;
 	p {
 		color: #fff;
 		margin-bottom: 20px;
 	}
+`;
+
+export const ButtonWrap = styled.div`
+	display: flex;
 	button {
+		display: flex;
+		flex-direction: row;
 		border: none;
 		padding: 10px 15px;
 		margin-right: 10px;

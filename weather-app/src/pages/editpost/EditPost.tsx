@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Message } from '../newpost/NewPostStyles';
+import { ButtonWrap, Container, Message } from '../newpost/NewPostStyles';
 import PostButtonWrap from '../newpost/PostButtonWrap';
 import Modal from '../../components/modal/Modal';
 import updatePost from '../../api/updatePostApi';
@@ -10,6 +10,7 @@ import EditImage from './EditImage';
 import EditTopWrap from './EditTopWrap';
 import Layout from '../../components/layout/Layout';
 import fetchPostApi from '../../api/fetchPostApi';
+import useModal from '../../hooks/useModal';
 
 const MAX_FILES = 3;
 
@@ -29,7 +30,7 @@ const EditPost: React.FC = () => {
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isDelete, setIsDelete] = useState<boolean>(false);
-	const [showModal, setShowModal] = useState<boolean>(false);
+	const { isOpen: showModal, open: openModal, close: closeModal } = useModal();
 	const [date, setDate] = useState<string>('');
 	const [content, setContent] = useState<string>('');
 	const [temperature, setTemperature] = useState<string>('');
@@ -80,6 +81,7 @@ const EditPost: React.FC = () => {
 	};
 
 	const handleSaveDelete = async (deleteFlag: boolean) => {
+		console.log('Delete flag:', deleteFlag);
 		try {
 			if (deleteFlag) {
 				// 삭제 로직
@@ -117,13 +119,8 @@ const EditPost: React.FC = () => {
 				error
 			);
 		} finally {
-			setShowModal(false);
+			closeModal(); // 모달을 닫습니다.
 		}
-	};
-
-	const handleModalOpen = (deleteMode: boolean) => {
-		setIsDelete(deleteMode);
-		setShowModal(true);
 	};
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -170,23 +167,33 @@ const EditPost: React.FC = () => {
 					setHashtags={setHashtags}
 				/>
 				<PostButtonWrap
-					onSave={() => handleModalOpen(false)}
-					onDelete={() => handleModalOpen(true)}
+					onSave={() => {
+						setIsDelete(false);
+						openModal();
+					}} // Set isDelete to false for saving
+					onDelete={() => {
+						setIsDelete(true);
+						openModal();
+					}} // Set isDelete to true for deletion
 					onCancel={handleCancel}
 					isEditing={true}
 				/>
 				{showModal && (
 					<Modal
 						isOpen={showModal}
-						onClose={() => setShowModal(false)}
+						onClose={() => closeModal()} // 모달을 닫도록 변경합니다.
 						useBg={true}
 					>
 						<Message>
-							{isDelete ? '삭제하시겠습니까?' : '수정을 저장하시겠습니까?'}
-							<button onClick={() => handleSaveDelete(isDelete)}>
-								Confirm
-							</button>
-							<button onClick={() => setShowModal(false)}>Cancel</button>
+							<p>
+								{isDelete ? '삭제하시겠습니까?' : '수정을 저장하시겠습니까?'}
+							</p>
+							<ButtonWrap>
+								{' '}
+								<button onClick={() => handleSaveDelete(isDelete)}>확인</button>
+								<button onClick={() => closeModal()}>취소</button>{' '}
+							</ButtonWrap>
+							{/* 모달을 닫도록 변경합니다. */}
 						</Message>
 					</Modal>
 				)}

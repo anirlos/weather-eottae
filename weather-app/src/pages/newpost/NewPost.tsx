@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useModal from '../../hooks/useModal';
 import Modal from '../../components/modal/Modal';
-import { Container, Message } from './NewPostStyles';
+import { Container, Message, ButtonWrap } from './NewPostStyles';
 import Layout from '../../components/layout/Layout';
 import PostImage from './PostImage';
 import PostContent from './PostContent';
@@ -161,8 +161,11 @@ const NewPost: React.FC = () => {
 					{/* 모달 내용 */}
 					<Message>
 						<p>저장하시겠습니까?</p>
-						<button onClick={handleConfirmSave}>네</button>
-						<button onClick={saveModal.close}>아니오</button>
+						<ButtonWrap>
+							{' '}
+							<button onClick={handleConfirmSave}>네</button>
+							<button onClick={saveModal.close}>아니오</button>
+						</ButtonWrap>
 					</Message>
 				</Modal>
 
@@ -171,8 +174,10 @@ const NewPost: React.FC = () => {
 					{/* 모달 내용 */}
 					<Message>
 						<p>작성을 취소하시겠습니까?</p>
-						<button onClick={handleConfirmCancel}>네</button>
-						<button onClick={cancelModal.close}>아니오</button>
+						<ButtonWrap>
+							<button onClick={handleConfirmCancel}>네</button>
+							<button onClick={cancelModal.close}>아니오</button>
+						</ButtonWrap>
 					</Message>
 				</Modal>
 			</Container>
