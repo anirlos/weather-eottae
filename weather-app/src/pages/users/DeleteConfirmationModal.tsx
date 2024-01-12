@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+import userInfoApi from '../../api/userInfoApi';
 import { useNavigate } from 'react-router-dom';
 
 interface DeleteConfirmationModalProps {
@@ -18,24 +18,9 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
 	if (!isOpen) return null;
 
 	const handleConfirmDelete = async () => {
-		const token = localStorage.getItem('access_token');
-		if (!token) {
-			throw new Error('No access token found');
-		}
-
-		// const access_token = localStorage.getItem("access_token");
-		// if (!access_token) {
-		//   console.error("Access token not found");
-		//   return;
-		// }
-
 		try {
-			const response = await axios.delete('http://43.202.97.83:8080/api/user', {
-				headers: {
-					Authorization: token, // 토큰을 헤더에 추가
-				},
-			});
-			console.log('회원 탈퇴 성공:', response.data);
+			const data = await userInfoApi.deleteUser();
+			console.log('회원 탈퇴 성공:', data);
 			onClose();
 			navigate('/');
 		} catch (error) {

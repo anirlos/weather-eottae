@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container } from '../newpost/NewPostStyles';
+import { Container, Message } from '../newpost/NewPostStyles';
 import PostButtonWrap from '../newpost/PostButtonWrap';
-import Modal from '../newpost/Modal';
+import Modal from '../../components/modal/Modal';
 import updatePost from '../../api/updatePostApi';
 import { deletePost } from '../../api/deletePostApi';
 import EditContent from './EditContent';
@@ -177,12 +177,18 @@ const EditPost: React.FC = () => {
 				/>
 				{showModal && (
 					<Modal
-						message={
-							isDelete ? '삭제하시겠습니까?' : '수정을 저장하시겠습니까?'
-						}
-						onConfirm={() => handleSaveDelete(isDelete)}
-						onCancel={() => setShowModal(false)}
-					/>
+						isOpen={showModal}
+						onClose={() => setShowModal(false)}
+						useBg={true}
+					>
+						<Message>
+							{isDelete ? '삭제하시겠습니까?' : '수정을 저장하시겠습니까?'}
+							<button onClick={() => handleSaveDelete(isDelete)}>
+								Confirm
+							</button>
+							<button onClick={() => setShowModal(false)}>Cancel</button>
+						</Message>
+					</Modal>
 				)}
 			</Container>
 		</Layout>

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import userInfoApi from '../../api/userInfoApi';
 
 //npm install jwt-decode
 //npm install @types/jwt-decode --save-dev 설치필요
@@ -42,57 +42,11 @@ interface PostResponse {
 	// ...[다른 필요한 필드]
 }
 
-interface ApiResponse {
-	content?: PostResponse[];
+interface ImageData {
+	postId: number;
+	mediaUrl: string;
+	userId: number;
 }
-
-// 로그인한 사용자의 정보를 가져오는 함수
-const fetchUserNickName = async (): Promise<string> => {
-	const token = localStorage.getItem('access_token');
-	if (!token) {
-		throw new Error('No access token found');
-	}
-
-	try {
-		const response = await axios.get(`http://43.202.97.83:8080/api/user`, {
-			headers: {
-				Authorization: token,
-			},
-		});
-
-		return response.data.nickName;
-	} catch (error) {
-		console.error('Error fetching user nickname:', error);
-		throw error;
-	}
-};
-
-// 사용자의 게시물을 가져오는 함수
-const fetchUserPosts = async (nickName: string): Promise<ImageData[]> => {
-	const token = localStorage.getItem('access_token');
-	if (!token) {
-		throw new Error('No access token found');
-	}
-
-	const response = await fetch(
-		`http://43.202.97.83:8080/api/posts/user/${nickName}`,
-		{
-			headers: {
-				Authorization: ` ${token}`,
-			},
-		}
-	);
-
-	if (!response.ok) {
-		throw new Error('Network response was not ok');
-	}
-
-	const data = await response.json();
-	return data.postResponseDtos.map((post: any) => ({
-		mediaUrl: post.mediaUrls[0],
-		postId: post.postId,
-	}));
-};
 
 const RecentPages = () => {
 	const [images, setImages] = useState<ImageData[]>([]);
@@ -100,8 +54,8 @@ const RecentPages = () => {
 	useEffect(() => {
 		const loadImages = async () => {
 			try {
-				const nickName = await fetchUserNickName();
-				const userPosts = await fetchUserPosts(nickName);
+				const nickName = await userInfoApi.fetchUserNickName();
+				const userPosts = await userInfoApi.fetchUserPosts(nickName);
 				setImages(userPosts);
 			} catch (error) {
 				console.error('Error loading images:', error);
@@ -110,7 +64,6 @@ const RecentPages = () => {
 
 		loadImages();
 	}, []);
-
 	return (
 		<GridContainer>
 			{images.map((img) => (

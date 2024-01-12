@@ -1,6 +1,6 @@
 //UserInfo.tsx
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import axios from 'axios';
+import userInfoApi from '../../api/userInfoApi';
 import AddressSelect from './AddressSelect'; // 주소 선택 컴포넌트
 import {
 	Header,
@@ -34,31 +34,22 @@ const UserInfo: React.FC<UserInfoProps> = ({ isOpen, onClose, onSave }) => {
 	const [email, setEmail] = useState('');
 	const [nickName, setNickName] = useState('');
 	const [message, setMessage] = useState('');
-	// const [address, setAddress] = useState({ region: "" });
 	const [address, setAddress] = useState<string>('');
 	const [imageUrl, setImageUrl] = useState('/person-circle.svg');
-	const [showAlert, setShowAlert] = useState(false);
+	const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 	const [nicknameError, setNicknameError] = useState(false);
 	const [messageError, setMessageError] = useState(false);
-	const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
-	// 백엔드에서 사용자 정보를 받아오는 함수
 	useEffect(() => {
 		const fetchUserInfo = async () => {
 			try {
-				const token = localStorage.getItem('access_token');
-				const response = await axios.get('http://43.202.97.83:8080/api/user', {
-					headers: {
-						Authorization: token,
-					},
-				});
-				setName(response.data.name || '');
-				setEmail(response.data.email || '');
-				setImageUrl(response.data.imageUrl || '/person-circle.svg');
-				setAddress(response.data.address || '');
-				// 서버로부터 받은 주소를 AddressSelect 컴포넌트에 전달
-				const userAddress = response.data.address || '';
-				setAddress(userAddress);
+				const userInfo = await userInfoApi.fetchUserInfo();
+				setName(userInfo.name || '');
+				setEmail(userInfo.email || '');
+				setNickName(userInfo.nickName || '');
+				setMessage(userInfo.message || '');
+				setAddress(userInfo.address || '');
+				setImageUrl(userInfo.imageUrl || '/person-circle.svg');
 			} catch (error) {
 				console.error('UserInfo 가져오기 실패', error);
 			}
@@ -82,99 +73,43 @@ const UserInfo: React.FC<UserInfoProps> = ({ isOpen, onClose, onSave }) => {
 
 	//닉네임 제한
 	const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const newNickname = e.target.value;
-		if (newNickname.length > 10) {
-			setNicknameError(true);
-		} else {
-			setNicknameError(false);
-		}
-		setNickName(newNickname);
+		setNickName(e.target.value);
+		setNicknameError(e.target.value.length > 10);
 	};
 
-	//메세지 제한
 	const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const newMessage = e.target.value;
-		if (newMessage.length > 30) {
-			setMessageError(true);
-		} else {
-			setMessageError(false);
-		}
-		setMessage(newMessage);
+		setMessage(e.target.value);
+		setMessageError(e.target.value.length > 30);
+	};
+	const handleAddressChange = (selectedAddress: string) => {
+		setAddress(selectedAddress);
 	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (nickName.length > 10 || message.length > 30) {
-			alert('닉네임이나 메시지가 너무 길면 다시 한 번 확인해주세요.');
+		if (nicknameError || messageError) {
+			alert('닉네임 또는 메시지의 길이를 확인해주세요.');
 			return;
 		}
 
+		const userInfoData = {
+			nickName,
+			email,
+			address,
+			message,
+		};
+
 		try {
-			let token = localStorage.getItem('access_token');
-			if (!token) throw new Error('Access token not found');
-
-			const formData = new FormData();
-
-			// 회원 정보 JSON 데이터
-			const userInfoData = {
-				nickName: nickName,
-				email: email,
-				address: address,
-				message: message,
-			};
-			// JSON 데이터를 Blob으로 변환하여 FormData에 'request'라는 키로 추가
-			formData.append(
-				'request',
-				new Blob([JSON.stringify(userInfoData)], { type: 'application/json' })
-			);
-
-			// 이미지파일 데이터 추가
-			if (uploadedImage) {
-				formData.append('file', uploadedImage, uploadedImage.name);
+			if (uploadedImage instanceof File) {
 			}
 
-			const response = await axios.patch(
-				'http://43.202.97.83:8080/api/user',
-				formData,
-				{
-					headers: {
-						Authorization: token,
-						'Content-Type': 'multipart/form-data',
-					},
-				}
-			);
-
-			// 새로운 토큰 저장
-			const newAccessToken = response.headers['Authorization_Access_Token'];
-			const newRefreshToken = response.headers['Authorization_Refresh_Token'];
-
-			if (newAccessToken) {
-				localStorage.setItem('access_token', newAccessToken);
-			}
-
-			if (newRefreshToken) {
-				localStorage.setItem('refresh_token', newRefreshToken);
-			}
-
-			alert('변경 완료되었습니다');
+			await userInfoApi.updateUserInfo(userInfoData, uploadedImage);
+			onSave(imageUrl, nickName, message);
 			onClose();
 		} catch (error) {
 			console.error('사용자 정보 업데이트 실패', error);
-			if (axios.isAxiosError(error) && error.response) {
-				console.error('서버 에러 응답:', error.response);
-				alert(
-					`에러 발생: ${
-						error.response.data.message || error.response.statusText
-					}`
-				);
-			}
 		}
-	};
-
-	// AddressSelect 컴포넌트로부터 주소값을 받아오는 함수
-	const handleAddressChange = (selectedAddress: string) => {
-		setAddress(selectedAddress);
 	};
 
 	if (!isOpen) {
