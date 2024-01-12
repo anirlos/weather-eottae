@@ -6,6 +6,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import styled from "styled-components";
 import VideoCont from "./VideoCont";
+import { mediaQueries } from "../../styles/MediaStyle";
+import { BREAKPOINT_DESKTOP } from "../../styles/MediaStyle";
 
 interface ImgsProps {
   imgs: string[];
@@ -52,14 +54,8 @@ const StyledSwiper = styled(Swiper)`
   width: 100%;
   height: 500px;
   border-radius: 5px;
-  @media (max-width: 1024px) {
+  ${mediaQueries(BREAKPOINT_DESKTOP)} {
     height: 400px;
-  }
-  @media (max-width: 768px) {
-    height: 350px;
-  }
-  @media (max-width: 430px) {
-    height: 300px;
   }
   img {
     width: 100%;

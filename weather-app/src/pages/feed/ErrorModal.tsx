@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "../../components/modal/Modal";
 import { BsHeartFill } from "react-icons/bs";
+import { mediaQueries } from "../../styles/MediaStyle";
+import { BREAKPOINT_PHONE } from "../../styles/MediaStyle";
 
 interface ErrorModalProps {
   isOpen: boolean;
@@ -39,7 +41,7 @@ const ModalContent = styled.div`
   border-radius: 10px;
   position: relative;
   padding: 20px 20px 40px;
-  @media (max-width: 430px) {
+  ${mediaQueries(BREAKPOINT_PHONE)} {
     width: 70%;
     margin: 0 auto;
   }

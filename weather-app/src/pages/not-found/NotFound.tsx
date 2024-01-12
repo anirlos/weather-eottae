@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import LogoIcon from "../../assets/img/not-found/logoIcon.png";
+import { mediaQueries } from "../../styles/MediaStyle";
+import { BREAKPOINT_PHONE } from "../../styles/MediaStyle";
 
 const Error = () => {
   return (
@@ -58,6 +60,11 @@ const ErrorMessage = styled.div`
   }
   span {
     line-height: 1.5rem;
+  }
+  ${mediaQueries(BREAKPOINT_PHONE)} {
+    span {
+      font-size: 0.875rem;
+    }
   }
 `;
 

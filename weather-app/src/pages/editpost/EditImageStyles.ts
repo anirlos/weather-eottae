@@ -1,9 +1,14 @@
 import styled from 'styled-components';
+import { BREAKPOINT_TABLET, mediaQueries } from '../../styles/MediaStyle';
 
 export const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin: 0 auto;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 80%;
+	}
 `;
 
 export const ButtonGroup = styled.div`
@@ -11,6 +16,9 @@ export const ButtonGroup = styled.div`
 	justify-content: space-around;
 	width: 100%;
 	margin-bottom: 10px;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 80%;
+	}
 `;
 
 export const ImagePreviewContainer = styled.div`
@@ -21,6 +29,9 @@ export const ImagePreviewContainer = styled.div`
 	text-align: center;
 	background-color: #ededed;
 	border-radius: 15px;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 100%;
+	}
 
 	img,
 	video {
