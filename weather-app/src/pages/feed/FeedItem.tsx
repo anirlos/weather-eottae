@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Post } from "../../types/feedType";
@@ -21,23 +21,17 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const combinedTextLength = useMemo(
-    () =>
-      post.content.length +
-      post.hashtagNames.reduce((acc, tag) => acc + tag.length + 1, 0),
-    [post.content, post.hashtagNames]
-  );
-
+  const combinedTextLength =
+    post.content.length +
+    post.hashtagNames.reduce((acc, tag) => acc + tag.length + 1, 0);
   const showMoreButton = combinedTextLength > 20 || post.content.includes("\n");
   const shouldDisplayFullText =
     combinedTextLength <= 20 && !post.content.includes("\n");
-  const displayText = useMemo(
-    () =>
-      isExpanded || shouldDisplayFullText
-        ? post.content
-        : `${post.content.substring(0, 20)}...`,
-    [isExpanded, shouldDisplayFullText, post.content]
-  );
+
+  const displayText =
+    isExpanded || shouldDisplayFullText
+      ? post.content
+      : `${post.content.substring(0, 20)}...`;
 
   if (!post) {
     return null;
@@ -64,6 +58,7 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
             src={post.userImg}
             alt={`${post.nickName} 프로필 이미지`}
             onClick={() => handleUserClick(post.nickName)}
+            loading="lazy"
           />
           <div>
             <div>

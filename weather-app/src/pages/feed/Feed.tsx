@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useEffect, useMemo, useState, useCallback } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { useInfinite } from "../../hooks/useInfinite";
@@ -34,14 +34,14 @@ const Feed: FC = () => {
     refetch(); // 데이터 재로딩
   }, [location.key, refetch]);
 
-  const onIntersect = (
-    entry: IntersectionObserverEntry,
-    observer: IntersectionObserver
-  ) => {
-    if (entry.isIntersecting && hasNextPage) {
-      fetchNextPage();
-    }
-  };
+  const onIntersect = useCallback(
+    (entry: IntersectionObserverEntry, observer: IntersectionObserver) => {
+      if (entry.isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    },
+    [hasNextPage, fetchNextPage]
+  );
 
   const ref = useIntersect(onIntersect);
 

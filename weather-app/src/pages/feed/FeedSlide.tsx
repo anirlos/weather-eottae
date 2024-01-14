@@ -39,7 +39,7 @@ const FeedSlide: FC<ImgsProps> = ({ imgs }) => {
             {isVideo(img) ? (
               <VideoCont src={img} />
             ) : (
-              <img src={img} alt={`slide ${index + 1}`} />
+              <img src={img} alt={`slide ${index + 1}`} loading="lazy" />
             )}
           </SwiperSlide>
         ))}
