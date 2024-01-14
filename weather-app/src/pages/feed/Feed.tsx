@@ -61,12 +61,23 @@ const Feed: FC = () => {
       : data?.pages.flatMap((page) => page.content) || [];
   }, [data, nickName]);
 
-  if (isPending) return <Loading />;
+  if (isPending)
+    return (
+      <Layout>
+        <Container>
+          <Loading />
+        </Container>
+      </Layout>
+    );
   if (error)
     return (
-      <ErrorContent>
-        <p>게시물을 불러오던 중 오류가 발생했습니다</p>
-      </ErrorContent>
+      <Layout>
+        <Container>
+          <ErrorContent>
+            <p>게시물을 불러오던 중 오류가 발생했습니다</p>
+          </ErrorContent>
+        </Container>
+      </Layout>
     );
 
   return (
@@ -116,7 +127,7 @@ const Container = styled.div`
   padding-top: 20px;
   margin: 0 auto;
   ${mediaQueries(BREAKPOINT_PHONE)} {
-    background-color: #fff;
+    padding-top: 100px;
   }
 `;
 
@@ -134,6 +145,10 @@ const FilteredContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
+  ${mediaQueries(BREAKPOINT_PHONE)} {
+    margin-top: -10px;
+  }
 `;
 
 const UserContainer = styled.div`

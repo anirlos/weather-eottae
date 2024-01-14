@@ -121,7 +121,7 @@ export default FeedItem;
 
 const FeedContainer = styled.div`
   width: 500px;
-  padding: 15px;
+  padding: 15px 20px;
   margin: 20px auto 0;
   border-radius: 5px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
@@ -136,13 +136,9 @@ const FeedContainer = styled.div`
   ${mediaQueries(BREAKPOINT_PHONE)} {
     width: calc(100% - 30px);
     padding: 20px 15px;
-    margin: 0 15px;
+    margin: 15px auto 0;
     border-radius: 0;
     box-shadow: none;
-    border-bottom: 1px solid #525d9191;
-    &:last-child {
-      border-bottom: none;
-    }
   }
 `;
 
