@@ -5,7 +5,7 @@ interface User {
   name: string;
 }
 
-const getUserInfo = async (): Promise<User> => {
+const fetchUserInfo = async (): Promise<User> => {
   try {
     const response = await axiosClient.get<User>("/user");
     return response.data;
@@ -15,9 +15,9 @@ const getUserInfo = async (): Promise<User> => {
   }
 };
 
-const getUserName = async (): Promise<string> => {
-  const userInfo = await getUserInfo();
+const fetchUserName = async (): Promise<string> => {
+  const userInfo = await fetchUserInfo();
   return userInfo.nickName || userInfo.name || "익명";
 };
 
-export { getUserInfo, getUserName };
+export { fetchUserInfo, fetchUserName };
