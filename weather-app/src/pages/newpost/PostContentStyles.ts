@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import { BREAKPOINT_TABLET, mediaQueries } from '../../styles/MediaStyle';
+import {
+	BREAKPOINT_TABLET,
+	BREAKPOINT_PHONE,
+	mediaQueries,
+} from '../../styles/MediaStyle';
 
 export const Container = styled.div`
 	max-width: 600px;

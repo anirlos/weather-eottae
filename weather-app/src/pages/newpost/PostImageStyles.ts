@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import { BREAKPOINT_TABLET, mediaQueries } from '../../styles/MediaStyle';
+import {
+	BREAKPOINT_TABLET,
+	BREAKPOINT_PHONE,
+	mediaQueries,
+} from '../../styles/MediaStyle';
 
 export const Container = styled.div`
 	max-width: 600px;
@@ -67,6 +71,7 @@ export const UploadButton = styled.label<{ disabled: boolean }>`
 
 	${mediaQueries(BREAKPOINT_TABLET)} {
 		width: 40%;
+		font-size: 0.825rem;
 	}
 
 	&:hover {
@@ -83,6 +88,12 @@ export const UploadButton = styled.label<{ disabled: boolean }>`
 
 export const UploadText = styled.div`
 	text-align: center;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		font-size: 0.725rem;
+	}
+	${mediaQueries(BREAKPOINT_PHONE)} {
+		font-size: 0.625rem;
+	}
 `;
 
 export const ImagePreviewContainer = styled.div`
@@ -154,7 +165,10 @@ export const DeleteButton = styled.button`
 	color: #fff;
 	font-family: 'jua', sans-serif;
 	${mediaQueries(BREAKPOINT_TABLET)} {
-		width: 15%;
+	}
+	${mediaQueries(BREAKPOINT_PHONE)} {
+		width: 80px;
+		font-size: 0.625rem;
 	}
 	&:hover {
 		background-color: #8c8c8c; // 호버 시 배경색 변경
