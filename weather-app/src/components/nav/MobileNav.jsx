@@ -54,7 +54,7 @@ const MobileNav = () => {
 						}}
 					>
 						<span>
-							<img src={weather} alt="오늘의 날씨" />
+							<img src={weather} alt="오늘의날씨" />
 							오늘의 날씨
 						</span>
 					</Link>
@@ -68,7 +68,7 @@ const MobileNav = () => {
 						}}
 					>
 						<span>
-							<img src={chat} alt="지역 톡" />
+							<img src={chat} alt="지역톡" />
 							지역 톡
 						</span>
 					</Link>
@@ -82,7 +82,7 @@ const MobileNav = () => {
 						}}
 					>
 						<span>
-							<img src={clothing} alt="오늘 뭐 입지" />
+							<img src={clothing} alt="오늘뭐입지" />
 							오늘 뭐 입지
 						</span>
 					</Link>
@@ -96,7 +96,7 @@ const MobileNav = () => {
 						}}
 					>
 						<span>
-							<img src={archive} alt="게시글 등록" />
+							<img src={archive} alt="게시글등록" />
 							게시글 등록
 						</span>
 					</Link>
@@ -110,7 +110,7 @@ const MobileNav = () => {
 						}}
 					>
 						<span>
-							<img src={user} alt="마이 페이지" />
+							<img src={user} alt="마이페이지" />
 							마이 페이지
 						</span>
 					</Link>

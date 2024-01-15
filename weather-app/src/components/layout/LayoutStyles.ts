@@ -19,8 +19,12 @@ export const Wrap = styled.div`
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	box-sizing: border-box;
+	@media (max-width: 1024px) {
+		width: 85%;
+	}
 	@media (max-width: 430px) {
+		width: 100%;
+		padding-bottom: 0;
 	}
 `;
 

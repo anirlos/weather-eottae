@@ -145,7 +145,7 @@ export const StyledMobileNav = styled.div`
 	@media ${media.phone} {
 		display: block;
 		position: fixed;
-		bottom: 0;
+		top: 90px;
 		left: 0;
 		width: 100%;
 		z-index: 100;
