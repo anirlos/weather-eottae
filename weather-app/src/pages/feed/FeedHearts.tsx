@@ -68,7 +68,11 @@ const FeedHearts: FC<FeedHeartsProps> = ({
   return (
     <HeartContainer>
       <HeartButton onClick={handleLike}>
-        {isHeart ? <StyledHeartFill /> : <BsHeart />}
+        {isHeart ? (
+          <StyledHeartFill aria-label="unlike" />
+        ) : (
+          <BsHeart aria-label="like" />
+        )}
       </HeartButton>
 
       {heartCount > 0 ? (
