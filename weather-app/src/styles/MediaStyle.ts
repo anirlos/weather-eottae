@@ -5,10 +5,10 @@ export const BREAKPOINT_PHONE = "phone";
 
 export const sizes = {
   // 각 디스플레이마다 스크린 폭 지정
-  large: 1280,
-  desktop: 1024,
-  tablet: 768,
-  phone: 430,
+  large: "1280px",
+  desktop: "1024px",
+  tablet: "768px",
+  phone: "430px",
 };
 
 export const mediaQueries = (key: keyof typeof sizes) => {
