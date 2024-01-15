@@ -370,6 +370,15 @@ const Container = styled.div`
       display: none;
     }
   }
+
+  @media (max-width:430px){
+  width: 100%;  
+  margin: auto; 
+
+  .signup-container {
+
+    width: 80%; 
+}
 `;
 
 const Label = styled.label`

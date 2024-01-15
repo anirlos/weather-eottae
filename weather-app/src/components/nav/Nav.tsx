@@ -1,4 +1,6 @@
 import React from "react";
+import { loginSuccsess, logoutSuccess } from "../../redux/slice/authSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { Container, NavWrap, StyledMobileNav } from "./NavStyles";
 import logo from "../../assets/img/nav/logo.png";
 import archive from "../../assets/img/nav/archive.png";
@@ -14,15 +16,24 @@ import { useState, useEffect } from "react";
 
 const Nav: React.FC = () => {
   const [isLoggin, setIsLoggin] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
     const refreshToken = localStorage.getItem("refresh_token");
-    setIsLoggin(!!accessToken || !!refreshToken);
-  }, []);
+    if (accessToken && refreshToken) {
+      setIsLoggin(!!accessToken || !!refreshToken);
+      dispatch(loginSuccsess({access_token: accessToken, refresh_token:refreshToken}))
+
+    } else {
+      setIsLoggin(false);
+      dispatch(logoutSuccess());
+    }
+    
+  }, [dispatch]);
 
   const onLogOut = () => {
-    console.log("로그아웃 버튼 클릭");
+    dispatch(logoutSuccess()); 
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     setIsLoggin(false);
