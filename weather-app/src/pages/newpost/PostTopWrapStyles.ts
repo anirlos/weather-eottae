@@ -1,6 +1,10 @@
 // PostTopWrapStyles.ts
 import styled from 'styled-components';
-import { BREAKPOINT_TABLET, mediaQueries } from '../../styles/MediaStyle';
+import {
+	BREAKPOINT_TABLET,
+	BREAKPOINT_PHONE,
+	mediaQueries,
+} from '../../styles/MediaStyle';
 
 export const Wrap = styled.div`
 	max-width: 600px;
@@ -12,6 +16,10 @@ export const Wrap = styled.div`
 	position: relative;
 	${mediaQueries(BREAKPOINT_TABLET)} {
 		width: 80%;
+		font-size: 0.825rem;
+	}
+	${mediaQueries(BREAKPOINT_PHONE)} {
+		font-size: 0.625rem;
 	}
 `;
 
