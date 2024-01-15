@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BREAKPOINT_TABLET, mediaQueries } from '../../styles/MediaStyle';
 
 export const Wrap = styled.div`
 	max-width: 600px;
@@ -6,7 +7,9 @@ export const Wrap = styled.div`
 	margin: 0 auto;
 	display: flex;
 	justify-content: flex-end;
-
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 80%;
+	}
 	button {
 		width: 80px;
 		border: none;

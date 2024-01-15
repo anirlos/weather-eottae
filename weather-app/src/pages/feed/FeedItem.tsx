@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Post } from "../../types/feedType";
@@ -14,30 +14,25 @@ import {
 
 interface FeedItemProps {
   post: Post;
+  isEager: boolean;
 }
 
-const FeedItem: FC<FeedItemProps> = ({ post }) => {
+const FeedItem: FC<FeedItemProps> = ({ post, isEager }) => {
   const navigate = useNavigate();
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const combinedTextLength = useMemo(
-    () =>
-      post.content.length +
-      post.hashtagNames.reduce((acc, tag) => acc + tag.length + 1, 0),
-    [post.content, post.hashtagNames]
-  );
-
+  const combinedTextLength =
+    post.content.length +
+    post.hashtagNames.reduce((acc, tag) => acc + tag.length + 1, 0);
   const showMoreButton = combinedTextLength > 20 || post.content.includes("\n");
   const shouldDisplayFullText =
     combinedTextLength <= 20 && !post.content.includes("\n");
-  const displayText = useMemo(
-    () =>
-      isExpanded || shouldDisplayFullText
-        ? post.content
-        : `${post.content.substring(0, 20)}...`,
-    [isExpanded, shouldDisplayFullText, post.content]
-  );
+
+  const displayText =
+    isExpanded || shouldDisplayFullText
+      ? post.content
+      : `${post.content.substring(0, 20)}...`;
 
   if (!post) {
     return null;
@@ -64,6 +59,7 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
             src={post.userImg}
             alt={`${post.nickName} 프로필 이미지`}
             onClick={() => handleUserClick(post.nickName)}
+            loading={isEager ? "eager" : "lazy"}
           />
           <div>
             <div>
@@ -83,7 +79,7 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
         </FeedHeader>
 
         {post.mediaUrls && post.mediaUrls.length > 0 && (
-          <FeedSlide imgs={post.mediaUrls} />
+          <FeedSlide imgs={post.mediaUrls} isEager={isEager} />
         )}
 
         <FeedHearts
@@ -121,7 +117,7 @@ export default FeedItem;
 
 const FeedContainer = styled.div`
   width: 500px;
-  padding: 15px;
+  padding: 15px 20px;
   margin: 20px auto 0;
   border-radius: 5px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
@@ -136,13 +132,9 @@ const FeedContainer = styled.div`
   ${mediaQueries(BREAKPOINT_PHONE)} {
     width: calc(100% - 30px);
     padding: 20px 15px;
-    margin: 0 15px;
+    margin: 15px auto 0;
     border-radius: 0;
     box-shadow: none;
-    border-bottom: 1px solid #525d9191;
-    &:last-child {
-      border-bottom: none;
-    }
   }
 `;
 

@@ -1,9 +1,17 @@
 import styled from 'styled-components';
+import {
+	BREAKPOINT_TABLET,
+	BREAKPOINT_PHONE,
+	mediaQueries,
+} from '../../styles/MediaStyle';
 
 export const Container = styled.div`
 	max-width: 600px;
 	margin: 20px auto;
 	border-radius: 15px;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 80%;
+	}
 `;
 
 export const ImageUploadWrap = styled.div`
@@ -12,6 +20,9 @@ export const ImageUploadWrap = styled.div`
 	height: 40vh;
 	margin: 20px auto;
 	position: relative;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 100%;
+	}
 `;
 
 export const ImageUploader = styled.div`
@@ -27,6 +38,9 @@ export const ImageUploader = styled.div`
 	margin: 0 auto;
 	background-color: #ededed;
 	border-radius: 15px;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 100%;
+	}
 `;
 
 export const UploadWrap = styled.div`
@@ -39,6 +53,8 @@ export const UploadWrap = styled.div`
 	border-bottom: 2px solid #000;
 	border-top: 2px solid #000;
 	padding-top: 10px;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+	}
 `;
 
 export const UploadButton = styled.label<{ disabled: boolean }>`
@@ -52,6 +68,11 @@ export const UploadButton = styled.label<{ disabled: boolean }>`
 	cursor: pointer;
 	text-align: center;
 	margin-bottom: 10px;
+
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 40%;
+		font-size: 0.825rem;
+	}
 
 	&:hover {
 		background: #0056b3;
@@ -67,6 +88,12 @@ export const UploadButton = styled.label<{ disabled: boolean }>`
 
 export const UploadText = styled.div`
 	text-align: center;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		font-size: 0.725rem;
+	}
+	${mediaQueries(BREAKPOINT_PHONE)} {
+		font-size: 0.625rem;
+	}
 `;
 
 export const ImagePreviewContainer = styled.div`
@@ -77,6 +104,9 @@ export const ImagePreviewContainer = styled.div`
 	top: 0;
 	display: flex;
 	justify-content: center;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 100%;
+	}
 `;
 
 export const ImagePreview = styled.img`
@@ -84,6 +114,9 @@ export const ImagePreview = styled.img`
 	max-height: 100%;
 	display: block;
 	object-fit: contain;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 80%;
+	}
 `;
 
 export const VideoPreview = styled.video`
@@ -91,6 +124,9 @@ export const VideoPreview = styled.video`
 	max-height: 100%;
 	display: block;
 	object-fit: contain;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 80%;
+	}
 `;
 
 export const ImageNavigationButton = styled.button`
@@ -103,6 +139,7 @@ export const ImageNavigationButton = styled.button`
 	cursor: pointer;
 	padding: 10px;
 	z-index: 2;
+	border-color: transparent;
 
 	&:hover {
 		background-color: #5d6dbe;
@@ -127,6 +164,12 @@ export const DeleteButton = styled.button`
 	background-color: #adadad;
 	color: #fff;
 	font-family: 'jua', sans-serif;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+	}
+	${mediaQueries(BREAKPOINT_PHONE)} {
+		width: 80px;
+		font-size: 0.625rem;
+	}
 	&:hover {
 		background-color: #8c8c8c; // 호버 시 배경색 변경
 	}

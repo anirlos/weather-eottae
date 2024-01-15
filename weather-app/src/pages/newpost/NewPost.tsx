@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container } from './NewPostStyles';
+import useModal from '../../hooks/useModal';
+import Modal from '../../components/modal/Modal';
+import { Container, Message, ButtonWrap } from './NewPostStyles';
 import Layout from '../../components/layout/Layout';
 import PostImage from './PostImage';
 import PostContent from './PostContent';
 import PostButtonWrap from './PostButtonWrap';
-import Modal from './Modal';
 import createPostAPI from '../../api/createPostApi';
 import PostTopWrap from './PostTopWrap';
 
@@ -16,12 +17,13 @@ const NewPost: React.FC = () => {
 	const [hashtags, setHashtags] = useState<string>('');
 	const [temperature, setTemperature] = useState<string>('');
 	const [location, setLocation] = useState<string>('');
-	const [showAlertModal, setShowAlertModal] = useState<boolean>(false);
 	const [alertMessage, setAlertMessage] = useState<string>('');
-	const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
-	const [showModal, setShowModal] = useState<boolean>(false);
-	const [showCancelModal, setShowCancelModal] = useState<boolean>(false);
 	const navigate = useNavigate();
+
+	const loginModal = useModal();
+	const alertModal = useModal();
+	const saveModal = useModal();
+	const cancelModal = useModal();
 
 	const getTokenFromLocalStorage = (): string | null => {
 		return localStorage.getItem('access_token');
@@ -48,17 +50,16 @@ const NewPost: React.FC = () => {
 	};
 
 	const handleSave = () => {
-		// 내용과 이미지가 모두 입력되었는지 검사
 		if (!content.trim() || files.length === 0) {
 			setAlertMessage('내용과 이미지를 모두 입력해주세요.');
-			setShowAlertModal(true);
+			alertModal.open();
 			return;
 		}
-		setShowModal(true); // 모든 조건이 충족됐을 때만 저장 확인 모달 표시
+		saveModal.open();
 	};
 
 	const handleCancel = () => {
-		setShowCancelModal(true); // 취소 모달 표시
+		cancelModal.open();
 	};
 
 	const handleConfirmCancel = () => {
@@ -80,7 +81,7 @@ const NewPost: React.FC = () => {
 					hashtags,
 					token
 				);
-				setShowModal(false);
+				saveModal.close();
 				navigate('/feed');
 			} else {
 				// 적절한 오류 처리
@@ -89,31 +90,25 @@ const NewPost: React.FC = () => {
 			console.error('Failed to create post:', error);
 		}
 	};
-	const handleCancelSave = () => {
-		navigate('/feed');
-		setShowModal(false);
-	};
 
 	useEffect(() => {
 		const token = getTokenFromLocalStorage();
 		if (!token) {
-			setShowLoginModal(true); // 로그인 모달 표시
+			loginModal.open();
 		} else {
 			setIsAuthenticated(true);
 		}
 	}, [navigate]);
 
-	const handleConfirmLogin = () => {
-		navigate('/login'); // 로그인 페이지로 이동
-	};
-
-	if (showLoginModal) {
+	if (loginModal.isOpen) {
 		return (
 			<Modal
-				message="로그인이 필요합니다."
-				onConfirm={handleConfirmLogin}
-				onCancel={undefined}
-			/>
+				isOpen={loginModal.isOpen}
+				onClose={() => navigate('/login')}
+				useBg
+			>
+				<div>로그인이 필요합니다.</div>
+			</Modal>
 		);
 	}
 
@@ -144,27 +139,47 @@ const NewPost: React.FC = () => {
 					onCancel={handleCancel}
 					isEditing={false}
 				/>
-				{showModal && (
-					<Modal
-						message="저장하시겠습니까?"
-						onConfirm={handleConfirmSave}
-						onCancel={handleCancelSave} // onCancel prop 추가
-					/>
-				)}
-				{showAlertModal && (
-					<Modal
-						message={alertMessage}
-						onConfirm={() => setShowAlertModal(false)}
-						onCancel={handleCancelSave} // 취소 버튼 없이 '확인' 버튼만 표시
-					/>
-				)}
-				{showCancelModal && (
-					<Modal
-						message="작성을 취소하시겠습니까?"
-						onConfirm={handleConfirmCancel}
-						onCancel={() => setShowCancelModal(false)}
-					/>
-				)}
+
+				{/* Login 모달 */}
+				<Modal
+					isOpen={loginModal.isOpen}
+					onClose={() => navigate('/login')}
+					useBg
+				>
+					{/* 모달 내용 */}
+					<Message>로그인이 필요합니다.</Message>
+				</Modal>
+
+				{/* Alert 모달 */}
+				<Modal isOpen={alertModal.isOpen} onClose={alertModal.close} useBg>
+					{/* 모달 내용 */}
+					<Message>{alertMessage}</Message>
+				</Modal>
+
+				{/* Save 모달 */}
+				<Modal isOpen={saveModal.isOpen} onClose={saveModal.close} useBg>
+					{/* 모달 내용 */}
+					<Message>
+						<p>저장하시겠습니까?</p>
+						<ButtonWrap>
+							{' '}
+							<button onClick={handleConfirmSave}>네</button>
+							<button onClick={saveModal.close}>아니오</button>
+						</ButtonWrap>
+					</Message>
+				</Modal>
+
+				{/* Cancel 모달 */}
+				<Modal isOpen={cancelModal.isOpen} onClose={cancelModal.close} useBg>
+					{/* 모달 내용 */}
+					<Message>
+						<p>작성을 취소하시겠습니까?</p>
+						<ButtonWrap>
+							<button onClick={handleConfirmCancel}>네</button>
+							<button onClick={cancelModal.close}>아니오</button>
+						</ButtonWrap>
+					</Message>
+				</Modal>
 			</Container>
 		</Layout>
 	);

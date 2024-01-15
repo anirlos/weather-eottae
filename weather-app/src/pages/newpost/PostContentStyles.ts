@@ -1,4 +1,9 @@
 import styled from 'styled-components';
+import {
+	BREAKPOINT_TABLET,
+	BREAKPOINT_PHONE,
+	mediaQueries,
+} from '../../styles/MediaStyle';
 
 export const Container = styled.div`
 	max-width: 600px;
@@ -6,6 +11,9 @@ export const Container = styled.div`
 	padding-bottom: 20px;
 	background-color: #fff;
 	border-bottom: 2px solid #000;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 80%;
+	}
 `;
 
 export const ContentTextarea = styled.textarea`

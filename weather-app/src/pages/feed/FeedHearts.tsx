@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { toggleLike, fetchHeartUsers } from "../../api/feed";
@@ -30,7 +30,7 @@ const FeedHearts: FC<FeedHeartsProps> = ({
     setIsHeart(liked);
   }, [liked]);
 
-  const handleLike = async () => {
+  const handleLike = useCallback(async () => {
     if (!localStorage.getItem("access_token")) {
       heartErrorModal.open();
       return;
@@ -55,15 +55,15 @@ const FeedHearts: FC<FeedHeartsProps> = ({
         }
       }
     }
-  };
+  }, [heartCount, postId, heartErrorModal]);
 
-  const openHeartsModal = async () => {
+  const openHeartsModal = useCallback(async () => {
     if (heartCount > 0) {
       const users = await fetchHeartUsers(postId);
       setHeartUsers(users);
       heartsModal.open();
     }
-  };
+  }, [heartCount, postId, heartsModal]);
 
   return (
     <HeartContainer>

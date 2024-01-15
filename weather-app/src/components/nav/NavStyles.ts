@@ -46,16 +46,16 @@ export const Container = styled.div`
 		}
 	}
 	@media ${media.large} {
-		width: 20%;
+		max-width: 20%;
 	}
 	@media ${media.desktop} {
-		width: 25%;
+		max-width: 18%;
 		h1 {
 			margin-top: -20px;
 		}
 	}
 	@media ${media.tablet} {
-		width: 30%;
+		max-width: 25%;
 		h1 {
 			margin-top: -20px;
 		}
@@ -128,12 +128,12 @@ export const NavWrap = styled.ul`
 			}
 			@media ${media.tablet} {
 				span {
-					font-size: 0.825rem;
+					font-size: 0.725rem;
 				}
 			}
 			@media ${media.phone} {
 				span {
-					font-size: 0.725rem;
+					font-size: 1.25rem;
 				}
 			}
 		}
@@ -145,7 +145,7 @@ export const StyledMobileNav = styled.div`
 	@media ${media.phone} {
 		display: block;
 		position: fixed;
-		bottom: 0;
+		top: 90px;
 		left: 0;
 		width: 100%;
 		z-index: 100;

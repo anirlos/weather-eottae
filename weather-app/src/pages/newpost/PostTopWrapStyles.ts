@@ -1,5 +1,10 @@
 // PostTopWrapStyles.ts
 import styled from 'styled-components';
+import {
+	BREAKPOINT_TABLET,
+	BREAKPOINT_PHONE,
+	mediaQueries,
+} from '../../styles/MediaStyle';
 
 export const Wrap = styled.div`
 	max-width: 600px;
@@ -9,6 +14,13 @@ export const Wrap = styled.div`
 	flex-direction: column;
 	align-items: center;
 	position: relative;
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 80%;
+		font-size: 0.825rem;
+	}
+	${mediaQueries(BREAKPOINT_PHONE)} {
+		font-size: 0.625rem;
+	}
 `;
 
 export const Top = styled.div`
@@ -24,7 +36,6 @@ export const BackButton = styled.button`
 	border: none;
 	background-color: transparent;
 	display: flex;
-
 	align-items: center;
 	cursor: pointer;
 	:hover {
@@ -40,6 +51,7 @@ export const Title = styled.div`
 
 export const Bottom = styled.div`
 	width: 100%;
+
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
