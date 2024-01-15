@@ -11,9 +11,10 @@ import { BREAKPOINT_DESKTOP } from "../../styles/MediaStyle";
 
 interface ImgsProps {
   imgs: string[];
+  isEager: boolean;
 }
 
-const FeedSlide: FC<ImgsProps> = ({ imgs }) => {
+const FeedSlide: FC<ImgsProps> = ({ imgs, isEager }) => {
   const isVideo = (url: string) => {
     return url.includes(
       ".mp4" || ".avi" || ".wmv" || ".asf" || ".mkv" || ".mov"
@@ -39,7 +40,11 @@ const FeedSlide: FC<ImgsProps> = ({ imgs }) => {
             {isVideo(img) ? (
               <VideoCont src={img} />
             ) : (
-              <img src={img} alt={`slide ${index + 1}`} loading="lazy" />
+              <img
+                src={img}
+                alt={`slide ${index + 1}`}
+                loading={isEager ? "eager" : "lazy"}
+              />
             )}
           </SwiperSlide>
         ))}

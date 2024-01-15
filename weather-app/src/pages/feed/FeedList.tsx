@@ -9,8 +9,8 @@ interface FeedListProps {
 const FeedList: FC<FeedListProps> = ({ posts }) => {
   return (
     <>
-      {posts.map((post) => (
-        <FeedItem key={post.postId} post={post} />
+      {posts.map((post, index) => (
+        <FeedItem key={post.postId} post={post} isEager={index <= 1} />
       ))}
     </>
   );

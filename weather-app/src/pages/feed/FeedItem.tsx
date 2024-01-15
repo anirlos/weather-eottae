@@ -14,9 +14,10 @@ import {
 
 interface FeedItemProps {
   post: Post;
+  isEager: boolean;
 }
 
-const FeedItem: FC<FeedItemProps> = ({ post }) => {
+const FeedItem: FC<FeedItemProps> = ({ post, isEager }) => {
   const navigate = useNavigate();
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -58,7 +59,7 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
             src={post.userImg}
             alt={`${post.nickName} 프로필 이미지`}
             onClick={() => handleUserClick(post.nickName)}
-            loading="lazy"
+            loading={isEager ? "eager" : "lazy"}
           />
           <div>
             <div>
@@ -78,7 +79,7 @@ const FeedItem: FC<FeedItemProps> = ({ post }) => {
         </FeedHeader>
 
         {post.mediaUrls && post.mediaUrls.length > 0 && (
-          <FeedSlide imgs={post.mediaUrls} />
+          <FeedSlide imgs={post.mediaUrls} isEager={isEager} />
         )}
 
         <FeedHearts
