@@ -1,10 +1,13 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useEffect, useMemo, useState, useCallback } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { useInfinite } from "../../hooks/useInfinite";
 import useIntersect from "./../../hooks/useIntersect";
 import FeedList from "./FeedList";
 import Loading from "../../components/loading/Loading";
+import Layout from "../../components/layout/Layout";
+import { mediaQueries } from "../../styles/MediaStyle";
+import { BREAKPOINT_PHONE } from "../../styles/MediaStyle";
 
 const Feed: FC = () => {
   const location = useLocation();
@@ -31,14 +34,14 @@ const Feed: FC = () => {
     refetch(); // 데이터 재로딩
   }, [location.key, refetch]);
 
-  const onIntersect = (
-    entry: IntersectionObserverEntry,
-    observer: IntersectionObserver
-  ) => {
-    if (entry.isIntersecting && hasNextPage) {
-      fetchNextPage();
-    }
-  };
+  const onIntersect = useCallback(
+    (entry: IntersectionObserverEntry, observer: IntersectionObserver) => {
+      if (entry.isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    },
+    [hasNextPage, fetchNextPage]
+  );
 
   const ref = useIntersect(onIntersect);
 
@@ -58,46 +61,62 @@ const Feed: FC = () => {
       : data?.pages.flatMap((page) => page.content) || [];
   }, [data, nickName]);
 
-  if (isPending) return <Loading />;
+  if (isPending)
+    return (
+      <Layout>
+        <Container>
+          <Loading />
+        </Container>
+      </Layout>
+    );
   if (error)
     return (
-      <ErrorContent>
-        <p>게시물을 불러오던 중 오류가 발생했습니다</p>
-      </ErrorContent>
+      <Layout>
+        <Container>
+          <ErrorContent>
+            <p>게시물을 불러오던 중 오류가 발생했습니다</p>
+          </ErrorContent>
+        </Container>
+      </Layout>
     );
 
   return (
-    <Container>
-      <FilteredContent>
-        {nickName && (
-          <UserContainer>
-            <img src={userProfile.imageUrl} alt={`${nickName} 프로필 이미지`} />
-            <p>{userProfile.nickName}</p>
-          </UserContainer>
+    <Layout>
+      <Container>
+        <FilteredContent>
+          {nickName && (
+            <UserContainer>
+              <img
+                src={userProfile.imageUrl}
+                alt={`${nickName} 프로필 이미지`}
+              />
+              <p>{userProfile.nickName}</p>
+            </UserContainer>
+          )}
+          {tag && <Tag>#{tag}</Tag>}
+        </FilteredContent>
+
+        {posts.length <= 0 && (
+          <ErrorContent>
+            <p>등록된 게시물이 없습니다</p>
+          </ErrorContent>
         )}
-        {tag && <Tag>#{tag}</Tag>}
-      </FilteredContent>
 
-      {posts.length <= 0 && (
-        <ErrorContent>
-          <p>등록된 게시물이 없습니다</p>
-        </ErrorContent>
-      )}
+        <FeedList posts={posts} />
 
-      <FeedList posts={posts} />
+        <LoadingMessage>
+          {isFetchingPreviousPage ? (
+            <Loader>
+              <span></span>
+              <span></span>
+              <span></span>
+            </Loader>
+          ) : null}
+        </LoadingMessage>
 
-      <LoadingMessage>
-        {isFetchingPreviousPage ? (
-          <Loader>
-            <span></span>
-            <span></span>
-            <span></span>
-          </Loader>
-        ) : null}
-      </LoadingMessage>
-
-      <div ref={ref} />
-    </Container>
+        <div ref={ref} />
+      </Container>
+    </Layout>
   );
 };
 
@@ -105,11 +124,10 @@ export default Feed;
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
   padding-top: 20px;
-  @media (max-width: 430px) {
-    background-color: #fff;
-    padding-top: 70px;
+  margin: 0 auto;
+  ${mediaQueries(BREAKPOINT_PHONE)} {
+    padding-top: 100px;
   }
 `;
 
@@ -127,6 +145,10 @@ const FilteredContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
+  ${mediaQueries(BREAKPOINT_PHONE)} {
+    margin-top: -10px;
+  }
 `;
 
 const UserContainer = styled.div`
@@ -148,7 +170,7 @@ const UserContainer = styled.div`
     font-size: 1.875rem;
     color: #5d6dbe;
   }
-  @media (max-width: 430px) {
+  ${mediaQueries(BREAKPOINT_PHONE)} {
     img {
       width: 40px;
       height: 40px;
@@ -165,7 +187,7 @@ const Tag = styled.p`
   color: #5d6dbe;
   font-size: 1.875rem;
   margin: 10px 0;
-  @media (max-width: 430px) {
+  ${mediaQueries(BREAKPOINT_PHONE)} {
     margin-top: 20px;
   }
 `;

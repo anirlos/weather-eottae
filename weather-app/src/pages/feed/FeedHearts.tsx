@@ -1,10 +1,11 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { toggleLike, fetchHeartUsers } from "../../api/feed";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import ErrorModal from "./ErrorModal";
 import HeartsModal from "./HeartsModal";
+import useModal from "../../hooks/useModal";
 
 interface FeedHeartsProps {
   postId: number;
@@ -20,18 +21,18 @@ const FeedHearts: FC<FeedHeartsProps> = ({
   const [isHeart, setIsHeart] = useState(liked);
   const [heartCount, setHeartCount] = useState(initialHeartCount);
 
-  const [showErrorModal, setShowErrorModal] = useState(false); // 에러 모달 상태
-  const [showHeartsModal, setShowHeartsModal] = useState(false); // 좋아요 유저 모달 상태
-
   const [heartUsers, setHeartUsers] = useState([]);
+
+  const heartErrorModal = useModal();
+  const heartsModal = useModal();
 
   useEffect(() => {
     setIsHeart(liked);
   }, [liked]);
 
-  const handleLike = async () => {
+  const handleLike = useCallback(async () => {
     if (!localStorage.getItem("access_token")) {
-      setShowErrorModal(true);
+      heartErrorModal.open();
       return;
     }
 
@@ -48,29 +49,21 @@ const FeedHearts: FC<FeedHeartsProps> = ({
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response && error.response.status === 401) {
-          setShowErrorModal(true);
+          heartErrorModal.open();
         } else {
           console.error("Error toggling like:", error);
         }
       }
     }
-  };
+  }, [heartCount, postId, heartErrorModal]);
 
-  const openModal = async () => {
+  const openHeartsModal = useCallback(async () => {
     if (heartCount > 0) {
       const users = await fetchHeartUsers(postId);
       setHeartUsers(users);
-      setShowHeartsModal(true);
+      heartsModal.open();
     }
-  };
-
-  const closeModal = (modalType: string) => {
-    if (modalType === "error") {
-      setShowErrorModal(false);
-    } else if (modalType === "hearts") {
-      setShowHeartsModal(false);
-    }
-  };
+  }, [heartCount, postId, heartsModal]);
 
   return (
     <HeartContainer>
@@ -79,20 +72,22 @@ const FeedHearts: FC<FeedHeartsProps> = ({
       </HeartButton>
 
       {heartCount > 0 ? (
-        <HeartsModalButton onClick={openModal}>
+        <HeartsModalButton onClick={openHeartsModal}>
           좋아요 <span>{heartCount}</span>개
         </HeartsModalButton>
       ) : (
         <p>좋아요</p>
       )}
 
-      {showErrorModal && <ErrorModal onClose={() => closeModal("error")} />}
-      {showHeartsModal && (
-        <HeartsModal
-          heartUsers={heartUsers}
-          onClose={() => closeModal("hearts")}
-        />
-      )}
+      <ErrorModal
+        isOpen={heartErrorModal.isOpen}
+        onClose={heartErrorModal.close}
+      />
+      <HeartsModal
+        heartUsers={heartUsers}
+        isOpen={heartsModal.isOpen}
+        onClose={heartsModal.close}
+      />
     </HeartContainer>
   );
 };
