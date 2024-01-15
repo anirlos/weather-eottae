@@ -13,6 +13,9 @@ export const FooterWrap = styled.div`
 	@media screen and (max-width: 768px) {
 		font-size: 0.4rem;
 	}
+	@media screen and (max-width: 430px) {
+		font-size: 0.3rem;
+	}
 	h1 {
 		a {
 			background-position: -19px -34px;
@@ -24,6 +27,7 @@ export const FooterWrap = styled.div`
 
 export const FooterContent = styled.div`
 	width: 40%;
+	height: 100px;
 	margin: 0 auto;
 	margin-top: 20px;
 
@@ -34,6 +38,9 @@ export const FooterContent = styled.div`
 	}
 	@media screen and (max-width: 768px) {
 		width: 90vw;
+	}
+	@media screen and (max-width: 430px) {
+		justify-content: center;
 	}
 
 	a {

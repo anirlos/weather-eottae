@@ -22,11 +22,11 @@ export const postViewerMaxWidth768px = `@media screen and (max-width: 768px) {
 
 export const postViewerMaxWidth430px = `@media screen and (max-width: 768px) {
     h2 {
-        font-size: 15px;
+        font-size: 20px;
     }
   
     p {
-        font-size: 10px;
+        font-size: 15px;
     }
   }`;
 

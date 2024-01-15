@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import 기온표 from "../../assets/img/main/기온표.png";
-import Winter from "../../assets/img/main/clothes/winter.png";
-import Summer from "../../assets/img/main/clothes/summer.png";
-import EarlyWin from "../../assets/img/main/clothes/earlywinter.png";
-import BeginWin from "../../assets/img/main/clothes/beginWinter.png";
-import Fall from "../../assets/img/main/clothes/fall.png";
-import EarlySum from "../../assets/img/main/clothes/earlySummer.png";
-import BeginSum from "../../assets/img/main/clothes/beginSummer.png";
-import EarlyFall from "../../assets/img/main/clothes/earlyFall.png";
+import weatherImg from "../../assets/img/main/iconindex";
+import { mediaQueries } from "../../styles/MediaStyle";
+import {
+  BREAKPOINT_TABLET,
+  BREAKPOINT_PHONE,
+  BREAKPOINT_DESKTOP,
+} from "../../styles/MediaStyle";
+import {
+  postViewerMaxWidth430px,
+  postViewerMaxWidth768px,
+} from "../../styles/GlobalMadia";
 
 const DayClothes = ({ weatherData }) => {
   const isCurrentTempValid =
@@ -59,21 +62,21 @@ const DayClothes = ({ weatherData }) => {
 
   function clothesImg() {
     if (winter) {
-      return <img src={Winter} />;
+      return <img src={weatherImg.Winter} />;
     } else if (earlyWinter) {
-      return <img src={EarlyWin} />;
+      return <img src={weatherImg.EarlyWin} />;
     } else if (beginWinter) {
-      return <img src={BeginWin} />;
+      return <img src={weatherImg.BeginWin} />;
     } else if (fall) {
-      return <img src={Fall} />;
+      return <img src={weatherImg.Fall} />;
     } else if (earlyFall) {
-      return <img src={EarlyFall} />;
+      return <img src={weatherImg.EarlyFall} />;
     } else if (earlySummer) {
-      return <img src={EarlySum} />;
+      return <img src={weatherImg.EarlySum} />;
     } else if (beginSummer) {
-      return <img src={BeginSum} />;
+      return <img src={weatherImg.BeginSum} />;
     } else {
-      return <img src={Summer} />;
+      return <img src={weatherImg.Summer} />;
     }
   }
 
@@ -81,7 +84,7 @@ const DayClothes = ({ weatherData }) => {
     <DayClothesWrap>
       <h2 className="title">오늘의 추천 옷차림</h2>
       <div className="clothes__info">
-        <img id="temp-icon" src={기온표} />
+        <img className="temp-icon" src={기온표} />
         <div>
           <p className="weather-info">현재 기온은 {currentTemp}°C 입니다</p>
           <div className="clothes">
@@ -104,19 +107,41 @@ const DayClothesWrap = styled.div`
   border-radius: 10px;
   box-shadow: 2px 4px 10px 0 #dcdbdb;
   text-align: center;
+  ${mediaQueries(BREAKPOINT_PHONE)} {
+    width: 90%;
+    height: 400px;
+  }
+  ${mediaQueries(BREAKPOINT_DESKTOP)} {
+    width: 390px;
+    height: 430px;
+  }
   .title {
     text-align: center;
     font-size: 24px;
     padding-top: 20px;
     padding-bottom: 20px;
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
-      font-size: 20px;
-    }
   }
   .clothes__info {
     display: flex;
     gap: 30px;
     justify-content: center;
+    ${mediaQueries(BREAKPOINT_PHONE)} {
+      gap: 20px;
+    }
+    img {
+      ${mediaQueries(BREAKPOINT_PHONE)} {
+        width: 60px;
+      }
+      ${mediaQueries(BREAKPOINT_DESKTOP)} {
+        width: 70px;
+      }
+    }
+    .temp-icon {
+      ${mediaQueries(BREAKPOINT_DESKTOP)} {
+        padding-left: 10px;
+        margin-top: 10px;
+      }
+    }
   }
   .clothes {
     text-align: center;
@@ -124,67 +149,43 @@ const DayClothesWrap = styled.div`
     width: 300px;
 
     box-shadow: 2px 4px 10px 0 #dcdbdb;
+    ${mediaQueries(BREAKPOINT_PHONE)} {
+      width: 210px;
+    }
+    ${mediaQueries(BREAKPOINT_DESKTOP)} {
+      width: 230px;
+    }
+
     h2 {
       font-size: 24px;
       padding-top: 30px;
       padding-bottom: 10px;
-      @media screen and (min-width: 768px) and (max-width: 1024px) {
-        font-size: 20px;
-      }
     }
     p {
       font-size: 20px;
       padding-bottom: 30px;
       padding-top: 20px;
-      @media screen and (min-width: 768px) and (max-width: 1024px) {
-        font-size: 15px;
-      }
-      @media screen and (max-width: 479px) {
-        font-size: 10px;
-      }
     }
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
-      width: 200px;
-      height: 200px;
-    }
+
+    ${postViewerMaxWidth430px}
+    ${postViewerMaxWidth768px}
   }
   .weather-info {
     font-size: 20px;
     padding: 20px;
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
-      font-size: 15px;
+    ${mediaQueries(BREAKPOINT_PHONE)} {
+      font-size: 17px;
     }
   }
   .clothes-img {
-    /* width: 100px; */
     img {
       width: 300px;
-      @media screen and (min-width: 768px) and (max-width: 1024px) {
+      ${mediaQueries(BREAKPOINT_PHONE)} {
         width: 200px;
       }
+      ${mediaQueries(BREAKPOINT_DESKTOP)} {
+        width: 220px;
+      }
     }
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
-      width: 70px;
-    }
-  }
-  #temp-icon {
-    width: 90px;
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
-      width: 50px;
-      height: 270px;
-      padding-left: 10px;
-    }
-  }
-  @media screen and (min-width: 768px) and (max-width: 1024px) {
-    width: 360px;
-    height: 350px;
-  }
-  @media screen and (min-width: 480px) and (max-width: 767px) {
-    width: 12rem;
-    height: 250px;
-  }
-  @media screen and (max-width: 479px) {
-    width: 12rem;
-    height: 250px;
   }
 `;
