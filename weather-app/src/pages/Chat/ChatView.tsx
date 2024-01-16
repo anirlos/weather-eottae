@@ -7,33 +7,36 @@ import socket from "../../api/socket";
 import { fetchUserName } from "../../api/userNameApi";
 import Loading from "../../components/loading/Loading";
 import Layout from "../../components/layout/Layout";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
 
 const ChatView = () => {
   const [userNick, setUserNick] = useState("");
   const [roomCode, setRoomCode] = useState("");
   const [roomName, setRoomName] = useState("");
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
 
   useEffect(() => {
     const fetchAndSetUserName = async () => {
-      try {
-        const userName = await fetchUserName();
-        setUserNick(userName);
-        setIsLoading(false); // 사용자 이름 로딩 완료 후 로딩 상태 업데이트
-      } catch (error) {
-        console.error("유저 이름을 가져오지 못했습니다:", error);
+      if (accessToken) {
+        try {
+          const userName = await fetchUserName();
+          setUserNick(userName);
+        } catch (error) {
+          console.error("유저 이름을 가져오지 못했습니다:", error);
+          setUserNick("익명");
+        }
+      } else {
         setUserNick("익명");
-        setIsLoading(false); // 에러 발생시에도 로딩 상태 업데이트
       }
+      setIsLoading(false); // 로딩 상태 업데이트
     };
 
-    if (localStorage.getItem("access_token")) {
-      fetchAndSetUserName();
-    } else {
-      setUserNick("익명");
-      setIsLoading(false);
-    }
+    fetchAndSetUserName();
+  }, [accessToken]);
 
+  useEffect(() => {
     // URL에서 쿼리 파라미터 추출 및 방 입장 로직
     const searchParams = new URLSearchParams(window.location.search);
     const newRoomCode = searchParams.get("room_code");
@@ -43,16 +46,16 @@ const ChatView = () => {
       setRoomCode(newRoomCode);
       socket.emit("join", newRoomCode);
     } else {
-      setRoomCode("서울"); // 제공된 값이 없을 경우 기본 방 코드로 설정
+      setRoomCode("서울"); // 기본 방 코드 설정
     }
 
     if (newRoomName) {
       setRoomName(newRoomName);
     }
-  }, []); // 의존성 배열을 비워 컴포넌트 마운트 시에만 실행
+  }, []); // 컴포넌트 마운트 시 실행될 useEffect
 
   if (isLoading) {
-    return <Loading />; // 로딩 중이면 로딩 컴포넌트 렌더링
+    return <Loading />;
   }
 
   return (

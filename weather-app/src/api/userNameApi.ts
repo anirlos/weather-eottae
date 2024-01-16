@@ -11,13 +11,16 @@ const fetchUserInfo = async (): Promise<User> => {
     return response.data;
   } catch (error) {
     console.error("유저 정보를 가져오는 중 에러가 발생했습니다.:", error);
-    throw error;
   }
 };
 
 const fetchUserName = async (): Promise<string> => {
-  const userInfo = await fetchUserInfo();
-  return userInfo.nickName || userInfo.name || "익명";
+  try {
+    const userInfo = await fetchUserInfo();
+    return userInfo ? userInfo.nickName || userInfo.name : "익명";
+  } catch (error) {
+    return "익명"; // 에러가 발생하면 "익명"을 반환
+  }
 };
 
 export { fetchUserInfo, fetchUserName };
