@@ -6,12 +6,15 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import styled from "styled-components";
 import VideoCont from "./VideoCont";
+import { mediaQueries } from "../../styles/MediaStyle";
+import { BREAKPOINT_DESKTOP } from "../../styles/MediaStyle";
 
 interface ImgsProps {
   imgs: string[];
+  isEager: boolean;
 }
 
-const FeedSlide: FC<ImgsProps> = ({ imgs }) => {
+const FeedSlide: FC<ImgsProps> = ({ imgs, isEager }) => {
   const isVideo = (url: string) => {
     return url.includes(
       ".mp4" || ".avi" || ".wmv" || ".asf" || ".mkv" || ".mov"
@@ -37,7 +40,11 @@ const FeedSlide: FC<ImgsProps> = ({ imgs }) => {
             {isVideo(img) ? (
               <VideoCont src={img} />
             ) : (
-              <img src={img} alt={`slide ${index + 1}`} />
+              <img
+                src={img}
+                alt={`slide ${index + 1}`}
+                loading={isEager ? "eager" : "lazy"}
+              />
             )}
           </SwiperSlide>
         ))}
@@ -52,14 +59,8 @@ const StyledSwiper = styled(Swiper)`
   width: 100%;
   height: 500px;
   border-radius: 5px;
-  @media (max-width: 1024px) {
+  ${mediaQueries(BREAKPOINT_DESKTOP)} {
     height: 400px;
-  }
-  @media (max-width: 768px) {
-    height: 350px;
-  }
-  @media (max-width: 430px) {
-    height: 300px;
   }
   img {
     width: 100%;
