@@ -4,12 +4,16 @@ import styled from "styled-components";
 import login from "../../assets/img/login/login.png";
 import devicon_google from "../../assets/img/login/devicon_google.png";
 import kakao from "../../assets/img/login/kakao.png";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { authActionCreator } from "../../redux/thunk/authThunk";
+import { signInWithGoogle } from "../../utils/socialAuthUtil";
+
 
 const Login = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     if (e.target.name === "email") {
@@ -21,36 +25,24 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post("http://43.200.188.52:8080/login", {
-        email: userId,
-        password: password,
-      });
-      const accessToken = response.headers["authorization_access_token"];
-      const refreshToken = response.headers["authorization_refresh_token"];
-
-      if (accessToken && refreshToken) {
-        localStorage.setItem("access_token", accessToken);
-        localStorage.setItem("refresh_token", refreshToken);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${accessToken}`;
-        navigate("/");
-      } else {
-        console.log("토큰이 없습니다.");
-      }
-    } catch (error) {
-      console.error("로그인 에러:", error);
-    }
+    dispatch(authActionCreator(userId,password))
   };
+
+  const googleLogin = () =>{
+    signInWithGoogle()
+    .then((result)=>{
+      console.log('콜백함수가 실행되었다.', result); 
+      window.alert('회원가입/로그인되었습니다')
+      navigate('/');
+    })
+    .catch((e)=>console.e('로그인실패',e)); 
+}
 
   return (
     <Container>
       <div className="cover-img">
         <img src={login} alt="login" height="100%" width="720px" />
       </div>
-
       <div className="loginPage">
         <div className="loginPage-content">
           <h1>로그인</h1>
@@ -92,7 +84,7 @@ const Login = () => {
             <hr className="line" />
           </div>
           <div className="social-login">
-            <img src={devicon_google} alt="google" />
+            <img src={devicon_google} alt="google" onClick={googleLogin} />
             <img src={kakao} alt="kakao" />
           </div>
           <div className="signup-container">
@@ -130,7 +122,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-
     text-align: center;
     width: 70%;
     row-gap: 20px;
@@ -151,7 +142,6 @@ const Container = styled.div`
   .textfield-container {
     display: flex;
     flex-direction: column;
-
     justify-content: center;
     row-gap: 10px;
   }
@@ -174,7 +164,7 @@ const Container = styled.div`
   }
 
   .button-container {
-    margin: 0 auto;
+    margin: auto 0;
     .checkbox {
       margin: 10px 0 0;
     }
@@ -227,5 +217,16 @@ const Container = styled.div`
     .cover-img {
       display: none;
     }
+
+      input {
+        width:90%;
+      }
+
+      .button-container{
+        .checkbox{
+          display:none;
+        }
+      }
+
   }
 `;

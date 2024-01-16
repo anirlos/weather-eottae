@@ -29,16 +29,19 @@ const SevenWeatherForecast = () => {
   const fetchForecastData = async (lat, lon) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(process.env.ONE_CALL_API_ENDPOINT, {
-        params: {
-          lat: lat,
-          lon: lon,
-          exclude: "current,minutely,hourly,alerts",
-          appid: process.env.OPEN_WEATHER_MAP_API_KEY,
-          units: "metric",
-          lang: "En",
-        },
-      });
+      const response = await axios.get(
+        process.env.REACT_APP_ONE_CALL_API_ENDPOINT,
+        {
+          params: {
+            lat: lat,
+            lon: lon,
+            exclude: "current,minutely,hourly,alerts",
+            appid: process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY,
+            units: "metric",
+            lang: "En",
+          },
+        }
+      );
 
       const dailyData = response.data.daily.slice(1, 7); // 7일간의 데이터
       setForecastData(

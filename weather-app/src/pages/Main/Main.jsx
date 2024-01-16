@@ -8,6 +8,10 @@ import Header from "../../components/header/Header";
 import axios from "axios";
 import Loading from "../../components/loading/Loading";
 import SevenWeatherForecast from "./SevenWeatherForecast";
+import Layout from "../../components/layout/Layout";
+import { mediaQueries } from "../../styles/MediaStyle";
+
+import { BREAKPOINT_TABLET, BREAKPOINT_PHONE } from "../../styles/MediaStyle";
 
 const Main = () => {
   const [weatherData, setWeatherData] = useState({
@@ -46,28 +50,31 @@ const Main = () => {
   const fetchWeatherData = async (lat, lon) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(process.env.WEATHER_API_ENDPOINT, {
-        params: {
-          lat: lat,
-          lon: lon,
-          appid: process.env.OPEN_WEATHER_MAP_API_KEY,
-          units: "metric",
-          lang: "En",
-        },
-      });
+      const response = await axios.get(
+        process.env.REACT_APP_WEATHER_API_ENDPOINT,
+        {
+          params: {
+            lat: lat,
+            lon: lon,
+            appid: process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY,
+            units: "metric",
+            lang: "En",
+          },
+        }
+      );
 
       const locationName = response.data.name;
       const currentTemp = response.data.main.temp;
       const weatherDescription = response.data.weather[0].description;
 
       const oneCallResponse = await axios.get(
-        process.env.ONE_CALL_API_ENDPOINT,
+        process.env.REACT_APP_ONE_CALL_API_ENDPOINT,
         {
           params: {
             lat: lat,
             lon: lon,
             exclude: "current,minutely,hourly,alerts",
-            appid: process.env.OPEN_WEATHER_MAP_API_KEY,
+            appid: process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY,
             units: "metric",
             lang: "kr",
           },
@@ -111,30 +118,39 @@ const Main = () => {
   }
 
   return (
-    <>
+    <Layout>
       <Header />
-      <StMain>
-        <div className="daywaether">
+      <Wrap>
+        <DayWrap>
           <DayWaether weatherData={weatherData} />
           <DayClothes weatherData={weatherData} />
-        </div>
-        <SevenWeatherForecast />
-        <WeatherDays />
-      </StMain>
-    </>
+        </DayWrap>
+        <SevenDayWrap>
+          <SevenWeatherForecast />
+        </SevenDayWrap>
+      </Wrap>
+    </Layout>
   );
 };
 
 export default Main;
 
-const StMain = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  height: 830px;
-  overflow-y: hidden;
-  .daywaether {
-    display: flex;
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const DayWrap = styled.div`
+  display: flex;
+  justify-content: space-around;
+
+  //미디어 쿼리 모바일은 세로로 바꾸기!
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    flex-direction: column;
     justify-content: center;
-    gap: 4%;
+    /* margin-left: 10%; */
+    gap: 15px;
   }
 `;
+
+const SevenDayWrap = styled.div``;

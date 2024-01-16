@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { logoutSuccess,loginSuccsess } from "../../redux/slice/authSlice";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import logo from "../../assets/img/nav/logo.png";
@@ -8,10 +10,16 @@ import chat from "../../assets/img/nav/chat-square-text.png";
 import clothing from "../../assets/img/nav/window-stack.png";
 import user from "../../assets/img/nav/person-vcard.png";
 import { useNavigate } from "react-router-dom";
+import logout from "../../assets/img/nav/logout.png";
+import login from "../../assets/img/nav/login.png";
 
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const authState = useSelector((state) => state.auth);
+  const { accessToken, refreshToken } = authState;
+  const isLoggedIn = accessToken !== null && refreshToken !== null;
 
   const toggleNav = () => {
     setIsOpen(!isOpen);
@@ -20,6 +28,25 @@ const MobileNav = () => {
   const handleNavigation = (path) => {
     toggleNav();
     navigate(path);
+  };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    const refreshToken = localStorage.getItem("refresh_token");
+    if (accessToken && refreshToken) {
+      dispatch(loginSuccsess({access_token: accessToken, refresh_token:refreshToken}))
+
+    } else {
+      dispatch(logoutSuccess());
+    }
+    
+  }, [dispatch]);
+
+
+  const onLogOut = () => {
+	dispatch(logoutSuccess()); 
+    localStorage.removeItem(accessToken);
+    localStorage.removeItem(refreshToken);
   };
 
   return (
@@ -43,9 +70,6 @@ const MobileNav = () => {
             </h1>
           </Link>
         </LogoWrap>
-        <LogoutButton phoneOpen={isOpen}>
-          <p>logout</p>
-        </LogoutButton>
       </Wrap>
       <NavWrap phoneOpen={isOpen}>
         <li>
@@ -57,7 +81,7 @@ const MobileNav = () => {
             }}
           >
             <span>
-              <img src={weather} alt="오늘의 날씨" />
+              <img src={weather} alt="오늘의날씨" />
               오늘의 날씨
             </span>
           </Link>
@@ -71,7 +95,7 @@ const MobileNav = () => {
             }}
           >
             <span>
-              <img src={chat} alt="지역 톡" />
+              <img src={chat} alt="지역톡" />
               지역 톡
             </span>
           </Link>
@@ -85,7 +109,7 @@ const MobileNav = () => {
             }}
           >
             <span>
-              <img src={clothing} alt="오늘 뭐 입지" />
+              <img src={clothing} alt="오늘뭐입지" />
               오늘 뭐 입지
             </span>
           </Link>
@@ -99,7 +123,7 @@ const MobileNav = () => {
             }}
           >
             <span>
-              <img src={archive} alt="게시글 등록" />
+              <img src={archive} alt="게시글등록" />
               게시글 등록
             </span>
           </Link>
@@ -113,11 +137,37 @@ const MobileNav = () => {
             }}
           >
             <span>
-              <img src={user} alt="마이 페이지" />
+              <img src={user} alt="마이페이지" />
               마이 페이지
             </span>
           </Link>
         </li>
+        {!isLoggedIn && (
+          <li>
+            <Link
+              to={"/login"}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavigation("/login");
+              }}
+            >
+              <img src={login} alt="로그인" />
+            </Link>
+          </li>
+        )}
+        {isLoggedIn && (
+          <li>
+            <Link
+              to={"/"}
+              onClick={(e) => {
+                e.preventDefault();
+                onLogOut();
+              }}
+            >
+              <img src={logout} alt="로그인" />
+            </Link>
+          </li>
+        )}
       </NavWrap>
     </Container>
   );
@@ -159,7 +209,7 @@ const HamburgerMenu = styled.div`
 `;
 
 const Wrap = styled.div`
-  position: fixed;
+  /* position: fixed; */
   @media ${media.phone} {
     display: flex;
     justify-content: ${({ phoneOpen }) =>
@@ -190,6 +240,11 @@ const Container = styled.div`
 const LogoWrap = styled.div`
   @media ${media.phone} {
     margin-left: -30px;
+  }
+  img {
+    @media ${media.phone} {
+      width: 8.8rem;
+    }
   }
 `;
 
@@ -229,7 +284,7 @@ const NavWrap = styled.ul`
       padding: 6px;
     }
     span {
-      font-size: 1.125rem;
+      font-size: 1.4rem;
       color: inherit;
       margin-left: 5px;
       display: flex;
@@ -252,14 +307,4 @@ const NavWrap = styled.ul`
       display: ${({ phoneOpen }) => (phoneOpen ? "flex" : "none")};
     }
   }
-`;
-
-const LogoutButton = styled.button`
-  width: 80px;
-  height: 30px;
-  border-radius: 20px;
-  border: none;
-  position: absolute;
-  top: 15px;
-  right: 10px;
 `;
