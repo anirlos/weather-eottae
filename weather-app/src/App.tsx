@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ScrollTop from "./hooks/useScrollTop";
 import ChatView from "./pages/chat/ChatView";
 import Main from "./pages/main/Main";
 import NewPost from "./pages/newpost/NewPost";
@@ -11,14 +10,17 @@ import Signup from "./pages/signup/Signup";
 import MyPage from "./pages/users/MyPage";
 import EditPost from "./pages/editpost/EditPost";
 import { LogOutAction } from "./components/login/Logout";
-import WeatherInfo from "./pages/main/WeatherInfo";
-import SevenWeatherForecast from "./pages/main/SevenWeatherForecast";
 
 const App: React.FC = () => {
+  useEffect(() => {
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0);
+    };
+  }, []);
+
   return (
     <div className="App">
       <Router>
-        <ScrollTop />
         <Routes>
           <Route path="/" element={<Main />} />
 
@@ -36,10 +38,6 @@ const App: React.FC = () => {
           <Route path="/chat" element={<ChatView />} />
 
           <Route path="/user" element={<MyPage />} />
-
-          <Route path="/weatherinfo" element={<WeatherInfo />} />
-          <Route path="/sevendayweather" element={<SevenWeatherForecast />} />
-          {/* 날씨api 테스트용 페이지 */}
 
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -7,11 +7,11 @@ const authSlice = createSlice({
         refreshToken: null,
     },
     reducers:{
-        loginSucsess:(state,action)=>{
+        loginSuccsess:(state,action)=>{
             state.accessToken=action.payload.access_token;
             state.refreshToken=action.payload.refresh_token; 
         },
-        logoutSucess:(state)=>{
+        logoutSuccess:(state)=>{
             state.accessToken=null;
             state.refreshToken=null;
         },
@@ -19,6 +19,6 @@ const authSlice = createSlice({
         },
     })
 
-export const {loginSucsess, logoutSucess} = authSlice.actions;
+export const {loginSuccsess, logoutSuccess} = authSlice.actions;
 export default authSlice.reducer; 
 

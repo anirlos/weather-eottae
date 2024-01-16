@@ -1,4 +1,4 @@
-import { loginSucsess } from "../slice/authSlice";
+import { loginSuccsess } from "../slice/authSlice";
 import axios from "axios";
 
 export function authActionCreator(userId,password){
@@ -12,7 +12,7 @@ export function authActionCreator(userId,password){
            const accessToken=response.headers["authorization_access_token"];
            const refreshToken = response.headers["authorization_refresh_token"];
 
-           dispatch(loginSucsess({accessToken,refreshToken}))
+           dispatch(loginSuccsess({accessToken,refreshToken}))
 
            if (accessToken && refreshToken) {
             localStorage.setItem("access_token", accessToken);
