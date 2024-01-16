@@ -1,23 +1,28 @@
 import React from "react";
 
 import styled from "styled-components";
-
 import WeatherDaysCard from "./WeatherDaysCard";
+import { mediaQueries } from "../../styles/MediaStyle";
+import {
+  BREAKPOINT_TABLET,
+  BREAKPOINT_PHONE,
+  BREAKPOINT_DESKTOP,
+} from "../../styles/MediaStyle";
 
 const WeatherDays = (props) => {
   // console.log(props);
 
   return (
-    <WeatherDaysWrap>
+    <WeatherDaysBox>
       {props.forecastData &&
         props.forecastData.map((item) => <WeatherDaysCard {...item} />)}
-    </WeatherDaysWrap>
+    </WeatherDaysBox>
   );
 };
 export default WeatherDays;
 
-const WeatherDaysWrap = styled.div`
-  width: 1000px;
+const WeatherDaysBox = styled.div`
+  width: 1050px;
   height: 250px;
   background-color: white;
   margin: auto;
@@ -39,6 +44,22 @@ const WeatherDaysWrap = styled.div`
     width: 100px;
     margin: 10px 0;
   }
-  .forecast-data {
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    width: 82%;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    margin-bottom: 20px;
+    justify-content: flex-start;
+    margin-top: 20px;
+  }
+  ${mediaQueries(BREAKPOINT_DESKTOP)} {
+    width: 95%;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    margin-bottom: 20px;
+    justify-content: flex-start;
+    margin-top: 20px;
   }
 `;

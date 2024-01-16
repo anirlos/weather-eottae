@@ -1,16 +1,19 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import ModalPortal from "../../components/modal/ModalPortal";
+import Modal from "../../components/modal/Modal";
 import { BsHeartFill } from "react-icons/bs";
+import { mediaQueries } from "../../styles/MediaStyle";
+import { BREAKPOINT_PHONE } from "../../styles/MediaStyle";
 
 interface ErrorModalProps {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-const ErrorModal: FC<ErrorModalProps> = ({ onClose }) => {
+const ErrorModal: FC<ErrorModalProps> = ({ isOpen, onClose }) => {
   return (
-    <ModalPortal onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} useBg>
       <ModalContent>
         <CloseButton onClick={onClose}>X</CloseButton>
         <ErrorMessage>
@@ -27,7 +30,7 @@ const ErrorModal: FC<ErrorModalProps> = ({ onClose }) => {
           </button>
         </LinkContainer>
       </ModalContent>
-    </ModalPortal>
+    </Modal>
   );
 };
 
@@ -38,7 +41,7 @@ const ModalContent = styled.div`
   border-radius: 10px;
   position: relative;
   padding: 20px 20px 40px;
-  @media (max-width: 430px) {
+  ${mediaQueries(BREAKPOINT_PHONE)} {
     width: 70%;
     margin: 0 auto;
   }
