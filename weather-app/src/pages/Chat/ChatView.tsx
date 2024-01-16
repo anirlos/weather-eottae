@@ -4,7 +4,7 @@ import { MessageInput } from "../../components/chat/MessageInput";
 import { ChatViewContainer } from "./ChaView.styled";
 import ChatNotice from "../../components/chat/ChatNotice";
 import socket from "../../api/socket";
-import { fetchUserName } from "../../api/userNameApi";
+import { getUserName } from "../../api/userNameApi";
 import Loading from "../../components/loading/Loading";
 import Layout from "../../components/layout/Layout";
 import { useSelector } from "react-redux";
@@ -21,7 +21,7 @@ const ChatView = () => {
     const fetchAndSetUserName = async () => {
       if (accessToken) {
         try {
-          const userName = await fetchUserName();
+          const userName = await getUserName();
           setUserNick(userName);
         } catch (error) {
           console.error("유저 이름을 가져오지 못했습니다:", error);

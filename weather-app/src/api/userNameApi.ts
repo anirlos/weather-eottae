@@ -14,7 +14,7 @@ const fetchUserInfo = async (): Promise<User> => {
   }
 };
 
-const fetchUserName = async (): Promise<string> => {
+const getUserName = async (): Promise<string> => {
   try {
     const userInfo = await fetchUserInfo();
     return userInfo ? userInfo.nickName || userInfo.name : "익명";
@@ -23,4 +23,4 @@ const fetchUserName = async (): Promise<string> => {
   }
 };
 
-export { fetchUserInfo, fetchUserName };
+export { fetchUserInfo, getUserName };
