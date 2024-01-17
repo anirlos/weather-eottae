@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { ChatRoom } from "../../components/Chat/ChatRoom";
-import { MessageInput } from "../../components/Chat/MessageInput";
+import { ChatRoom } from "../../components/chat/ChatRoom";
+import { MessageInput } from "../../components/chat/MessageInput";
 import { ChatViewContainer } from "./ChaView.styled";
-import ChatNotice from "../../components/Chat/ChatNotice";
+import ChatNotice from "../../components/chat/ChatNotice";
 import socket from "../../api/socket";
 import { getUserName } from "../../api/userNameApi";
 import Loading from "../../components/loading/Loading";
