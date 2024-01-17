@@ -141,20 +141,30 @@ const Container = styled.div`
 const Label = styled.label`
   position: relative;
 
+
   input {
     border: none;
     padding: 0;
     height: 40px;
     width: 200px;
     margin-bottom: 5px;
+   
   }
   button {
     position: absolute;
     top: 0px;
     right: 20px;
+
+
+    @media (max-width:430px){
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px;  
+      margin-left: auto; 
+      margin-right: auto; 
+    }
   }
 
-  @media (max-width:430px){
-    display:none;
-  }
+ 
 `;

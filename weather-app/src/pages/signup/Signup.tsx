@@ -380,12 +380,12 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
-    width: 70%;  
+    width: 90%;  
     margin: auto 0; 
 
   .signup-container {
 
-    width: 70%; 
+    width: 90%; 
     margin: auto 0; 
 }
 `;
