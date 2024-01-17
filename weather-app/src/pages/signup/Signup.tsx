@@ -217,7 +217,7 @@ const Signup: React.FC = () => {
           </div>
           <button onClick={handleSubmit}>회원가입</button>
 
-          <div className="line-container">
+          {/*<div className="line-container">
             <div className="line">
               <hr className="line" />
               <p>Or</p>
@@ -227,7 +227,7 @@ const Signup: React.FC = () => {
               <img src={devicon_google} alt="google" />
               <img src={kakao} alt="kakao" />
             </div>
-          </div>
+            </div>*/}
         </div>
       </div>
     </Container>
@@ -241,7 +241,8 @@ const Container = styled.div`
   flex-direction: row;
   width: 100%;
   max-width: 1440px;
-  margin: 0 auto;
+  margin: auto 0;
+  line-height: 1.6;
 
   .signup-container {
     display: flex;
@@ -250,6 +251,7 @@ const Container = styled.div`
     justify-content: center;
     color: black;
     width: 720px;
+    margin-top: 50px;
   }
   .signup-form {
     display: flex;
@@ -257,7 +259,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: flex-start;
     width: 70%;
-    margin: 0 auto;
+    margin: auto 0;
     row-gap: 20px;
   }
 
@@ -266,6 +268,7 @@ const Container = styled.div`
   }
 
   .second-container {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -273,9 +276,9 @@ const Container = styled.div`
 
   input[type="text"],
   input[type="password"] {
-    margin: 0 auto;
+    margin: auto 0;
     height: 35px;
-    width: 400px;
+    width: 100%;
     color: black;
     border: 0.2px solid black;
     border-radius: 10px;
@@ -301,7 +304,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     height: 50px;
-    width: 400px;
+    width: 100%;
     background-color: #7376ff;
     color: white;
     border: none;
@@ -346,7 +349,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: 100%;
   }
 
   .line {
@@ -372,12 +375,18 @@ const Container = styled.div`
   }
 
   @media (max-width:430px){
-  width: 100%;  
-  margin: auto; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 70%;  
+    margin: auto 0; 
 
   .signup-container {
 
-    width: 80%; 
+    width: 70%; 
+    margin: auto 0; 
 }
 `;
 

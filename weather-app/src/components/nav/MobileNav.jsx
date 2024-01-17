@@ -47,6 +47,7 @@ const MobileNav = () => {
 	dispatch(logoutSuccess()); 
     localStorage.removeItem(accessToken);
     localStorage.removeItem(refreshToken);
+    navigate('/');
   };
 
   return (
