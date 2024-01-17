@@ -15,7 +15,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ currentUserNick }) => {
   const [currentRoom, setCurrentRoom] = useState("서울");
   const [previousRoom, setPreviousRoom] = useState("");
 
-  const rooms = [
+  const ROOMS = [
     "서울",
     "인천",
     "대전",
@@ -47,7 +47,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ currentUserNick }) => {
   return (
     <StyledChatRoom>
       <ChatRoomListContainer>
-        {rooms.map((room, index) => (
+        {ROOMS.map((room, index) => (
           <ChatRoomListBtn
             key={index}
             type="button"

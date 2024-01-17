@@ -1,4 +1,6 @@
 import React from "react";
+import { loginSuccsess, logoutSuccess } from "../../redux/slice/authSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { Container, NavWrap, StyledMobileNav } from "./NavStyles";
 import logo from "../../assets/img/nav/logo.png";
 import archive from "../../assets/img/nav/archive.png";
@@ -8,24 +10,35 @@ import clothing from "../../assets/img/nav/window-stack.png";
 import user from "../../assets/img/nav/person-vcard.png";
 import logout from "../../assets/img/nav/logout.png";
 import login from "../../assets/img/nav/login.png";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
 import MobileNav from "./MobileNav";
 import { useState, useEffect } from "react";
 
 const Nav: React.FC = () => {
   const [isLoggin, setIsLoggin] = useState(false);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
     const refreshToken = localStorage.getItem("refresh_token");
-    setIsLoggin(!!accessToken || !!refreshToken);
-  }, []);
+    if (accessToken && refreshToken) {
+      setIsLoggin(!!accessToken || !!refreshToken);
+      dispatch(loginSuccsess({access_token: accessToken, refresh_token:refreshToken}))
+
+    } else {
+      setIsLoggin(false);
+      dispatch(logoutSuccess());
+    }
+    
+  }, [dispatch]);
 
   const onLogOut = () => {
-    console.log("로그아웃 버튼 클릭");
+    dispatch(logoutSuccess()); 
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     setIsLoggin(false);
+    navigate('/');
   };
 
   return (

@@ -43,7 +43,6 @@ const Login = () => {
       <div className="cover-img">
         <img src={login} alt="login" height="100%" width="720px" />
       </div>
-
       <div className="loginPage">
         <div className="loginPage-content">
           <h1>로그인</h1>
@@ -165,7 +164,7 @@ const Container = styled.div`
   }
 
   .button-container {
-    margin: 0 auto;
+    margin: auto 0;
     .checkbox {
       margin: 10px 0 0;
     }
@@ -218,5 +217,16 @@ const Container = styled.div`
     .cover-img {
       display: none;
     }
+
+      input {
+        width:90%;
+      }
+
+      .button-container{
+        .checkbox{
+          display:none;
+        }
+      }
+
   }
 `;
