@@ -1,4 +1,11 @@
 import styled from 'styled-components';
+import {
+	BREAKPOINT_DESKTOP,
+	BREAKPOINT_LARGE,
+	BREAKPOINT_PHONE,
+	BREAKPOINT_TABLET,
+	mediaQueries,
+} from '../../styles/MediaStyle';
 
 export const Container = styled.div`
 	display: flex;
@@ -9,7 +16,8 @@ export const Container = styled.div`
 	margin: 0 auto;
 	align-items: center;
 	background-color: #ededed;
-	@media (max-width: 430px) {
+
+	${mediaQueries(BREAKPOINT_PHONE)} {
 		flex-direction: column;
 	}
 `;
@@ -19,10 +27,11 @@ export const Wrap = styled.div`
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	@media (max-width: 1024px) {
-		width: 85%;
+	justify-content: center;
+	align-items: center;
+	${mediaQueries(BREAKPOINT_TABLET)} {
 	}
-	@media (max-width: 430px) {
+	${mediaQueries(BREAKPOINT_PHONE)} {
 		width: 100%;
 		padding-bottom: 0;
 	}
@@ -33,8 +42,13 @@ export const MainWrap = styled.div`
 	margin: 0 auto;
 	padding-bottom: 50px;
 	box-sizing: border-box;
+	${mediaQueries(BREAKPOINT_DESKTOP)} {
+	}
+	${mediaQueries(BREAKPOINT_TABLET)} {
+		width: 85%;
+	}
 
-	@media (max-width: 430px) {
+	${mediaQueries(BREAKPOINT_PHONE)} {
 		padding-bottom: 100px; // 필요한 경우 여기를 조정합니다.
 		position: relative;
 		top: 80px;

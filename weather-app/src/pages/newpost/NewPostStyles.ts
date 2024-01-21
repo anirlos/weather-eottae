@@ -11,7 +11,7 @@ export const Container = styled.div`
 	border-radius: 10px;
 	box-shadow: 2px 4px 10px 0 #dcdbdb;
 	${mediaQueries(BREAKPOINT_TABLET)} {
-		width: 80%;
+		width: 100%;
 	}
 `;
 
