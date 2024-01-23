@@ -5,7 +5,7 @@
 ## 🖥️ 프로젝트 소개
 날씨어때 프로젝트는 사용자의 위치와 날씨에 따른 최적의 옷차림을 추천하고, 실시간 날씨 정보와 커뮤니티를 통한 패션 정보 공유 및 대화를 제공하는 서비스입니다.
 
-🔗 [팀 노션 보러가기]([https://sixth-cello-c4d.notion.site/59924a21896e49f1937c1f5b4c6bd6fb?pvs=4])  
+🔗 [팀 노션 보러가기](https://sixth-cello-c4d.notion.site/59924a21896e49f1937c1f5b4c6bd6fb?pvs=4)  
 <br>
 
 ## 📜 Overview 
