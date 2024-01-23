@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logoutSuccess, loginSuccess } from '../../redux/slice/authSlice';
@@ -39,6 +39,21 @@ const MobileNav: React.FC = () => {
 		toggleNav();
 		navigate(path);
 	};
+
+	useEffect(() => {
+		const accessToken = localStorage.getItem('access_token');
+		const refreshToken = localStorage.getItem('refresh_token');
+		if (accessToken && refreshToken) {
+			dispatch(
+				loginSuccess({
+					access_token: accessToken,
+					refresh_token: refreshToken,
+				})
+			);
+		} else {
+			dispatch(logoutSuccess());
+		}
+	}, [dispatch]);
 
 	const onLogOut = () => {
 		dispatch(logoutSuccess());
