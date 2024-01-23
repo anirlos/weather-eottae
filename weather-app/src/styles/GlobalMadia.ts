@@ -1,22 +1,27 @@
 export const postViewerMaxWidth1024px = `@media screen and (max-width: 1024px) {
-    h2 {
-      font-size: 24px;
+    h1 {
+      font-size: 2.25rem;
     }
   
-    p {
-      font-size: 20px;
+    h2 {
+      font-size: 1.25rem;
     }
   }`;
 
 export const postViewerMaxWidth768px = `@media screen and (max-width: 768px) {
+    width: 100%
+    font-size: 1rem;
   
-  
-    h2 {
-        font-size: 20px;
+    h1 {
+      font-size: 1.5rem;
     }
   
-    p {
-        font-size: 15px;
+    h2 {
+        font-size: 1.25rem;
+    }
+  
+    h1,h2,h3,h4 {
+      margin-bottom: 0.75rem;
     }
   }`;
 
