@@ -6,6 +6,7 @@
 날씨어때 프로젝트는 사용자의 위치와 날씨에 따른 최적의 옷차림을 추천하고, 실시간 날씨 정보와 커뮤니티를 통한 패션 정보 공유 및 대화를 제공하는 서비스입니다.
 
 🔗 [팀 노션 보러가기](https://sixth-cello-c4d.notion.site/3-FE-6a78d09cba7b4df297b53ea1bedf861a)  
+🔗 [배포](https://weather-eottae.vercel.app)
 <br>
 
 ## 📜 Overview 
