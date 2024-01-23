@@ -9,7 +9,7 @@
 <br>
 
 ## 📜 Overview 
-1. [Demo](#id-section1)
+1. [Preview](#id-section1)
 2. [개발 기간](#id-section2)
 3. [주요 기능](#id-section4)
 4. [Tech Stacks](#id-section5)
@@ -19,8 +19,7 @@
 
 <div id='id-section1'/>
 
-## 📀 Demo
-(완성시 웹 화면 녹화 영상으로 변경 예정!)
+## 📀 Preview
 ![image](https://github.com/anirlos/weather-eottae/assets/130023446/58804b9a-b012-4833-ba0d-b143b9b3fb7b)
 <br>
 
