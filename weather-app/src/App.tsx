@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ChatView from "./pages/Chat/ChatView";
+import ChatView from "./pages/chat/ChatView";
 import Main from "./pages/main/Main";
 import NewPost from "./pages/newpost/NewPost";
 import NotFound from "./pages/not-found/NotFound";

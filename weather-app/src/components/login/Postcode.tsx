@@ -64,7 +64,7 @@ const Postcode: React.FC<PostcodeProps> = ({
       <label htmlFor="address">주소</label>
       <div className="zip">
         <input className="zipcode" value={zipCode} readOnly placeholder="우편번호" />
-        <button className="custom" onClick={toggle}>
+        <button className="custom" onClick={toggle} style={{marginLeft:"20px", width:"70%"}}>
           우편번호 검색
         </button>
         <br />
@@ -90,7 +90,7 @@ export default Postcode;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 415px;
+  width: 100%;
 
   input {
     margin: 3px;
@@ -100,11 +100,22 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
     gap: 18px;
+    width: 100%;
+    @media (max-width:430px){
+      display:flex;
+      flex-direction: column; 
+      line-height: 0;
+    }
+
+    
   }
   .zipcode {
     margin: 10px;
-    width: 250px;
+    width: 450px;
     margin: 10px;
+    @media (max-width:430px){
+      width: 70%
+    }
   }
 
   .road {
@@ -117,11 +128,19 @@ const Container = styled.div`
   }
   button {
     margin: 10px;
+    width:100%;
   }
-`;
+
+  @media (max-width:430px){
+    display:flex;
+    flex-direction: column; 
+  }
+  `;
+
 
 const Label = styled.label`
   position: relative;
+
 
   input {
     border: none;
@@ -129,10 +148,23 @@ const Label = styled.label`
     height: 40px;
     width: 200px;
     margin-bottom: 5px;
+   
   }
   button {
     position: absolute;
     top: 0px;
     right: 20px;
+
+
+    @media (max-width:430px){
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px;  
+      margin-left: auto; 
+      margin-right: auto; 
+    }
   }
+
+ 
 `;

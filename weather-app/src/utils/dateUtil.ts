@@ -1,3 +1,6 @@
+import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
+
 export const formatDate = (date: string): string => {
   const now = new Date();
   const dataDate = new Date(date);
@@ -34,4 +37,21 @@ export const formatDate = (date: string): string => {
     return Math.floor(diff) + "분전";
   }
   return "방금전";
+};
+
+export const formatTimeAgo = (timestamp: string | number | Date) => {
+  const messageTime = new Date(timestamp);
+  const currentTime = new Date();
+
+  if (messageTime > currentTime) {
+    // 메시지 시간이 현재 시간보다 미래인 경우
+    return "방금 전";
+  }
+
+  const result = formatDistanceToNow(messageTime, {
+    addSuffix: true,
+    locale: ko,
+  });
+
+  return result.replace("1분 미만", "방금");
 };

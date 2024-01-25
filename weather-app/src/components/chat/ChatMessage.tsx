@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { StyledChatMessage, MessageBubble } from "./ChatMessage.styled";
 import socket from "../../api/socket";
-import { formatDistanceToNow } from "date-fns";
-import { ko } from "date-fns/locale";
+import { formatTimeAgo } from "../../utils/dateUtil";
 
-interface IMessage {
+interface Message {
   nick: string;
   msg: string;
   timestamp: string; // ISO 형식의 날짜 문자열을 가정
@@ -15,32 +14,15 @@ interface ChatMessageProps {
   currentRoom: string; // 새로운 prop 추가
 }
 
-const formatTimeAgo = (timestamp: string | number | Date) => {
-  const messageTime = new Date(timestamp);
-  const currentTime = new Date();
-
-  if (messageTime > currentTime) {
-    // 메시지 시간이 현재 시간보다 미래인 경우
-    return "방금 전";
-  }
-
-  const result = formatDistanceToNow(messageTime, {
-    addSuffix: true,
-    locale: ko,
-  });
-
-  return result.replace("1분 미만", "방금");
-};
-
 export const ChatMessage = ({
   currentUserNick,
   currentRoom,
 }: ChatMessageProps) => {
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    const handleNewMessage = (messageData: IMessage) => {
-      setMessages((prevMessages) => [...prevMessages, messageData]);
+    const handleNewMessage = (newMessage: Message) => {
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
     };
 
     socket.on("message", handleNewMessage);

@@ -7,7 +7,7 @@ import FeedList from "./FeedList";
 import Loading from "../../components/loading/Loading";
 import Layout from "../../components/layout/Layout";
 import { mediaQueries } from "../../styles/MediaStyle";
-import { BREAKPOINT_PHONE } from "../../styles/MediaStyle";
+import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from "../../styles/MediaStyle";
 
 const Feed: FC = () => {
   const location = useLocation();
@@ -126,8 +126,11 @@ const Container = styled.div`
   width: 100%;
   padding-top: 20px;
   margin: 0 auto;
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    padding-left: 14px;
+  }
   ${mediaQueries(BREAKPOINT_PHONE)} {
-    padding-top: 100px;
+    padding: 30px 0 0 0;
   }
 `;
 
@@ -147,7 +150,7 @@ const FilteredContent = styled.div`
   align-items: center;
   margin-bottom: 10px;
   ${mediaQueries(BREAKPOINT_PHONE)} {
-    margin-top: -10px;
+    margin-top: -25px;
   }
 `;
 

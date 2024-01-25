@@ -1,24 +1,17 @@
 import styled from 'styled-components';
-
-export const sizes = {
-	large: '1280px',
-	desktop: '1024px',
-	tablet: '768px',
-	phone: '430px',
-};
-
-export const media = {
-	large: `(max-width: ${sizes.large})`,
-	desktop: `(max-width: ${sizes.desktop})`,
-	tablet: `(max-width: ${sizes.tablet})`,
-	phone: `(max-width: ${sizes.phone})`,
-};
+import {
+	BREAKPOINT_DESKTOP,
+	BREAKPOINT_LARGE,
+	BREAKPOINT_PHONE,
+	BREAKPOINT_TABLET,
+	mediaQueries,
+} from '../../styles/MediaStyle';
 
 export const Container = styled.div`
 	width: 100%;
-	max-width: 15%;
+	max-width: 285px;
 	height: 100%;
-	max-height: 100vh;
+	max-height: 100%;
 	position: fixed;
 	top: 0;
 	background-color: #5d6dbe;
@@ -27,6 +20,7 @@ export const Container = styled.div`
 	align-items: center;
 	justify-content: space-around;
 	padding-bottom: 20px;
+	z-index: 500;
 
 	h1 {
 		height: 20%;
@@ -45,22 +39,22 @@ export const Container = styled.div`
 			max-width: 129px;
 		}
 	}
-	@media ${media.large} {
+	${mediaQueries(BREAKPOINT_LARGE)} {
 		max-width: 20%;
 	}
-	@media ${media.desktop} {
+	${mediaQueries(BREAKPOINT_DESKTOP)} {
 		max-width: 18%;
 		h1 {
 			margin-top: -20px;
 		}
 	}
-	@media ${media.tablet} {
+	${mediaQueries(BREAKPOINT_TABLET)} {
 		max-width: 25%;
 		h1 {
 			margin-top: -20px;
 		}
 	}
-	@media ${media.phone} {
+	${mediaQueries(BREAKPOINT_PHONE)} {
 		display: none;
 	}
 `;
@@ -117,21 +111,21 @@ export const NavWrap = styled.ul`
 				transition: background-color 0.3s;
 			}
 		}
-		@media ${media.large} {
+		${mediaQueries(BREAKPOINT_LARGE)} {
 			span {
 				font-size: 1rem;
 			}
-			@media ${media.desktop} {
+			${mediaQueries(BREAKPOINT_DESKTOP)} {
 				span {
 					font-size: 0.925rem;
 				}
 			}
-			@media ${media.tablet} {
+			${mediaQueries(BREAKPOINT_TABLET)} {
 				span {
 					font-size: 0.725rem;
 				}
 			}
-			@media ${media.phone} {
+			${mediaQueries(BREAKPOINT_PHONE)} {
 				span {
 					font-size: 1.25rem;
 				}
@@ -142,7 +136,7 @@ export const NavWrap = styled.ul`
 
 export const StyledMobileNav = styled.div`
 	display: none;
-	@media ${media.phone} {
+	${mediaQueries(BREAKPOINT_PHONE)} {
 		display: block;
 		position: fixed;
 		top: 90px;
