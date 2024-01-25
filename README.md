@@ -5,11 +5,12 @@
 ## 🖥️ 프로젝트 소개
 날씨어때 프로젝트는 사용자의 위치와 날씨에 따른 최적의 옷차림을 추천하고, 실시간 날씨 정보와 커뮤니티를 통한 패션 정보 공유 및 대화를 제공하는 서비스입니다.
 
-🔗 [팀 노션 보러가기]([https://sixth-cello-c4d.notion.site/59924a21896e49f1937c1f5b4c6bd6fb?pvs=4])  
+🔗 [팀 노션 보러가기](https://sixth-cello-c4d.notion.site/3-FE-6a78d09cba7b4df297b53ea1bedf861a)  
+🔗 [배포](https://weather-eottae.vercel.app)
 <br>
 
 ## 📜 Overview 
-1. [Demo](#id-section1)
+1. [Preview](#id-section1)
 2. [개발 기간](#id-section2)
 3. [주요 기능](#id-section4)
 4. [Tech Stacks](#id-section5)
@@ -19,8 +20,7 @@
 
 <div id='id-section1'/>
 
-## 📀 Demo
-(완성시 웹 화면 녹화 영상으로 변경 예정!)
+## 📀 Preview
 ![image](https://github.com/anirlos/weather-eottae/assets/130023446/58804b9a-b012-4833-ba0d-b143b9b3fb7b)
 <br>
 
