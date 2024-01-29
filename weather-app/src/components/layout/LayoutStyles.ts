@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import {
 	BREAKPOINT_DESKTOP,
-	BREAKPOINT_LARGE,
 	BREAKPOINT_PHONE,
 	BREAKPOINT_TABLET,
 	mediaQueries,

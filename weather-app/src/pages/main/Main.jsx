@@ -159,6 +159,9 @@ const DayWrap = styled.div`
 		gap: 15px;
 		align-items: center;
 	}
+	${mediaQueries(BREAKPOINT_PHONE)} {
+		width: 100%;
+	}
 `;
 
 const SevenDayWrap = styled.div`
